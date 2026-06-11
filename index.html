@@ -6290,6 +6290,7 @@
       <div class="ci-nav" id="ci-nav">
         <button class="ci-nav-btn active" id="ci-btn-about"   onclick="switchCITab('about')">📖 Sobre o Método</button>
         <button class="ci-nav-btn"        id="ci-btn-histórias" onclick="switchCITab('histórias')">📚 Stories</button>
+        <button class="ci-nav-btn"        id="ci-btn-games"   onclick="switchCITab('games')">🎮 Minigames</button>
       </div>
       <div id="ci-tab-content"></div>
     `;
@@ -6310,10 +6311,14 @@
         AudioEngine.stop();
         document.getElementById('ci-btn-about').classList.toggle('active', tab === 'about');
         document.getElementById('ci-btn-histórias').classList.toggle('active', tab === 'histórias');
+        const gBtn = document.getElementById('ci-btn-games');
+        if (gBtn) gBtn.classList.toggle('active', tab === 'games');
 
         if (tab === 'about') {
           const m = METHODS.find((x) => x.id === 'ci');
           renderCISobre(m);
+        } else if (tab === 'games') {
+          renderCIGamesHub();
         } else {
           ciState.view = 'list';
           renderCIStories();
@@ -7465,6 +7470,7 @@
     <div class="sm-nav" id="sm-nav">
       <button class="sm-nav-btn active" id="sm-btn-about"   onclick="switchSMTab('about')">📖 Sobre o Método</button>
       <button class="sm-nav-btn"        id="sm-btn-deck"    onclick="switchSMTab('deck')">⛏️ Practice</button>
+      <button class="sm-nav-btn"        id="sm-btn-games"   onclick="switchSMTab('games')">🎮 Minigames</button>
     </div>
     <div id="sm-tab-content"></div>
   `;
@@ -7476,9 +7482,13 @@
         AudioEngine.stop();
         document.getElementById('sm-btn-about').classList.toggle('active', tab === 'about');
         document.getElementById('sm-btn-deck').classList.toggle('active', tab === 'deck');
+        const gBtn = document.getElementById('sm-btn-games');
+        if (gBtn) gBtn.classList.toggle('active', tab === 'games');
 
         if (tab === 'about') {
           renderSMSobre(METHODS.find((x) => x.id === 'sm'));
+        } else if (tab === 'games') {
+          renderSMGamesHub();
         } else {
           smState.view = 'deck';
           startSMSession();
@@ -13600,6 +13610,667 @@
         </div>
       </div>
     </div>`;
+      }
+
+      // ═══════════════════════════════════
+      // CI MINIGAMES DATA
+      // ═══════════════════════════════════
+
+      const CI_CONTEXT_CHOICE = [
+        {
+          sentence: 'I work at a bank.',
+          correct: 'Ele trabalha em um banco.',
+          wrong: ['Ele mora em um banco.', 'Ele comprou um banco.', 'Ele perdeu o banco.'],
+          hint: 'work at = trabalha em — o sujeito é a pessoa que fala (I).'
+        },
+        {
+          sentence: 'She is reading a book.',
+          correct: 'Ela está lendo um livro.',
+          wrong: ['Ela está escrevendo um livro.', 'Ela está comprando um livro.', 'Ela perdeu um livro.'],
+          hint: 'is reading = está lendo — presente contínuo.'
+        },
+        {
+          sentence: 'They are waiting for the bus.',
+          correct: 'Eles estão esperando o ônibus.',
+          wrong: ['Eles estão perdendo o ônibus.', 'Eles pegaram o ônibus.', 'Eles compraram o ônibus.'],
+          hint: 'waiting for = esperando por — they = eles/elas.'
+        },
+        {
+          sentence: 'He forgot his keys.',
+          correct: 'Ele esqueceu as chaves.',
+          wrong: ['Ele perdeu as chaves.', 'Ele achou as chaves.', 'Ele jogou as chaves fora.'],
+          hint: 'forgot = esqueceu — passado de forget.'
+        },
+        {
+          sentence: 'The coffee shop is closed on Sundays.',
+          correct: 'A cafeteria está fechada aos domingos.',
+          wrong: ['A cafeteria abre aos domingos.', 'A cafeteria só funciona aos domingos.', 'A cafeteria vendeu no domingo.'],
+          hint: 'closed = fechado — on Sundays = aos domingos.'
+        },
+        {
+          sentence: 'I am used to waking up early.',
+          correct: 'Estou acostumado a acordar cedo.',
+          wrong: ['Eu costumava acordar cedo.', 'Eu quero acordar cedo.', 'Eu odeio acordar cedo.'],
+          hint: 'be used to + -ing = estar acostumado a fazer algo.'
+        },
+        {
+          sentence: 'She decided to leave the party early.',
+          correct: 'Ela decidiu sair da festa cedo.',
+          wrong: ['Ela foi obrigada a sair cedo.', 'Ela esqueceu a festa.', 'Ela chegou cedo na festa.'],
+          hint: 'decided to = decidiu — leave = sair/ir embora.'
+        },
+        {
+          sentence: 'The dog is sleeping on the couch.',
+          correct: 'O cachorro está dormindo no sofá.',
+          wrong: ['O cachorro está latindo no sofá.', 'O cachorro comeu o sofá.', 'O cachorro pulou do sofá.'],
+          hint: 'sleeping = dormindo — is sleeping = presente contínuo.'
+        },
+      ];
+
+      const CI_MISSING_MEANING = [
+        {
+          sentence: 'The dog is sleeping.',
+          word: 'sleeping',
+          correct: 'dormindo',
+          wrong: ['correndo', 'latindo', 'comendo'],
+          hint: 'sleep → sleeping = dormir → dormindo.'
+        },
+        {
+          sentence: 'She grabbed her bag and left.',
+          word: 'grabbed',
+          correct: 'pegou',
+          wrong: ['perdeu', 'comprou', 'jogou fora'],
+          hint: 'grab = pegar algo rapidamente.'
+        },
+        {
+          sentence: 'He skipped breakfast.',
+          word: 'skipped',
+          correct: 'pulou / não tomou',
+          wrong: ['esqueceu de comprar', 'demorou no', 'adorou o'],
+          hint: 'skip = pular, não fazer algo que deveria.'
+        },
+        {
+          sentence: "I'm looking forward to the weekend.",
+          word: 'looking forward to',
+          correct: 'estou ansioso pelo',
+          wrong: ['estou olhando para o', 'estou com medo do', 'estou indo para o'],
+          hint: 'look forward to = estar ansioso/animado com algo futuro.'
+        },
+        {
+          sentence: 'They ended up staying home.',
+          word: 'ended up',
+          correct: 'acabaram',
+          wrong: ['decidiram', 'preferiram', 'precisaram'],
+          hint: 'end up + -ing = acabar fazendo algo (não era o plano).'
+        },
+        {
+          sentence: "It doesn't make sense to me.",
+          word: 'make sense',
+          correct: 'fazer sentido',
+          wrong: ['fazer barulho', 'fazer dinheiro', 'fazer tempo'],
+          hint: 'make sense = ser lógico, ser compreensível.'
+        },
+        {
+          sentence: 'She took it personally.',
+          word: 'personally',
+          correct: 'levou para o lado pessoal',
+          wrong: ['ficou com ela mesma', 'colocou na conta dela', 'guardou pra si'],
+          hint: 'take something personally = sentir como crítica direta a você.'
+        },
+        {
+          sentence: "I'm trying to keep it together.",
+          word: 'keep it together',
+          correct: 'manter o controle emocional',
+          wrong: ['juntar as peças', 'guardar tudo junto', 'manter tudo organizado'],
+          hint: 'keep it together = não desmoronar, manter a calma sob pressão.'
+        },
+      ];
+
+      // ── CI minigame state ──
+      let ciGameState = {
+        gameTab: 'contextChoice',
+        ccIdx: 0,
+        ccAnswers: {},
+        ccShuffled: null,
+        mmIdx: 0,
+        mmAnswers: {},
+        mmShuffled: null,
+      };
+
+      function renderCIGamesHub() {
+        const container = document.getElementById('ci-tab-content');
+        const games = [
+          { id: 'contextChoice', icon: '🖼️', label: 'Context Choice', desc: 'Veja a frase em inglês e escolha a tradução correta com base no contexto.' },
+          { id: 'missingMeaning', icon: '🔍', label: 'Missing Meaning', desc: 'Uma palavra está em destaque. Qual é o significado dela nesta frase?' },
+        ];
+        const tabBtns = games.map(g => `
+          <button class="ci-nav-btn ${ciGameState.gameTab === g.id ? 'active' : ''}"
+            id="cig-btn-${g.id}" onclick="setCIGameTab('${g.id}')">
+            ${g.icon} ${g.label}
+          </button>`).join('');
+        container.innerHTML = `
+          <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:28px;overflow-x:auto;scrollbar-width:none">
+            ${tabBtns}
+          </div>
+          <div id="cig-content"></div>`;
+        renderCIGameContent(ciGameState.gameTab);
+      }
+
+      function setCIGameTab(id) {
+        ciGameState.gameTab = id;
+        renderCIGamesHub();
+      }
+
+      function renderCIGameContent(id) {
+        if (id === 'contextChoice') renderCIContextChoice();
+        if (id === 'missingMeaning') renderCIMissingMeaning();
+      }
+
+      // ── shuffle helper ──
+      function shuffleArr(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      // ── CI Game 1: Context Choice ──
+      function renderCIContextChoice() {
+        const container = document.getElementById('cig-content');
+        const idx = ciGameState.ccIdx;
+        const total = CI_CONTEXT_CHOICE.length;
+
+        if (idx >= total) {
+          const correct = Object.values(ciGameState.ccAnswers).filter(Boolean).length;
+          const pct = Math.round((correct / total) * 100);
+          container.innerHTML = `
+            <div style="background:var(--surface);border:1px solid var(--border);border-top:4px solid #1d6fa4;padding:40px 32px;text-align:center">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:64px;font-weight:900;color:#1d6fa4;line-height:1">${pct}%</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--ink4);text-transform:uppercase;margin-bottom:16px">${correct}/${total} corretas</div>
+              <div style="font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--ink2);max-width:380px;margin:0 auto 24px;line-height:1.7">
+                ${pct === 100 ? 'Perfeito — você usou o contexto para entender cada frase.' : pct >= 75 ? 'Bom trabalho. O contexto está guiando sua compreensão.' : 'Continue. Cada frase que você encontra em contexto real fica mais clara.'}
+              </div>
+              <button class="btn-check" style="background:#1d6fa4;border:none;color:#fff;padding:10px 28px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer"
+                onclick="ciGameState.ccIdx=0;ciGameState.ccAnswers={};ciGameState.ccShuffled=null;renderCIContextChoice()">Tentar novamente</button>
+            </div>`;
+          return;
+        }
+
+        const item = CI_CONTEXT_CHOICE[idx];
+        if (!ciGameState.ccShuffled) ciGameState.ccShuffled = {};
+        if (!ciGameState.ccShuffled[idx]) {
+          ciGameState.ccShuffled[idx] = shuffleArr([item.correct, ...item.wrong]);
+        }
+        const options = ciGameState.ccShuffled[idx];
+        const answered = ciGameState.ccAnswers[idx];
+
+        const optHtml = options.map((opt) => {
+          let extra = '';
+          if (answered !== undefined) {
+            if (opt === item.correct) extra = 'background:rgba(45,106,79,0.1);border-color:#2d6a4f;color:#2d6a4f;';
+            else if (opt === answered) extra = 'background:rgba(139,26,26,0.08);border-color:var(--red);color:var(--red);text-decoration:line-through;';
+          }
+          return `<button class="quiz-option" style="${extra}font-size:14px;padding:10px 16px;" onclick="selectCICC(${idx},'${opt.replace(/'/g,"\\'")}','${item.correct.replace(/'/g,"\\'")}')">
+            ${opt}
+          </button>`;
+        }).join('');
+
+        const feedbackHtml = answered !== undefined ? `
+          <div style="margin-top:12px;font-size:13px;padding:10px 14px;background:var(--bg2);border-left:3px solid ${answered === item.correct ? '#2d6a4f' : 'var(--red)'};color:${answered === item.correct ? '#2d6a4f' : 'var(--red2)'};line-height:1.7">
+            ${answered === item.correct ? '✓ ' : '✗ '}${item.hint}
+          </div>` : '';
+
+        container.innerHTML = `
+          <div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">
+            <div style="background:#1d6fa4;padding:14px 24px;display:flex;align-items:center;justify-content:space-between">
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🖼️ Context Choice</span>
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;color:rgba(255,255,255,0.7)">${idx + 1} / ${total}</span>
+            </div>
+            <div style="padding:24px">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:10px">Qual é o significado desta frase em contexto?</div>
+              <div style="background:var(--bg2);border-left:4px solid #1d6fa4;padding:18px 22px;margin-bottom:20px;display:flex;align-items:center;gap:14px">
+                <span style="font-size:28px;flex-shrink:0">🖼️</span>
+                <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--ink);line-height:1.5">${item.sentence}</div>
+              </div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">Escolha a tradução correta:</div>
+              <div style="display:flex;flex-direction:column;gap:8px">${optHtml}</div>
+              ${feedbackHtml}
+            </div>
+            <div style="padding:12px 24px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end">
+              <button class="btn-check" style="background:#1d6fa4;border:none;color:#fff;padding:10px 24px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer;${answered === undefined ? 'opacity:0.4;cursor:not-allowed' : ''}"
+                ${answered === undefined ? 'disabled' : ''} onclick="ciGameState.ccIdx++;renderCIContextChoice();scrollToCIContent()">
+                ${idx + 1 < total ? 'Próxima →' : 'Ver resultado →'}
+              </button>
+            </div>
+          </div>`;
+      }
+
+      function selectCICC(idx, chosen, correct) {
+        if (ciGameState.ccAnswers[idx] !== undefined) return;
+        ciGameState.ccAnswers[idx] = chosen;
+        AudioEngine.speak(CI_CONTEXT_CHOICE[idx].sentence, () => {});
+        renderCIContextChoice();
+      }
+
+      // ── CI Game 2: Missing Meaning ──
+      function renderCIMissingMeaning() {
+        const container = document.getElementById('cig-content');
+        const idx = ciGameState.mmIdx;
+        const total = CI_MISSING_MEANING.length;
+
+        if (idx >= total) {
+          const correct = Object.values(ciGameState.mmAnswers).filter(Boolean).length;
+          const pct = Math.round((correct / total) * 100);
+          container.innerHTML = `
+            <div style="background:var(--surface);border:1px solid var(--border);border-top:4px solid #2d6a4f;padding:40px 32px;text-align:center">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:64px;font-weight:900;color:#2d6a4f;line-height:1">${pct}%</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--ink4);text-transform:uppercase;margin-bottom:16px">${correct}/${total} corretas</div>
+              <div style="font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--ink2);max-width:380px;margin:0 auto 24px;line-height:1.7">
+                ${pct === 100 ? 'Vocabulário sólido. Você está lendo em contexto com eficiência.' : pct >= 75 ? 'Bom. O contexto está te ajudando a inferir o significado.' : 'Cada palavra nova encontrada em contexto fica mais clara com o tempo.'}
+              </div>
+              <button class="btn-check" style="background:#2d6a4f;border:none;color:#fff;padding:10px 28px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer"
+                onclick="ciGameState.mmIdx=0;ciGameState.mmAnswers={};ciGameState.mmShuffled=null;renderCIMissingMeaning()">Tentar novamente</button>
+            </div>`;
+          return;
+        }
+
+        const item = CI_MISSING_MEANING[idx];
+        if (!ciGameState.mmShuffled) ciGameState.mmShuffled = {};
+        if (!ciGameState.mmShuffled[idx]) {
+          ciGameState.mmShuffled[idx] = shuffleArr([item.correct, ...item.wrong]);
+        }
+        const options = ciGameState.mmShuffled[idx];
+        const answered = ciGameState.mmAnswers[idx];
+
+        // highlight the target word in the sentence
+        const safeWord = item.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const highlightedSentence = item.sentence.replace(
+          new RegExp(`(${safeWord})`, 'gi'),
+          `<strong style="color:#2d6a4f;border-bottom:3px solid rgba(45,106,79,0.4);padding:0 2px">$1</strong>`
+        );
+
+        const optHtml = options.map((opt) => {
+          let extra = '';
+          if (answered !== undefined) {
+            if (opt === item.correct) extra = 'background:rgba(45,106,79,0.1);border-color:#2d6a4f;color:#2d6a4f;';
+            else if (opt === answered) extra = 'background:rgba(139,26,26,0.08);border-color:var(--red);color:var(--red);text-decoration:line-through;';
+          }
+          return `<button class="quiz-option" style="${extra}font-size:14px;padding:10px 16px;" onclick="selectCIMM(${idx},'${opt.replace(/'/g,"\\'")}','${item.correct.replace(/'/g,"\\'")}')">
+            ${opt}
+          </button>`;
+        }).join('');
+
+        const feedbackHtml = answered !== undefined ? `
+          <div style="margin-top:12px;font-size:13px;padding:10px 14px;background:var(--bg2);border-left:3px solid ${answered === item.correct ? '#2d6a4f' : 'var(--red)'};color:${answered === item.correct ? '#2d6a4f' : 'var(--red2)'};line-height:1.7">
+            ${answered === item.correct ? '✓ ' : '✗ '}${item.hint}
+          </div>` : '';
+
+        container.innerHTML = `
+          <div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">
+            <div style="background:#2d6a4f;padding:14px 24px;display:flex;align-items:center;justify-content:space-between">
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🔍 Missing Meaning</span>
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;color:rgba(255,255,255,0.7)">${idx + 1} / ${total}</span>
+            </div>
+            <div style="padding:24px">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:10px">O que significa a palavra destacada nesta frase?</div>
+              <div style="background:var(--bg2);border-left:4px solid #2d6a4f;padding:18px 22px;margin-bottom:14px;display:flex;align-items:center;gap:14px">
+                <span style="font-size:28px;flex-shrink:0">🖼️</span>
+                <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--ink);line-height:1.5">${highlightedSentence}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+                <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3)">O que significa:</span>
+                <span style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#2d6a4f;background:rgba(45,106,79,0.08);border:1px solid rgba(45,106,79,0.3);padding:4px 14px;font-style:italic">${item.word}</span>
+                <button onclick="AudioEngine.speak('${item.sentence.replace(/'/g,"\\'")}',()=>{})" style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:5px 12px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer">▶ Ouvir</button>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">${optHtml}</div>
+              ${feedbackHtml}
+            </div>
+            <div style="padding:12px 24px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end">
+              <button class="btn-check" style="background:#2d6a4f;border:none;color:#fff;padding:10px 24px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer;${answered === undefined ? 'opacity:0.4;cursor:not-allowed' : ''}"
+                ${answered === undefined ? 'disabled' : ''} onclick="ciGameState.mmIdx++;renderCIMissingMeaning();scrollToCIContent()">
+                ${idx + 1 < total ? 'Próxima →' : 'Ver resultado →'}
+              </button>
+            </div>
+          </div>`;
+      }
+
+      function selectCIMM(idx, chosen, correct) {
+        if (ciGameState.mmAnswers[idx] !== undefined) return;
+        ciGameState.mmAnswers[idx] = chosen;
+        AudioEngine.speak(CI_MISSING_MEANING[idx].sentence, () => {});
+        renderCIMissingMeaning();
+      }
+
+      // ═══════════════════════════════════
+      // SM MINIGAMES DATA
+      // ═══════════════════════════════════
+
+      const SM_SAVE_PHRASES = [
+        {
+          sentence: "I have no idea what you're talking about.",
+          target: 'have no idea',
+          allChunks: ["have no idea", "what you're talking about", "you're talking about"],
+          hint: 'Expressão fixa para dizer que não entende nada — muito natural na fala.'
+        },
+        {
+          sentence: "It doesn't make sense to me.",
+          target: 'make sense',
+          allChunks: ["make sense", "doesn't make sense", "to me"],
+          hint: '"Make sense" = fazer sentido. Chunk essencial do inglês cotidiano.'
+        },
+        {
+          sentence: "I ended up staying home last night.",
+          target: 'ended up',
+          allChunks: ["ended up", "staying home", "last night"],
+          hint: '"End up + -ing" = acabar fazendo algo que não era o plano original.'
+        },
+        {
+          sentence: "She took it personally.",
+          target: 'took it personally',
+          allChunks: ["took it personally", "took it", "personally"],
+          hint: '"Take it personally" = levar para o lado pessoal.'
+        },
+        {
+          sentence: "It's worth giving it a shot.",
+          target: 'worth giving it a shot',
+          allChunks: ["worth giving it a shot", "giving it a shot", "it's worth"],
+          hint: '"Give it a shot" = tentar. "Worth + -ing" = vale a pena fazer.'
+        },
+        {
+          sentence: "She brought it up out of nowhere.",
+          target: 'out of nowhere',
+          allChunks: ["out of nowhere", "brought it up", "she brought it up"],
+          hint: '"Out of nowhere" = do nada, sem aviso prévio.'
+        },
+        {
+          sentence: "Could you do me a favour?",
+          target: 'do me a favour',
+          allChunks: ["do me a favour", "could you", "a favour"],
+          hint: '"Do me a favour" = fazer um favor. "Could you" torna o pedido educado.'
+        },
+        {
+          sentence: "I'm not sure I follow you.",
+          target: 'follow',
+          allChunks: ["follow you", "I'm not sure", "not sure I follow"],
+          hint: '"Follow" aqui = entender o raciocínio, acompanhar o que alguém diz.'
+        },
+      ];
+
+      const SM_BUILD_CHUNK = [
+        {
+          translation: 'não faço ideia',
+          options: ['have', 'no', 'idea', 'play', 'work', 'eat'],
+          correct: ['have', 'no', 'idea'],
+          hint: 'I ___ ___ ___ → "I have no idea."'
+        },
+        {
+          translation: 'acabei ficando em casa',
+          options: ['ended', 'up', 'staying', 'going', 'outside', 'never'],
+          correct: ['ended', 'up', 'staying'],
+          hint: 'I ___ ___ ___ home.'
+        },
+        {
+          translation: 'vale a pena tentar',
+          options: ["it's", 'worth', 'trying', 'always', 'never', 'hard'],
+          correct: ["it's", 'worth', 'trying'],
+          hint: '___ ___ ___ → vale a pena tentar.'
+        },
+        {
+          translation: 'do nada / de repente',
+          options: ['out', 'of', 'nowhere', 'everywhere', 'something', 'place'],
+          correct: ['out', 'of', 'nowhere'],
+          hint: '___ ___ ___ → sem aviso, de repente.'
+        },
+        {
+          translation: 'fazer sentido',
+          options: ['make', 'sense', 'noise', 'build', 'create', 'logic'],
+          correct: ['make', 'sense'],
+          hint: '___ ___ → ser lógico, ser compreensível.'
+        },
+        {
+          translation: 'levar para o lado pessoal',
+          options: ['take', 'it', 'personally', 'seriously', 'give', 'leave'],
+          correct: ['take', 'it', 'personally'],
+          hint: '___ ___ ___ → sentir como crítica direta.'
+        },
+        {
+          translation: 'dar uma chance / tentar',
+          options: ['give', 'it', 'a', 'shot', 'try', 'work'],
+          correct: ['give', 'it', 'a', 'shot'],
+          hint: '___ ___ ___ ___ → tentar algo, arriscar.'
+        },
+        {
+          translation: 'manter o controle emocional',
+          options: ['keep', 'it', 'together', 'apart', 'inside', 'hold'],
+          correct: ['keep', 'it', 'together'],
+          hint: '___ ___ ___ → não desmoronar sob pressão.'
+        },
+      ];
+
+      // ── SM minigame state ──
+      let smGameState = {
+        gameTab: 'savePhrase',
+        spIdx: 0,
+        spSelected: null,
+        spAnswered: {},
+        bcIdx: 0,
+        bcSelected: [],
+        bcAnswered: {},
+      };
+
+      function renderSMGamesHub() {
+        const container = document.getElementById('sm-tab-content');
+        const games = [
+          { id: 'savePhrase', icon: '💾', label: 'Save The Phrase', desc: 'Identifique o chunk mais útil na frase e salve-o no seu banco.' },
+          { id: 'buildChunk', icon: '🔨', label: 'Build The Chunk', desc: 'Monte a expressão inglesa a partir da tradução em PT-BR.' },
+        ];
+        const tabBtns = games.map(g => `
+          <button class="sm-nav-btn ${smGameState.gameTab === g.id ? 'active' : ''}"
+            id="smg-btn-${g.id}" onclick="setSMGameTab('${g.id}')">
+            ${g.icon} ${g.label}
+          </button>`).join('');
+        container.innerHTML = `
+          <div style="display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:28px;overflow-x:auto;scrollbar-width:none">
+            ${tabBtns}
+          </div>
+          <div id="smg-content"></div>`;
+        renderSMGameContent(smGameState.gameTab);
+      }
+
+      function setSMGameTab(id) {
+        smGameState.gameTab = id;
+        renderSMGamesHub();
+      }
+
+      function renderSMGameContent(id) {
+        if (id === 'savePhrase') renderSMSavePhrase();
+        if (id === 'buildChunk') renderSMBuildChunk();
+      }
+
+      // ── SM Game 1: Save The Phrase ──
+      function renderSMSavePhrase() {
+        const container = document.getElementById('smg-content');
+        const idx = smGameState.spIdx;
+        const total = SM_SAVE_PHRASES.length;
+
+        if (idx >= total) {
+          const saved = Object.keys(smGameState.spAnswered).length;
+          container.innerHTML = `
+            <div style="background:var(--surface);border:1px solid var(--border);border-top:4px solid #7b3fa0;padding:40px 32px;text-align:center">
+              <div style="font-size:40px;margin-bottom:12px">💾</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:64px;font-weight:900;color:#7b3fa0;line-height:1">${saved}</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--ink4);text-transform:uppercase;margin-bottom:16px">chunks identificados</div>
+              <div style="font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--ink2);max-width:400px;margin:0 auto 20px;line-height:1.7">
+                Você aprendeu a enxergar chunks — não palavras isoladas. É assim que os nativos armazenam o idioma.
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:24px">
+                ${Object.values(smGameState.spAnswered).map(ch => `<span style="font-family:'Playfair Display',serif;font-size:14px;font-style:italic;background:rgba(123,63,160,0.08);border:1px solid rgba(123,63,160,0.3);color:#7b3fa0;padding:5px 14px">${ch}</span>`).join('')}
+              </div>
+              <button class="btn-check" style="background:#7b3fa0;border:none;color:#fff;padding:10px 28px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer"
+                onclick="smGameState.spIdx=0;smGameState.spSelected=null;smGameState.spAnswered={};renderSMSavePhrase()">Jogar novamente</button>
+            </div>`;
+          return;
+        }
+
+        const item = SM_SAVE_PHRASES[idx];
+        const answered = smGameState.spAnswered[idx];
+        const selected = smGameState.spSelected;
+
+        const chunkBtns = item.allChunks.map(ch => {
+          let extra = '';
+          if (answered !== undefined) {
+            if (ch === item.target) extra = 'background:#7b3fa0;color:#fff;border-color:#7b3fa0;';
+            else if (ch === answered && ch !== item.target) extra = 'background:rgba(139,26,26,0.08);border-color:var(--red);color:var(--red);text-decoration:line-through;';
+          } else if (selected === ch) {
+            extra = 'background:rgba(123,63,160,0.12);border-color:#7b3fa0;color:#7b3fa0;';
+          }
+          return `<button class="quiz-option" style="${extra}font-size:14px;padding:10px 18px;font-family:'Playfair Display',serif;font-style:italic;"
+            onclick="smGameState.spSelected='${ch.replace(/'/g,"\\'")}';renderSMSavePhrase()">
+            "${ch}"
+          </button>`;
+        }).join('');
+
+        const feedbackHtml = answered !== undefined ? `
+          <div style="margin-top:14px;padding:12px 16px;background:${answered === item.target ? 'rgba(123,63,160,0.07)' : 'var(--red-dim)'};border-left:3px solid ${answered === item.target ? '#7b3fa0' : 'var(--red)'};font-size:13px;color:${answered === item.target ? '#7b3fa0' : 'var(--red2)'};line-height:1.7">
+            ${answered === item.target ? `💾 Salvo! ` : `✗ O chunk alvo era "<strong>${item.target}</strong>". `}${item.hint}
+          </div>` : '';
+
+        container.innerHTML = `
+          <div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">
+            <div style="background:#7b3fa0;padding:14px 24px;display:flex;align-items:center;justify-content:space-between">
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">💾 Save The Phrase</span>
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;color:rgba(255,255,255,0.7)">${idx + 1} / ${total}</span>
+            </div>
+            <div style="padding:24px">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:10px">Qual expressão parece mais útil para guardar?</div>
+              <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--ink);line-height:1.8;padding:18px 22px;background:var(--bg2);border-left:4px solid #7b3fa0;margin-bottom:8px">
+                ${item.sentence}
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+                <button onclick="AudioEngine.speak('${item.sentence.replace(/'/g,"\\'")}',()=>{})" style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:5px 14px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer">▶ Ouvir</button>
+                <span style="font-size:11px;color:var(--ink4);font-style:italic">Clique no chunk que você quer salvar</span>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px">${chunkBtns}</div>
+              ${feedbackHtml}
+            </div>
+            <div style="padding:12px 24px;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:11px;color:var(--ink4);font-style:italic">
+                ${answered !== undefined ? `"${answered}" salvo no seu banco.` : selected ? `Selecionado: "${selected}"` : 'Selecione um chunk para salvar.'}
+              </span>
+              <button class="btn-check" style="background:#7b3fa0;border:none;color:#fff;padding:10px 24px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer;${!selected && answered === undefined ? 'opacity:0.4;cursor:not-allowed' : ''}"
+                ${!selected && answered === undefined ? 'disabled' : ''}
+                onclick="${answered !== undefined ? `smGameState.spIdx++;smGameState.spSelected=null;renderSMSavePhrase();scrollToCIContent()` : `smGameState.spAnswered[${idx}]=smGameState.spSelected;renderSMSavePhrase()`}">
+                ${answered !== undefined ? (idx + 1 < total ? 'Próxima →' : 'Ver resultado →') : '💾 Salvar chunk'}
+              </button>
+            </div>
+          </div>`;
+      }
+
+      // ── SM Game 2: Build The Chunk ──
+      function renderSMBuildChunk() {
+        const container = document.getElementById('smg-content');
+        const idx = smGameState.bcIdx;
+        const total = SM_BUILD_CHUNK.length;
+
+        if (idx >= total) {
+          const correct = Object.values(smGameState.bcAnswered).filter(Boolean).length;
+          const pct = Math.round((correct / total) * 100);
+          container.innerHTML = `
+            <div style="background:var(--surface);border:1px solid var(--border);border-top:4px solid #7b3fa0;padding:40px 32px;text-align:center">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:64px;font-weight:900;color:#7b3fa0;line-height:1">${pct}%</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--ink4);text-transform:uppercase;margin-bottom:16px">${correct}/${total} montados corretamente</div>
+              <div style="font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--ink2);max-width:380px;margin:0 auto 24px;line-height:1.7">
+                ${pct === 100 ? 'Perfeito — você conhece as estruturas por dentro.' : pct >= 75 ? 'Bom trabalho. Os padrões estão se formando.' : 'Continue. Cada chunk montado se fixa melhor do que uma palavra isolada.'}
+              </div>
+              <button class="btn-check" style="background:#7b3fa0;border:none;color:#fff;padding:10px 28px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer"
+                onclick="smGameState.bcIdx=0;smGameState.bcSelected=[];smGameState.bcAnswered={};renderSMBuildChunk()">Tentar novamente</button>
+            </div>`;
+          return;
+        }
+
+        const item = SM_BUILD_CHUNK[idx];
+        const answered = smGameState.bcAnswered[idx];
+        const selected = answered !== undefined ? item.correct : (smGameState.bcSelected || []);
+
+        // shuffle options once per item
+        if (!smGameState.bcShuffled) smGameState.bcShuffled = {};
+        if (!smGameState.bcShuffled[idx]) smGameState.bcShuffled[idx] = shuffleArr(item.options);
+        const opts = smGameState.bcShuffled[idx];
+
+        const isCorrect = answered !== undefined && JSON.stringify([...smGameState.bcSelected].sort()) === JSON.stringify([...item.correct].sort()) && smGameState.bcSelected.length === item.correct.length;
+        const actualCorrect = answered === true;
+
+        const builtDisplay = selected.length > 0
+          ? selected.map(w => `<span style="display:inline-flex;align-items:center;gap:4px;background:#7b3fa0;color:#fff;padding:6px 12px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.5px;cursor:${answered !== undefined ? 'default' : 'pointer'}"
+              onclick="${answered !== undefined ? '' : `smBCRemove('${w.replace(/'/g,"\\'")}',${idx})`}">${w}${answered !== undefined ? '' : ' <span style="font-size:10px;opacity:0.7">✕</span>'}</span>`).join(' ')
+          : `<span style="font-family:'Playfair Display',serif;font-size:15px;color:var(--ink4);font-style:italic">Clique nas palavras abaixo para montar…</span>`;
+
+        const optBtns = opts.map(w => {
+          const isUsed = selected.includes(w);
+          return `<button onclick="${answered !== undefined || isUsed ? '' : `smBCAdd('${w.replace(/'/g,"\\'")}',${idx})`}"
+            style="padding:8px 16px;background:${isUsed ? 'var(--bg2)' : 'var(--surface)'};border:1px solid ${isUsed ? 'var(--border)' : 'rgba(123,63,160,0.4)'};color:${isUsed ? 'var(--ink4)' : '#7b3fa0'};font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.5px;cursor:${answered !== undefined || isUsed ? 'default' : 'pointer'};transition:all 0.15s;${isUsed ? 'text-decoration:line-through;' : ''}opacity:${isUsed ? '0.4' : '1'}">
+            ${w}
+          </button>`;
+        }).join('');
+
+        const feedbackHtml = answered !== undefined ? `
+          <div style="margin-top:12px;padding:12px 16px;background:${actualCorrect ? 'rgba(45,106,79,0.08)' : 'var(--red-dim)'};border-left:3px solid ${actualCorrect ? '#2d6a4f' : 'var(--red)'};font-size:13px;color:${actualCorrect ? '#2d6a4f' : 'var(--red2)'};line-height:1.7">
+            ${actualCorrect ? '✓ Correto! ' : `✗ A resposta era: <strong>${item.correct.join(' ')}</strong>. `}${item.hint}
+          </div>` : '';
+
+        container.innerHTML = `
+          <div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">
+            <div style="background:#7b3fa0;padding:14px 24px;display:flex;align-items:center;justify-content:space-between">
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🔨 Build The Chunk</span>
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;color:rgba(255,255,255,0.7)">${idx + 1} / ${total}</span>
+            </div>
+            <div style="padding:24px">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:8px">Monte a expressão em inglês:</div>
+              <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--ink);padding:16px 20px;background:var(--bg2);border-left:4px solid #7b3fa0;margin-bottom:18px;font-style:italic">
+                ${item.translation}
+              </div>
+              <!-- construction area -->
+              <div style="min-height:52px;padding:12px 16px;background:${answered !== undefined ? (actualCorrect ? 'rgba(45,106,79,0.06)' : 'var(--red-dim)') : 'var(--bg2)'};border:2px dashed ${answered !== undefined ? (actualCorrect ? '#2d6a4f44' : 'rgba(139,26,26,0.3)') : 'rgba(123,63,160,0.3)'};margin-bottom:16px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;transition:all 0.2s">
+                ${builtDisplay}
+              </div>
+              <!-- word bank -->
+              <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px">${optBtns}</div>
+              ${feedbackHtml}
+            </div>
+            <div style="padding:12px 24px;border-top:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+              <button class="btn-reset" onclick="smGameState.bcSelected=[];renderSMBuildChunk()" ${answered !== undefined ? 'disabled' : ''} style="${answered !== undefined ? 'opacity:0.4;cursor:not-allowed' : ''}">Limpar</button>
+              <button class="btn-check" style="background:#7b3fa0;border:none;color:#fff;padding:10px 24px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer;${answered === undefined && selected.length === 0 ? 'opacity:0.4;cursor:not-allowed' : ''}"
+                ${answered === undefined && selected.length === 0 ? 'disabled' : ''}
+                onclick="${answered !== undefined ? `smGameState.bcIdx++;smGameState.bcSelected=[];renderSMBuildChunk();scrollToCIContent()` : `smBCCheck(${idx})`}">
+                ${answered !== undefined ? (idx + 1 < total ? 'Próxima →' : 'Ver resultado →') : 'Verificar ✓'}
+              </button>
+            </div>
+          </div>`;
+      }
+
+      function smBCAdd(word, idx) {
+        if (!smGameState.bcSelected) smGameState.bcSelected = [];
+        if (!smGameState.bcSelected.includes(word)) {
+          smGameState.bcSelected.push(word);
+          renderSMBuildChunk();
+        }
+      }
+
+      function smBCRemove(word, idx) {
+        smGameState.bcSelected = (smGameState.bcSelected || []).filter(w => w !== word);
+        renderSMBuildChunk();
+      }
+
+      function smBCCheck(idx) {
+        const item = SM_BUILD_CHUNK[idx];
+        const sel = smGameState.bcSelected || [];
+        const isCorrect = sel.length === item.correct.length &&
+          item.correct.every((w, i) => w === sel[i]);
+        smGameState.bcAnswered[idx] = isCorrect;
+        if (isCorrect) AudioEngine.speak(item.correct.join(' '), () => {});
+        renderSMBuildChunk();
       }
 
       // ═══════════════════════════════════
