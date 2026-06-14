@@ -3481,6 +3481,8 @@
       }
       .btn-srs-known:hover {
         background: #245a40;
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 4px 14px rgba(45, 106, 79, 0.35);
       }
       .btn-srs-unknown {
         background: var(--red);
@@ -3488,6 +3490,12 @@
       }
       .btn-srs-unknown:hover {
         background: var(--red2);
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 4px 14px rgba(139, 26, 26, 0.35);
+      }
+      .btn-srs-known:active,
+      .btn-srs-unknown:active {
+        transform: translateY(0) scale(0.98);
       }
       .btn-srs-known span,
       .btn-srs-unknown span {
@@ -3495,6 +3503,245 @@
         font-weight: 400;
         letter-spacing: 0.5px;
         opacity: 0.75;
+      }
+
+      /* flash feedback on card after rating */
+      .srs-card-inner.srs-flash-known .srs-card-front,
+      .srs-card-inner.srs-flash-known .srs-card-back {
+        background-color: rgba(45, 106, 79, 0.15) !important;
+        transition: background-color 0.2s ease;
+      }
+      .srs-card-inner.srs-flash-unknown .srs-card-front,
+      .srs-card-inner.srs-flash-unknown .srs-card-back {
+        background-color: rgba(139, 26, 26, 0.08) !important;
+        transition: background-color 0.2s ease;
+      }
+
+      /* back card layered hierarchy */
+      .srs-back-sentence {
+        font-family: 'Playfair Display', serif;
+        font-size: 21px;
+        color: var(--ink);
+        line-height: 1.7;
+      }
+      .srs-back-layer {
+        padding: 12px 16px;
+        font-size: 13px;
+        line-height: 1.8;
+        border-left: 3px solid var(--border);
+      }
+      .srs-back-layer-label {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .srs-layer-pt {
+        background: var(--bg2);
+        border-left-color: var(--gold2);
+        font-style: italic;
+        color: var(--ink2);
+      }
+      .srs-layer-pt .srs-back-layer-label {
+        color: var(--gold2);
+        font-style: normal;
+      }
+      .srs-layer-meaning {
+        background: var(--bg2);
+        border-left-color: var(--red);
+        color: var(--ink2);
+      }
+      .srs-layer-meaning .srs-back-layer-label {
+        color: var(--red);
+      }
+      .srs-layer-hint {
+        background: rgba(196, 146, 42, 0.08);
+        border-left-color: var(--gold);
+        color: var(--ink2);
+      }
+      .srs-layer-hint .srs-back-layer-label {
+        color: var(--gold2);
+      }
+
+      /* ── SRS practice minigames ── */
+      .srs-practice-nav {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid var(--border);
+        margin: 28px 0 20px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .srs-practice-nav::-webkit-scrollbar {
+        display: none;
+      }
+      .srs-practice-tab {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 11px 18px;
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--ink3);
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.15s;
+        margin-bottom: -2px;
+      }
+      .srs-practice-tab:hover {
+        color: var(--ink);
+      }
+      .srs-practice-tab.active {
+        color: #2d6a4f;
+        border-bottom-color: #2d6a4f;
+      }
+      .srs-gap-sentence {
+        font-family: 'Playfair Display', serif;
+        font-size: 18px;
+        color: var(--ink);
+        line-height: 1.8;
+        padding: 16px 20px;
+        background: var(--bg2);
+        border-left: 3px solid #2d6a4f;
+        margin-bottom: 14px;
+      }
+      .srs-gap-blank {
+        display: inline-block;
+        min-width: 90px;
+        border-bottom: 2px solid var(--gold);
+        color: var(--gold2);
+        font-style: italic;
+        text-align: center;
+        padding: 0 6px;
+      }
+      .srs-mc-option {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 11px 16px;
+        font-size: 14px;
+        font-family: 'Barlow', sans-serif;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--ink2);
+        cursor: pointer;
+        transition: all 0.15s;
+        margin-bottom: 8px;
+      }
+      .srs-mc-option:hover {
+        border-color: #2d6a4f;
+        background: rgba(45, 106, 79, 0.05);
+        color: #2d6a4f;
+      }
+      .srs-mc-option.correct {
+        background: rgba(45, 106, 79, 0.1);
+        border-color: #2d6a4f;
+        color: #2d6a4f;
+        font-weight: 600;
+      }
+      .srs-mc-option.wrong {
+        background: rgba(139, 26, 26, 0.07);
+        border-color: var(--red);
+        color: var(--red);
+        text-decoration: line-through;
+      }
+      .srs-mc-option.disabled {
+        cursor: default;
+        opacity: 0.6;
+      }
+      .srs-pt-prompt {
+        font-family: 'Playfair Display', serif;
+        font-size: 18px;
+        font-style: italic;
+        color: var(--ink2);
+        line-height: 1.8;
+        padding: 16px 20px;
+        background: var(--bg2);
+        border-left: 3px solid var(--gold2);
+        margin-bottom: 14px;
+      }
+      .srs-free-input {
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        color: var(--ink);
+        padding: 12px 16px;
+        font-size: 15px;
+        font-family: 'Playfair Display', serif;
+        outline: none;
+        resize: vertical;
+        min-height: 70px;
+        transition: border-color 0.15s;
+      }
+      .srs-free-input:focus {
+        border-color: #2d6a4f;
+      }
+      .srs-example-card {
+        background: var(--bg2);
+        border-left: 3px solid #7b3fa0;
+        padding: 12px 16px;
+        margin-bottom: 8px;
+        font-size: 14px;
+        line-height: 1.8;
+      }
+      .srs-example-card em {
+        display: block;
+        font-size: 12px;
+        color: var(--ink4);
+        margin-top: 4px;
+        font-style: italic;
+      }
+
+      /* ── fallback for unknown terms ── */
+      .srs-fallback-box {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-top: 3px solid var(--gold);
+        padding: 28px 32px;
+        margin-bottom: 24px;
+      }
+      .srs-user-sentence-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 10px 14px;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-family: 'Playfair Display', serif;
+        line-height: 1.6;
+      }
+      .srs-user-sentence-row .srs-us-text {
+        flex: 1;
+      }
+      .srs-user-sentence-row .srs-us-pt {
+        font-size: 12px;
+        color: var(--ink4);
+        font-style: italic;
+        font-family: 'Barlow', sans-serif;
+        display: block;
+        margin-top: 2px;
+      }
+      .srs-us-remove {
+        font-size: 12px;
+        color: var(--ink4);
+        cursor: pointer;
+        flex-shrink: 0;
+        padding: 2px 6px;
+        transition: color 0.15s;
+      }
+      .srs-us-remove:hover {
+        color: var(--red);
       }
 
       /* queue chips */
@@ -10489,14 +10736,8 @@
         results = allSentences.filter((r) => termRe.test(r.s));
         if (results.length) return [...new Map(results.map((r) => [r.s, r])).values()];
 
-        // 4. generate synthetic fallback sentences for unknown terms
-        return [
-          { s: `I always try to use "${query}" in real situations.`, t: query },
-          { s: `She mentioned "${query}" in the conversation.`, t: query },
-          { s: `Understanding "${query}" makes a real difference.`, t: query },
-          { s: `He used "${query}" without thinking — that\'s fluency.`, t: query },
-          { s: `"${query}" appeared again in the text we were reading.`, t: query },
-        ];
+        // 4. unknown term — return empty; caller handles fallback UI
+        return [];
       }
 
       // ── SRS STATE ──
@@ -10526,7 +10767,9 @@
         flipped: false,
         sessionKnown: 0,
         sessionUnknown: 0,
-        view: 'home', // home | session | complete
+        view: 'home', // home | session | complete | fallback
+        fallbackTerm: null, // term being added via fallback flow
+        fallbackDraftSentences: [], // user sentences not yet saved to srsData
       };
 
       // ── ENTRY POINT ──
@@ -10649,6 +10892,17 @@
 
         if (!srsData[term]) {
           const sentences = srsFindSentences(term);
+
+          if (!sentences.length) {
+            // unknown term — go to fallback view, don't create entry yet
+            inp.value = '';
+            srsState.fallbackTerm = term;
+            srsState.view = 'fallback';
+            renderSRSFallback();
+            scrollToCIContent();
+            return;
+          }
+
           srsData[term] = {
             term,
             allSentences: sentences,
@@ -10657,11 +10911,170 @@
             unknown: [],
             cyclesDone: 0,
             addedBatches: 0,
+            userSentences: [],
           };
           srsSaveData(srsData);
         }
 
         inp.value = '';
+        srsStartSession(term);
+      }
+
+      // ── FALLBACK FOR UNKNOWN TERMS ──
+      function renderSRSFallback() {
+        const container = srsGetContainer();
+        const term = srsState.fallbackTerm;
+        const existing = srsData[term];
+        const userSentences = (existing && existing.userSentences) || srsState.fallbackDraftSentences || [];
+
+        const listHtml = userSentences.length
+          ? userSentences
+              .map(
+                (item, i) => `
+          <div class="srs-user-sentence-row">
+            <div class="srs-us-text">
+              ${item.s}
+              ${item.pt ? `<span class="srs-us-pt">${item.pt}</span>` : ''}
+            </div>
+            <span class="srs-us-remove" onclick="srsRemoveFallbackSentence(${i})">✕ remover</span>
+          </div>`
+              )
+              .join('')
+          : `<div style="font-size:12px;color:var(--ink4);font-style:italic;padding:6px 0">Nenhuma frase adicionada ainda.</div>`;
+
+        container.innerHTML = `
+    <button class="btn-scene-nav" onclick="srsState.view='home';renderSRSHome();AudioEngine.stop()" style="margin-bottom:20px">← Fila</button>
+
+    <div class="srs-fallback-box">
+      <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);line-height:1.8;margin-bottom:8px;font-style:italic">
+        "${term}" ainda não está no banco interno.
+      </div>
+      <div style="font-size:13px;color:var(--ink3);line-height:1.8;margin-bottom:20px">
+        Mas você pode criar seu próprio baralho com frases que encontrou. Adicione frases reais que você viu usando essa expressão — em jogos, séries, conversas ou textos.
+      </div>
+
+      <div class="srs-input-label" style="margin-bottom:10px">Adicionar frase</div>
+      <div class="srs-input-row" style="margin-bottom:8px">
+        <input class="srs-input" id="srs-fb-sentence" type="text"
+          placeholder="Escreva uma frase em inglês com essa expressão"
+          style="font-size:15px">
+      </div>
+      <div class="srs-input-row" style="margin-bottom:14px">
+        <input class="srs-input" id="srs-fb-pt" type="text"
+          placeholder="Tradução em PT-BR (opcional)"
+          style="font-size:14px">
+        <button class="btn-srs-start" onclick="srsAddFallbackSentence()">+ Adicionar frase</button>
+      </div>
+
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:8px;margin-top:18px">Suas frases (${userSentences.length})</div>
+      <div id="srs-fb-list">${listHtml}</div>
+
+      <div style="margin-top:20px">
+        <button class="btn-srs-start" style="${userSentences.length ? '' : 'opacity:0.4;cursor:not-allowed'}" ${userSentences.length ? '' : 'disabled'}
+          onclick="srsStudyFallbackSentences()">
+          Estudar com essas frases →
+        </button>
+      </div>
+    </div>`;
+
+        setTimeout(() => {
+          const inp = document.getElementById('srs-fb-sentence');
+          if (inp) {
+            inp.focus();
+            inp.onkeydown = (e) => {
+              if (e.key === 'Enter') srsAddFallbackSentence();
+            };
+          }
+        }, 80);
+      }
+
+      function srsAddFallbackSentence() {
+        const term = srsState.fallbackTerm;
+        const sInp = document.getElementById('srs-fb-sentence');
+        const ptInp = document.getElementById('srs-fb-pt');
+        if (!sInp) return;
+        const s = sInp.value.trim();
+        if (!s) return;
+        const pt = (ptInp && ptInp.value.trim()) || '';
+
+        if (!srsState.fallbackDraftSentences) srsState.fallbackDraftSentences = [];
+
+        const entry = { s, t: term, pt };
+
+        if (!srsData[term]) {
+          srsState.fallbackDraftSentences.push(entry);
+        } else {
+          if (!srsData[term].userSentences) srsData[term].userSentences = [];
+          srsData[term].userSentences.push(entry);
+          srsSaveData(srsData);
+        }
+
+        sInp.value = '';
+        if (ptInp) ptInp.value = '';
+        renderSRSFallback();
+        setTimeout(() => {
+          const inp = document.getElementById('srs-fb-sentence');
+          if (inp) inp.focus();
+        }, 60);
+      }
+
+      function srsRemoveFallbackSentence(idx) {
+        const term = srsState.fallbackTerm;
+        if (srsData[term]) {
+          if (!srsData[term].userSentences) srsData[term].userSentences = [];
+          srsData[term].userSentences.splice(idx, 1);
+          saveSRSDataAndKeepActive(term);
+          srsSaveData(srsData);
+        } else if (srsState.fallbackDraftSentences) {
+          srsState.fallbackDraftSentences.splice(idx, 1);
+        }
+        renderSRSFallback();
+      }
+
+      // keep active/allSentences in sync after removing a user sentence
+      function saveSRSDataAndKeepActive(term) {
+        const d = srsData[term];
+        if (!d) return;
+        if (!d.userSentences) d.userSentences = [];
+        const validSentences = new Set(d.userSentences.map((x) => x.s));
+        d.allSentences = d.allSentences.filter((x) => x.t !== term || validSentences.has(x.s) || SRS_BANK_HAS_SENTENCE(x.s));
+        d.active = d.active.filter((s) => d.allSentences.some((x) => x.s === s));
+      }
+
+      function SRS_BANK_HAS_SENTENCE(sentence) {
+        return Object.values(SRS_BANK)
+          .flat()
+          .some((x) => x.s === sentence);
+      }
+
+      function srsStudyFallbackSentences() {
+        const term = srsState.fallbackTerm;
+        const draft = srsState.fallbackDraftSentences || [];
+
+        if (!srsData[term]) {
+          srsData[term] = {
+            term,
+            allSentences: [...draft],
+            active: draft.map((s) => s.s),
+            known: [],
+            unknown: [],
+            cyclesDone: 0,
+            addedBatches: 0,
+            userSentences: [...draft],
+          };
+          srsSaveData(srsData);
+        } else {
+          // ensure userSentences are reflected in allSentences/active
+          const d = srsData[term];
+          if (!d.userSentences) d.userSentences = [];
+          d.userSentences.forEach((entry) => {
+            if (!d.allSentences.some((x) => x.s === entry.s)) d.allSentences.push(entry);
+            if (!d.active.includes(entry.s)) d.active.push(entry.s);
+          });
+          srsSaveData(srsData);
+        }
+
+        srsState.fallbackDraftSentences = [];
         srsStartSession(term);
       }
 
@@ -10676,6 +11089,15 @@
       function srsStartSession(term) {
         const d = srsData[term];
         if (!d) return;
+
+        // guard: empty active deck (e.g. legacy term with no real sentences)
+        if (!d.active || !d.active.length) {
+          srsState.fallbackTerm = term;
+          srsState.view = 'fallback';
+          renderSRSFallback();
+          scrollToCIContent();
+          return;
+        }
 
         // build this round's queue from active list
         srsState.activeTerm = term;
@@ -10717,6 +11139,12 @@
           return sentence.replace(new RegExp(`(${safe})`, 'gi'), `<strong style="color:var(--red2);border-bottom:2px solid rgba(139,26,26,0.35)">$1</strong>`);
         }
 
+        // build a fallback contextual meaning if no explicit hint exists
+        function buildMeaningText(c) {
+          if (c.pt) return `A palavra <strong>"${c.t}"</strong> nesta frase corresponde ao sentido expresso na tradução acima.`;
+          return `Observe como <strong>"${c.t}"</strong> é usado nesta frase — o contexto ajuda a fixar o significado.`;
+        }
+
         // progress pips
         const pips = queue
           .map((_, i) => {
@@ -10726,6 +11154,29 @@
           .join('');
 
         const flipped = srsState.flipped;
+
+        // ── layered back content ──
+        const layerPT = card.pt
+          ? `
+            <div class="srs-back-layer srs-layer-pt">
+              <span class="srs-back-layer-label">🇧🇷 PT-BR</span>
+              ${card.pt}
+            </div>`
+          : '';
+
+        const layerMeaning = `
+            <div class="srs-back-layer srs-layer-meaning">
+              <span class="srs-back-layer-label">Significado em contexto</span>
+              ${buildMeaningText(card)}
+            </div>`;
+
+        const layerHint = card.hint
+          ? `
+            <div class="srs-back-layer srs-layer-hint">
+              <span class="srs-back-layer-label">💡 Dica</span>
+              ${card.hint}
+            </div>`
+          : '';
 
         container.innerHTML = `
     <!-- header row -->
@@ -10743,7 +11194,7 @@
 
     <!-- flip card -->
     <div class="srs-card-wrap ${flipped ? 'flipped' : ''}" id="srs-card" onclick="srsFlipCard()">
-      <div class="srs-card-inner">
+      <div class="srs-card-inner" id="srs-card-inner">
         <!-- front -->
         <div class="srs-card-front" style="background:var(--surface);display:flex;flex-direction:column">
           <div style="background:var(--red2);padding:12px 20px;display:flex;align-items:center;justify-content:space-between">
@@ -10754,15 +11205,24 @@
             <div style="font-family:'Playfair Display',serif;font-size:24px;color:var(--ink);line-height:1.7;margin-bottom:20px">
               ${highlightTarget(card.s, card.t)}
             </div>
-            <button style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:8px 20px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;cursor:pointer;transition:all 0.15s"
-              onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'"
-              onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--ink3)'"
-              onclick="event.stopPropagation();srsSpeakCard('${card.s.replace(/'/g, "\\'")}')" id="srs-audio-btn">
-              ▶ Listen
-            </button>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+              <button style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:8px 20px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;cursor:pointer;transition:all 0.15s"
+                onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'"
+                onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--ink3)'"
+                onclick="event.stopPropagation();srsSpeakCard('${card.s.replace(/'/g, "\\'")}')" id="srs-audio-btn">
+                ▶ Listen
+              </button>
+              <button style="background:var(--red);border:1px solid var(--red);color:#fff;padding:8px 22px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;cursor:pointer;transition:all 0.15s"
+                onmouseover="this.style.background='var(--red2)';this.style.borderColor='var(--red2)'"
+                onmouseout="this.style.background='var(--red)';this.style.borderColor='var(--red)'"
+                onclick="event.stopPropagation();srsFlipCard()">
+                Virar card →
+              </button>
+            </div>
           </div>
-          <div style="padding:12px 20px;border-top:1px solid var(--border);text-align:center;font-size:11px;color:var(--ink4);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase">
-            Toque para avaliar sua compreensão
+          <div style="padding:12px 20px;border-top:1px solid var(--border);text-align:center;font-size:11px;color:var(--ink4);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer"
+            onclick="event.stopPropagation();srsFlipCard()">
+            Toque aqui ou no card para avaliar sua compreensão
           </div>
         </div>
         <!-- back -->
@@ -10770,23 +11230,13 @@
           <div style="background:var(--ink);padding:12px 20px;display:flex;align-items:center;justify-content:space-between">
             <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Você sabia?</span>
           </div>
-          <div style="flex:1;padding:28px 32px;display:flex;flex-direction:column;gap:16px">
-            <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--ink);line-height:1.7">
+          <div style="flex:1;padding:24px 28px;display:flex;flex-direction:column;gap:12px;overflow-y:auto">
+            <div class="srs-back-sentence">
               ${highlightTarget(card.s, card.t)}
             </div>
-            ${
-              card.pt
-                ? `
-            <div style="background:var(--bg2);border-left:3px solid var(--gold2);padding:12px 16px;font-size:14px;color:var(--ink2);line-height:1.8;font-style:italic">
-              <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);display:block;margin-bottom:4px;font-style:normal">🇧🇷 PT-BR</span>
-              ${card.pt}
-            </div>`
-                : ''
-            }
-            <div style="background:var(--bg2);border-left:3px solid var(--red);padding:12px 16px;font-size:13px;color:var(--ink2);line-height:1.8">
-              <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);display:block;margin-bottom:4px">Target</span>
-              <strong style="font-family:'Playfair Display',serif;font-size:17px;color:var(--red2)">${card.t}</strong>
-            </div>
+            ${layerPT}
+            ${layerMeaning}
+            ${layerHint}
             <button style="align-self:flex-start;background:transparent;border:1px solid var(--border);color:var(--ink3);padding:7px 18px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;cursor:pointer;transition:all 0.15s"
               onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'"
               onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--ink3)'"
@@ -10800,11 +11250,11 @@
 
     <!-- rate buttons — hidden until flipped -->
     <div class="srs-rate-row" style="${flipped ? '' : 'visibility:hidden'}">
-      <button class="btn-srs-unknown" onclick="srsRate('unknown')" ${!flipped ? 'disabled' : ''}>
+      <button class="btn-srs-unknown" id="srs-btn-unknown" onclick="srsRate('unknown')" ${!flipped ? 'disabled' : ''}>
         ✗ Não lembro
         <span>Preciso de mais exposição</span>
       </button>
-      <button class="btn-srs-known" onclick="srsRate('known')" ${!flipped ? 'disabled' : ''}>
+      <button class="btn-srs-known" id="srs-btn-known" onclick="srsRate('known')" ${!flipped ? 'disabled' : ''}>
         ✓ Eu sei
         <span>Reduzir repetição</span>
       </button>
@@ -10846,11 +11296,29 @@
         d.cyclesDone = (d.cyclesDone || 0) + (srsState.idx === srsState.queue.length - 1 ? 1 : 0);
         srsSaveData(srsData);
 
-        srsState.flipped = false;
-        srsState.idx++;
         AudioEngine.stop();
-        renderSRSSession();
-        scrollToCIContent();
+
+        // flash feedback before advancing
+        const inner = document.getElementById('srs-card-inner');
+        const btnKnown = document.getElementById('srs-btn-known');
+        const btnUnknown = document.getElementById('srs-btn-unknown');
+        if (btnKnown) btnKnown.disabled = true;
+        if (btnUnknown) btnUnknown.disabled = true;
+
+        if (inner) {
+          inner.classList.add(rating === 'known' ? 'srs-flash-known' : 'srs-flash-unknown');
+          setTimeout(() => {
+            srsState.flipped = false;
+            srsState.idx++;
+            renderSRSSession();
+            scrollToCIContent();
+          }, 200);
+        } else {
+          srsState.flipped = false;
+          srsState.idx++;
+          renderSRSSession();
+          scrollToCIContent();
+        }
       }
 
       // ── SESSION COMPLETE + ADAPTIVE LOGIC ──
@@ -10948,7 +11416,329 @@
           ← Fila
         </button>
       </div>
+    </div>
+
+    <!-- ── PRATIQUE MAIS — MINIGAMES ── -->
+    <div style="margin-top:8px">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ink);margin-bottom:4px">🎮 Pratique mais</div>
+      <div style="font-size:12px;color:var(--ink4);margin-bottom:4px">Três minijogos rápidos com as frases de "${term}".</div>
+      <div class="srs-practice-nav" id="srs-practice-nav">
+        <button class="srs-practice-tab active" id="srsp-btn-gap" onclick="setSRSPracticeTab('gap')">🧩 Gap Fill</button>
+        <button class="srs-practice-tab" id="srsp-btn-reverse" onclick="setSRSPracticeTab('reverse')">🔄 Tradução Reversa</button>
+        <button class="srs-practice-tab" id="srsp-btn-free" onclick="setSRSPracticeTab('free')">✍️ Uso Livre</button>
+      </div>
+      <div id="srs-practice-content"></div>
     </div>`;
+
+        // initialise practice games for this term
+        srsPracticeState.term = term;
+        srsPracticeState.tab = 'gap';
+        srsPracticeState.gap = null;
+        srsPracticeState.reverse = null;
+        srsPracticeState.free = null;
+        setTimeout(() => renderSRSPracticeGames(), 0);
+      }
+
+      // ═══════════════════════════════════
+      // SRS PRACTICE MINIGAMES ("Pratique mais")
+      // ═══════════════════════════════════
+
+      let srsPracticeState = {
+        term: null,
+        tab: 'gap',
+        gap: null,
+        reverse: null,
+        free: null,
+      };
+
+      function setSRSPracticeTab(tab) {
+        srsPracticeState.tab = tab;
+        ['gap', 'reverse', 'free'].forEach((t) => {
+          const btn = document.getElementById(`srsp-btn-${t}`);
+          if (btn) btn.classList.toggle('active', t === tab);
+        });
+        renderSRSPracticeGames();
+      }
+
+      // pick up to n sentences for the term that have both s and pt where possible
+      function srsPracticePool(term) {
+        const d = srsData[term];
+        if (!d) return [];
+        // prefer allSentences (full history), de-duped by sentence text
+        const seen = new Set();
+        const pool = [];
+        d.allSentences.forEach((x) => {
+          if (!seen.has(x.s)) {
+            seen.add(x.s);
+            pool.push(x);
+          }
+        });
+        return pool;
+      }
+
+      function renderSRSPracticeGames() {
+        const term = srsPracticeState.term;
+        const container = document.getElementById('srs-practice-content');
+        if (!container) return;
+
+        if (srsPracticeState.tab === 'gap') renderSRSGapFill(term, container);
+        else if (srsPracticeState.tab === 'reverse') renderSRSReverseTranslation(term, container);
+        else if (srsPracticeState.tab === 'free') renderSRSFreeUse(term, container);
+      }
+
+      // ── MINIGAME 1: GAP FILL ──
+      function renderSRSGapFill(term, container) {
+        if (!srsPracticeState.gap) {
+          const pool = srsPracticePool(term);
+          const items = shuffleArr(pool)
+            .slice(0, Math.min(5, pool.length))
+            .map((card) => {
+              const target = card.t;
+              const safe = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              const re = new RegExp(`\\b(${safe})\\b`, 'i');
+              const match = card.s.match(re);
+              const actualTarget = match ? match[0] : target;
+              const blanked = card.s.replace(re, '___');
+
+              // build distractors: other targets in the pool + a couple of generic related words
+              const otherTargets = [...new Set(pool.map((x) => x.t).filter((t) => t.toLowerCase() !== actualTarget.toLowerCase()))];
+              let distractors = shuffleArr(otherTargets).slice(0, 3);
+              const fillers = ['something', 'always', 'really', 'never', 'just', 'still'];
+              let fi = 0;
+              while (distractors.length < 3) {
+                const f = fillers[fi % fillers.length];
+                if (f.toLowerCase() !== actualTarget.toLowerCase() && !distractors.includes(f)) distractors.push(f);
+                fi++;
+                if (fi > 12) break;
+              }
+
+              const options = shuffleArr([actualTarget, ...distractors.slice(0, 3)]);
+
+              return {
+                card,
+                blanked,
+                actualTarget,
+                options,
+                answered: null,
+              };
+            });
+
+          srsPracticeState.gap = { items, idx: 0 };
+        }
+
+        const state = srsPracticeState.gap;
+        const total = state.items.length;
+
+        if (!total) {
+          container.innerHTML = `<div style="font-size:12px;color:var(--ink4);font-style:italic;padding:16px 0">Não há frases suficientes para este minijogo ainda.</div>`;
+          return;
+        }
+
+        if (state.idx >= total) {
+          const correct = state.items.filter((it) => it.answered === it.actualTarget).length;
+          container.innerHTML = `
+        <div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid #2d6a4f;padding:24px;text-align:center">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:900;color:#2d6a4f;line-height:1">${correct}/${total}</div>
+          <div style="font-size:12px;color:var(--ink4);margin-bottom:14px">corretas no Gap Fill</div>
+          <button class="btn-scene-nav" onclick="srsPracticeState.gap=null;renderSRSGapFill('${term.replace(/'/g, "\\'")}',document.getElementById('srs-practice-content'))">Jogar novamente</button>
+        </div>`;
+          return;
+        }
+
+        const item = state.items[state.idx];
+        const answered = item.answered;
+
+        const optsHtml = item.options
+          .map((opt) => {
+            let cls = 'srs-mc-option';
+            if (answered !== null) {
+              cls += ' disabled';
+              if (opt === item.actualTarget) cls += ' correct';
+              else if (opt === answered) cls += ' wrong';
+            }
+            return `<button class="${cls}" ${answered !== null ? 'disabled' : ''} onclick="srsGapAnswer('${opt.replace(/'/g, "\\'")}')">${opt}</button>`;
+          })
+          .join('');
+
+        const feedback =
+          answered !== null
+            ? `<div style="margin-top:8px;font-size:13px;padding:10px 14px;background:var(--bg2);border-left:3px solid ${answered === item.actualTarget ? '#2d6a4f' : 'var(--red)'};color:${answered === item.actualTarget ? '#2d6a4f' : 'var(--red2)'};line-height:1.7">
+            ${answered === item.actualTarget ? '✓ ' : '✗ Resposta: ' + item.actualTarget + '. '}${item.card.pt ? `<em style="font-style:italic">${item.card.pt}</em>` : ''}
+          </div>`
+            : '';
+
+        container.innerHTML = `
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:10px">Complete a frase · ${state.idx + 1}/${total}</div>
+      <div class="srs-gap-sentence">${item.blanked.replace('___', '<span class="srs-gap-blank">___</span>')}</div>
+      <div>${optsHtml}</div>
+      ${feedback}
+      <div style="display:flex;justify-content:flex-end;margin-top:10px">
+        <button class="btn-check" style="background:#2d6a4f;border:none;color:#fff;padding:9px 22px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer;${answered === null ? 'opacity:0.4;cursor:not-allowed' : ''}"
+          ${answered === null ? 'disabled' : ''} onclick="srsGapNext()">
+          ${state.idx + 1 < total ? 'Próxima →' : 'Ver resultado →'}
+        </button>
+      </div>`;
+      }
+
+      function srsGapAnswer(opt) {
+        const state = srsPracticeState.gap;
+        const item = state.items[state.idx];
+        if (item.answered !== null) return;
+        item.answered = opt;
+        if (opt === item.actualTarget) AudioEngine.speak(item.card.s, () => {});
+        renderSRSGapFill(srsPracticeState.term, document.getElementById('srs-practice-content'));
+      }
+
+      function srsGapNext() {
+        srsPracticeState.gap.idx++;
+        renderSRSGapFill(srsPracticeState.term, document.getElementById('srs-practice-content'));
+      }
+
+      // ── MINIGAME 2: REVERSE TRANSLATION ──
+      function renderSRSReverseTranslation(term, container) {
+        if (!srsPracticeState.reverse) {
+          const pool = srsPracticePool(term).filter((x) => x.pt);
+          if (pool.length < 2) {
+            srsPracticeState.reverse = { items: [], idx: 0, insufficient: true };
+          } else {
+            const usable = shuffleArr(pool).slice(0, Math.min(4, pool.length));
+            const allOptions = pool.map((x) => x.s);
+
+            const items = usable.map((card) => {
+              const distractors = shuffleArr(allOptions.filter((s) => s !== card.s)).slice(0, 3);
+              const options = shuffleArr([card.s, ...distractors]);
+              return { card, options, answered: null };
+            });
+            srsPracticeState.reverse = { items, idx: 0, insufficient: false };
+          }
+        }
+
+        const state = srsPracticeState.reverse;
+        const total = state.items.length;
+
+        if (state.insufficient || !total) {
+          container.innerHTML = `<div style="font-size:12px;color:var(--ink4);font-style:italic;padding:16px 0">Não há frases com tradução PT-BR suficientes para este minijogo ainda.</div>`;
+          return;
+        }
+
+        if (state.idx >= total) {
+          const correct = state.items.filter((it) => it.answered === it.card.s).length;
+          container.innerHTML = `
+        <div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid #1d6fa4;padding:24px;text-align:center">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:900;color:#1d6fa4;line-height:1">${correct}/${total}</div>
+          <div style="font-size:12px;color:var(--ink4);margin-bottom:14px">corretas na Tradução Reversa</div>
+          <button class="btn-scene-nav" onclick="srsPracticeState.reverse=null;renderSRSReverseTranslation('${term.replace(/'/g, "\\'")}',document.getElementById('srs-practice-content'))">Jogar novamente</button>
+        </div>`;
+          return;
+        }
+
+        const item = state.items[state.idx];
+        const answered = item.answered;
+
+        function highlightTarget(sentence, target) {
+          if (!target) return sentence;
+          const safe = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          return sentence.replace(new RegExp(`(${safe})`, 'gi'), `<strong style="color:var(--red2)">$1</strong>`);
+        }
+
+        const optsHtml = item.options
+          .map((opt) => {
+            let cls = 'srs-mc-option';
+            if (answered !== null) {
+              cls += ' disabled';
+              if (opt === item.card.s) cls += ' correct';
+              else if (opt === answered) cls += ' wrong';
+            }
+            const display = answered !== null && opt === item.card.s ? highlightTarget(opt, item.card.t) : opt;
+            return `<button class="${cls}" ${answered !== null ? 'disabled' : ''} onclick="srsReverseAnswer('${opt.replace(/'/g, "\\'")}')">${display}</button>`;
+          })
+          .join('');
+
+        const feedback = answered !== null ? `<div style="margin-top:8px;font-size:13px;padding:10px 14px;background:var(--bg2);border-left:3px solid ${answered === item.card.s ? '#2d6a4f' : 'var(--red)'};color:${answered === item.card.s ? '#2d6a4f' : 'var(--red2)'};line-height:1.7">${answered === item.card.s ? '✓ Correto! ' : '✗ '}${highlightTarget(item.card.s, item.card.t)}</div>` : '';
+
+        container.innerHTML = `
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:10px">Qual frase corresponde a esta tradução? · ${state.idx + 1}/${total}</div>
+      <div class="srs-pt-prompt">"${item.card.pt}"</div>
+      <div>${optsHtml}</div>
+      ${feedback}
+      <div style="display:flex;justify-content:flex-end;margin-top:10px">
+        <button class="btn-check" style="background:#1d6fa4;border:none;color:#fff;padding:9px 22px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer;${answered === null ? 'opacity:0.4;cursor:not-allowed' : ''}"
+          ${answered === null ? 'disabled' : ''} onclick="srsReverseNext()">
+          ${state.idx + 1 < total ? 'Próxima →' : 'Ver resultado →'}
+        </button>
+      </div>`;
+      }
+
+      function srsReverseAnswer(opt) {
+        const state = srsPracticeState.reverse;
+        const item = state.items[state.idx];
+        if (item.answered !== null) return;
+        item.answered = opt;
+        if (opt === item.card.s) AudioEngine.speak(item.card.s, () => {});
+        renderSRSReverseTranslation(srsPracticeState.term, document.getElementById('srs-practice-content'));
+      }
+
+      function srsReverseNext() {
+        srsPracticeState.reverse.idx++;
+        renderSRSReverseTranslation(srsPracticeState.term, document.getElementById('srs-practice-content'));
+      }
+
+      // ── MINIGAME 3: FREE USE ──
+      function renderSRSFreeUse(term, container) {
+        if (!srsPracticeState.free) {
+          srsPracticeState.free = { input: '', revealed: false };
+        }
+        const state = srsPracticeState.free;
+        const pool = srsPracticePool(term);
+        const examples = shuffleArr(pool).slice(0, Math.min(3, pool.length));
+
+        const examplesHtml = state.revealed
+          ? examples
+              .map((ex) => {
+                function highlightTarget(sentence, target) {
+                  if (!target) return sentence;
+                  const safe = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                  return sentence.replace(new RegExp(`(${safe})`, 'gi'), `<strong style="color:var(--red2)">$1</strong>`);
+                }
+                return `<div class="srs-example-card">${highlightTarget(ex.s, ex.t)}${ex.pt ? `<em>${ex.pt}</em>` : ''}</div>`;
+              })
+              .join('')
+          : '';
+
+        container.innerHTML = `
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:10px">Escreva sua própria frase</div>
+      <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--red2);text-align:center;padding:14px;background:var(--bg2);border:1px solid var(--border);margin-bottom:14px">${term}</div>
+      <textarea class="srs-free-input" id="srs-free-textarea" placeholder="Escreva uma frase em inglês usando &quot;${term}&quot;...">${state.input}</textarea>
+      <div style="display:flex;justify-content:flex-end;margin-top:10px;margin-bottom:${state.revealed ? '14px' : '0'}">
+        <button class="btn-check" style="background:#7b3fa0;border:none;color:#fff;padding:9px 22px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer"
+          onclick="srsFreeUseReveal()">
+          ${state.revealed ? 'Ver outros exemplos' : 'Comparar com exemplos →'}
+        </button>
+      </div>
+      ${
+        state.revealed
+          ? `
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:8px">Exemplos reais do banco</div>
+      ${examplesHtml}
+      <div style="font-size:12px;color:var(--ink4);font-style:italic;margin-top:8px">Compare sua frase com os exemplos. Não existe certo ou errado aqui — apenas observe se o uso faz sentido.</div>`
+          : ''
+      }`;
+
+        setTimeout(() => {
+          const ta = document.getElementById('srs-free-textarea');
+          if (ta) {
+            ta.addEventListener('input', () => {
+              srsPracticeState.free.input = ta.value;
+            });
+          }
+        }, 50);
+      }
+
+      function srsFreeUseReveal() {
+        const ta = document.getElementById('srs-free-textarea');
+        if (ta) srsPracticeState.free.input = ta.value;
+        srsPracticeState.free.revealed = true;
+        renderSRSFreeUse(srsPracticeState.term, document.getElementById('srs-practice-content'));
       }
 
       // ═══════════════════════════════════
