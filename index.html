@@ -2884,6 +2884,7 @@
         line-height: 1;
         min-width: 40px;
       }
+      
       .formula-desc {
         font-size: 13px;
         font-weight: 300;
@@ -3127,6 +3128,208 @@
         margin-bottom: 40px;
       }
 
+      .progress-stat {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-top: 3px solid var(--red);
+        padding: 20px 18px;
+        text-align: center;
+      }
+      .progress-stat-num {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 38px;
+        font-weight: 900;
+        color: var(--red);
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+      .progress-stat-label {
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--ink4);
+      }
+
+      .skill-progress-row {
+        margin-bottom: 16px;
+      }
+      .spr-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+      .spr-name {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--ink2);
+      }
+      .spr-count {
+        font-size: 11px;
+        color: var(--ink4);
+      }
+      .spr-bar {
+        height: 6px;
+        background: var(--border);
+        overflow: hidden;
+      }
+      .spr-fill {
+        height: 100%;
+        background: var(--red);
+        transition: width 0.6s ease;
+      }
+
+      /* ── SISTEMA PT-BR ── */
+      .pt-btn {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: rgba(255, 255, 255, 0.6);
+        padding: 4px 10px;
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: all 0.15s;
+        flex-shrink: 0;
+      }
+      .pt-btn:hover {
+        border-color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .pt-btn.active {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.6);
+        color: #fff;
+      }
+
+      /* cursor circular customizado quando PT ativo */
+      body.pt-mode {
+        cursor: none;
+      }
+
+      #pt-cursor {
+        position: fixed;
+        width: 28px;
+        height: 28px;
+        border: 2px solid var(--red);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 99999;
+        transform: translate(-50%, -50%);
+        transition:
+          transform 0.08s ease,
+          opacity 0.15s;
+        opacity: 0;
+        background: rgba(139, 26, 26, 0.06);
+      }
+      #pt-cursor.visible {
+        opacity: 1;
+      }
+      #pt-cursor.hit {
+        background: rgba(139, 26, 26, 0.18);
+        border-color: var(--red2);
+        transform: translate(-50%, -50%) scale(1.2);
+      }
+
+      /* tooltip de tradução */
+      #pt-tooltip {
+        position: fixed;
+        background: var(--red2);
+        color: #fff;
+        padding: 5px 12px 5px 10px;
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        pointer-events: none;
+        z-index: 99998;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.12s ease;
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.25);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      #pt-tooltip::before {
+        content: 'PT';
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 1px 5px;
+        border-radius: 1px;
+        flex-shrink: 0;
+      }
+      #pt-tooltip.show {
+        opacity: 1;
+      }
+
+      /* badge flutuante quando PT ativo */
+      #pt-badge {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--red2);
+        color: #fff;
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        padding: 5px 10px;
+        z-index: 200;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      #pt-badge.visible {
+        opacity: 1;
+      }
+      ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border2);
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: var(--ink);
+        padding: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        position: relative;
+        z-index: 1;
+      }
+      .footer-logo {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: 4px;
+        color: rgba(255, 255, 255, 0.3);
+      }
+      .footer-logo span {
+        color: var(--red3);
+      }
+      .footer-copy {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.2);
+        letter-spacing: 1px;
+      }
+
+      /* ── SRS SYSTEM ── */
       .progress-stat {
         background: var(--surface);
         border: 1px solid var(--border);
@@ -3817,14 +4020,6 @@
         padding: 40px 32px;
         text-align: center;
         animation: panelIn 0.35s ease both;
-      }
-      .srs-complete-num {
-        font-family: 'Barlow Condensed', sans-serif;
-        font-size: 72px;
-        font-weight: 900;
-        color: #2d6a4f;
-        line-height: 1;
-        margin-bottom: 6px;
       }
 
       /* ── RESPONSIVE ── */
@@ -15107,6 +15302,37 @@
         stAnswer: null,
         stFeedbackShown: false,
         stVariantIdx: {},
+
+        // Hear It state
+        hi: {
+          season: 0,           // season index (0 = Core Listening)
+          level: 1,            // 1–30
+          roundIdx: 0,         // index within current level rounds
+          step: 'discover',    // 'discover'|'listen'|'recognize'|'compare'|'newctx'|'result'
+          answered: null,      // chosen option index or string
+          dominio: {},         // reduction id -> mastery 0..100
+          seen: {},            // reduction id -> bool (already discovered)
+          history: [],         // { reductionId, correct } per round
+          pendingAudio: false, // waiting for user to press play
+          audioPlayed: false,  // audio was played in current step
+        },
+
+        // Story Builder state
+        sb: {
+          season: 0,          // 0 = Core Writing
+          storyIdx: 0,        // index within SB_STORIES
+          sceneIdx: 0,        // current scene index within story
+          step: 'menu',       // 'menu'|'context'|'read'|'comprehend'|'produce'|'expand'|'rewrite'|'choice'|'feedback'
+          compAnswered: null, // chosen option index for comprehension
+          compShuffled: null, // shuffled options for comprehension
+          produceInput: '',
+          expandInput: '',
+          rewriteInput: '',
+          choiceAnswered: null,
+          evalResult: null,   // {ok, note} from AI or self-eval
+          dominio: {},        // word/expression -> mastery 0..100
+          history: [],        // {storyId, sceneIdx, correct}
+        },
       };
 
       function renderCIGamesHub() {
@@ -15114,7 +15340,8 @@
         const games = [
           { id: 'contextChoice', icon: '💬', label: 'Context Choice', desc: 'Aprenda expressões pelo contexto — não pela tradução. Cada conceito tem 10 fases: da descoberta à produção própria.' },
           { id: 'missingMeaning', icon: '🔍', label: 'Missing Meaning', desc: 'Progressão por temporadas e níveis. Veja frases em contexto e compreenda — sem traduzir palavra por palavra.' },
-
+          { id: 'hearIt', icon: '🎧', label: 'Hear It', desc: 'Treine seu ouvido. Reconheça reduções, contrações e fala natural — como gonna, wanna, didja. Transforme sons em significado.' },
+          { id: 'storyBuilder', icon: '📖', label: 'Story Builder', desc: 'Transforme compreensão em produção. Avance por histórias textuais construindo frases cada vez mais complexas e naturais.' },
           { id: 'stories', icon: '🎬', label: 'Stories', desc: 'Cenas reais. Uma expressão, 10 fases — veja como ela evolui do básico ao natural em contextos autênticos.' },
         ];
         const tabBtns = games
@@ -15142,7 +15369,8 @@
       function renderCIGameContent(id) {
         if (id === 'contextChoice') renderCIContext();
         if (id === 'missingMeaning') renderCIMissingMeaning();
-
+        if (id === 'hearIt') renderHearIt();
+        if (id === 'storyBuilder') renderStoryBuilder();
         if (id === 'stories') renderCIStoriesGame();
       }
 
@@ -18197,8 +18425,1218 @@
         renderCIContextChoice();
       }
 
+
+      // ══════════════════════════════════════════════════════════════════
+      // HEAR IT — SISTEMA COMPLETO
+      // Treina compreensão auditiva de reduções e connected speech
+      // ══════════════════════════════════════════════════════════════════
+
+      const HI_COLOR = '#6b4fa0';
+      const HI_COLOR_DIM = 'rgba(107,79,160,0.08)';
+      const HI_COLOR_MID = 'rgba(107,79,160,0.18)';
+
+      const HI_SEASONS = [
+        { id: 's1', name: 'Core Listening',  icon: '🎧', desc: 'Reduções essenciais do inglês falado cotidiano.' },
+        { id: 's2', name: 'Everyday English', icon: '💬', desc: 'Conversas naturais entre amigos e colegas.' },
+        { id: 's3', name: 'Movies & Series',  icon: '🎬', desc: 'Fala de personagens em diálogos reais.' },
+        { id: 's4', name: 'Games',            icon: '🎮', desc: 'Comunicação rápida entre jogadores.' },
+        { id: 's5', name: 'Podcasts',         icon: '🎙️', desc: 'Fala espontânea de apresentadores e convidados.' },
+      ];
+
+      const HI_REDUCTIONS = [
+        {
+          id: 'gonna', spoken: 'gonna', formal: 'going to', season: 0,
+          discovery: {
+            sentence: "I'm gonna call him later.",
+            pt: 'Vou ligar para ele mais tarde.',
+            note: 'Muito comum em conversas naturais. Quase nunca aparece na escrita formal.',
+          },
+          rounds: [
+            {
+              audio: "I'm gonna call him later.",
+              question: 'O que essa pessoa pretende fazer?',
+              options: ['Comprar algo', 'Ligar para alguém', 'Dormir', 'Sair de casa'],
+              answer: 1,
+              recognize_question: 'Qual parte indica uma ação futura?',
+              recognize_options: ['call', 'him', 'later', 'gonna'],
+              recognize_answer: 3,
+              formal: "I'm going to call him later.",
+              new_audio: "They're gonna love this.",
+              new_question: 'O que essa pessoa acredita?',
+              new_options: ['Eles vão amar isso', 'Eles já sabem disso', 'Eles vão rejeitar isso', 'Eles esqueceram disso'],
+              new_answer: 0,
+              feedback: '"gonna" = going to. Indica ação futura planejada.',
+            },
+            {
+              audio: "We're gonna leave soon.",
+              question: 'O que esse grupo planeja fazer?',
+              options: ['Chegar em breve', 'Partir em breve', 'Esperar mais', 'Voltar depois'],
+              answer: 1,
+              recognize_question: 'Qual palavra indica planejamento futuro?',
+              recognize_options: ['gonna', 'leave', 'soon', "we're"],
+              recognize_answer: 0,
+              formal: "We're going to leave soon.",
+              new_audio: "She's gonna finish the project tonight.",
+              new_question: 'Quando ela pretende terminar?',
+              new_options: ['Amanhã cedo', 'Esta noite', 'Semana que vem', 'Agora mesmo'],
+              new_answer: 1,
+              feedback: 'Mesma função: ação futura. "gonna" substitui "going to" em qualquer contexto falado.',
+            },
+          ],
+        },
+        {
+          id: 'wanna', spoken: 'wanna', formal: 'want to', season: 0,
+          discovery: {
+            sentence: "Do you wanna grab some food?",
+            pt: 'Você quer pegar uma comida?',
+            note: 'Redução naturalíssima. Aparece em praticamente toda conversa cotidiana.',
+          },
+          rounds: [
+            {
+              audio: "Do you wanna grab some food?",
+              question: 'O que essa pessoa está propondo?',
+              options: ['Ir a uma festa', 'Comer algo juntos', 'Comprar mantimentos', 'Cozinhar em casa'],
+              answer: 1,
+              recognize_question: 'Qual palavra expressa desejo ou vontade?',
+              recognize_options: ['grab', 'some', 'wanna', 'food'],
+              recognize_answer: 2,
+              formal: "Do you want to grab some food?",
+              new_audio: "I wanna see that movie.",
+              new_question: 'O que essa pessoa quer fazer?',
+              new_options: ['Assistir a um filme', 'Comprar um ingresso', 'Dirigir ao cinema', 'Ler sobre um filme'],
+              new_answer: 0,
+              feedback: '"wanna" = want to. Expressa desejo ou vontade.',
+            },
+            {
+              audio: "I don't wanna be late.",
+              question: 'Com o que essa pessoa se preocupa?',
+              options: ['Perder o ônibus', 'Chegar atrasada', 'Dormir cedo', 'Esquecer algo'],
+              answer: 1,
+              recognize_question: 'Qual chunk expressa falta de desejo?',
+              recognize_options: ["don't wanna", 'be late', "I don't", 'wanna be'],
+              recognize_answer: 0,
+              formal: "I don't want to be late.",
+              new_audio: "She doesn't wanna talk about it.",
+              new_question: 'O que ela prefere evitar?',
+              new_options: ['Falar sobre o assunto', 'Sair de casa', 'Pedir desculpas', 'Voltar ao trabalho'],
+              new_answer: 0,
+              feedback: '"don\'t wanna" = don\'t want to. Negação de desejo.',
+            },
+          ],
+        },
+        {
+          id: 'gotta', spoken: 'gotta', formal: 'got to / have to', season: 0,
+          discovery: {
+            sentence: "I gotta go now.",
+            pt: 'Eu tenho que ir agora.',
+            note: 'Expressa obrigação ou necessidade urgente. Muito comum em despedidas rápidas.',
+          },
+          rounds: [
+            {
+              audio: "I gotta go now.",
+              question: 'O que essa pessoa precisa fazer?',
+              options: ['Ficar mais um pouco', 'Ir embora agora', 'Ligar para alguém', 'Comer algo'],
+              answer: 1,
+              recognize_question: 'Qual palavra indica obrigação ou necessidade?',
+              recognize_options: ['now', 'gotta', 'go', 'I'],
+              recognize_answer: 1,
+              formal: "I have to go now.",
+              new_audio: "We gotta find a solution fast.",
+              new_question: 'O que eles precisam fazer rapidamente?',
+              new_options: ['Encontrar uma solução', 'Pedir ajuda', 'Descansar um pouco', 'Cancelar o plano'],
+              new_answer: 0,
+              feedback: '"gotta" = have got to / have to. Indica obrigação ou necessidade.',
+            },
+          ],
+        },
+        {
+          id: 'kinda', spoken: 'kinda', formal: 'kind of', season: 0,
+          discovery: {
+            sentence: "It's kinda weird, honestly.",
+            pt: 'É meio estranho, honestamente.',
+            note: 'Suaviza afirmações. Equivale a "meio que", "um pouco" ou "de certa forma".',
+          },
+          rounds: [
+            {
+              audio: "It's kinda weird, honestly.",
+              question: 'Como essa pessoa descreve a situação?',
+              options: ['Completamente normal', 'Um pouco estranha', 'Muito chocante', 'Muito divertida'],
+              answer: 1,
+              recognize_question: 'Qual palavra suaviza a descrição?',
+              recognize_options: ['kinda', "it's", 'weird', 'honestly'],
+              recognize_answer: 0,
+              formal: "It's kind of weird, honestly.",
+              new_audio: "I'm kinda tired today.",
+              new_question: 'Como ela está se sentindo?',
+              new_options: ['Completamente descansada', 'Um pouco cansada', 'Muito animada', 'Bem feliz'],
+              new_answer: 1,
+              feedback: '"kinda" = kind of. Suaviza adjetivos e descrições.',
+            },
+          ],
+        },
+        {
+          id: 'lemme', spoken: 'lemme', formal: 'let me', season: 0,
+          discovery: {
+            sentence: "Lemme check that real quick.",
+            pt: 'Deixa eu verificar isso rapidinho.',
+            note: 'Muito usado para pedir permissão ou espaço para fazer algo.',
+          },
+          rounds: [
+            {
+              audio: "Lemme check that real quick.",
+              question: 'O que essa pessoa quer fazer?',
+              options: ['Verificar algo rapidamente', 'Explicar a situação', 'Pedir ajuda', 'Esperar mais um pouco'],
+              answer: 0,
+              recognize_question: 'Qual chunk pede permissão para agir?',
+              recognize_options: ['check that', 'real quick', 'lemme', 'that real'],
+              recognize_answer: 2,
+              formal: "Let me check that real quick.",
+              new_audio: "Lemme know if you need anything.",
+              new_question: 'O que ela está oferecendo?',
+              new_options: ['Avisar caso precise de algo', 'Comprar algo para ela', 'Verificar o pedido', 'Cancelar o plano'],
+              new_answer: 0,
+              feedback: '"lemme" = let me. Pede espaço ou permissão para agir.',
+            },
+          ],
+        },
+        {
+          id: 'gimme', spoken: 'gimme', formal: 'give me', season: 0,
+          discovery: {
+            sentence: "Gimme a second, I'm almost done.",
+            pt: 'Me dá um segundo, já vou terminar.',
+            note: 'Pedido casual e direto. Tom informal — nunca use em contextos formais.',
+          },
+          rounds: [
+            {
+              audio: "Gimme a second, I'm almost done.",
+              question: 'O que essa pessoa está pedindo?',
+              options: ['Um favor específico', 'Um momento de espera', 'Uma explicação', 'Uma segunda chance'],
+              answer: 1,
+              recognize_question: 'Qual chunk faz um pedido direto?',
+              recognize_options: ["I'm almost", 'a second', 'gimme', 'almost done'],
+              recognize_answer: 2,
+              formal: "Give me a second, I'm almost done.",
+              new_audio: "Gimme the remote, please.",
+              new_question: 'O que ela quer receber?',
+              new_options: ['O controle remoto', 'Um copo de água', 'O telefone', 'As chaves'],
+              new_answer: 0,
+              feedback: '"gimme" = give me. Pedido direto e casual.',
+            },
+          ],
+        },
+        {
+          id: 'outta', spoken: 'outta', formal: 'out of', season: 0,
+          discovery: {
+            sentence: "We're outta time.",
+            pt: 'Estamos sem tempo.',
+            note: '"Out of" vira "outta" na fala rápida. Indica ausência ou falta de algo.',
+          },
+          rounds: [
+            {
+              audio: "We're outta time.",
+              question: 'Qual é o problema?',
+              options: ['Chegaram tarde', 'Não têm mais tempo', 'Perderam o prazo', 'Estão atrasados'],
+              answer: 1,
+              recognize_question: 'Qual chunk indica falta ou ausência?',
+              recognize_options: ["we're", 'outta', 'time', "outta time"],
+              recognize_answer: 1,
+              formal: "We're out of time.",
+              new_audio: "I'm outta here.",
+              new_question: 'O que essa pessoa está fazendo?',
+              new_options: ['Chegando ao local', 'Indo embora', 'Ficando para ajudar', 'Procurando algo'],
+              new_answer: 1,
+              feedback: '"outta" = out of. Indica ausência, saída ou falta.',
+            },
+          ],
+        },
+        {
+          id: 'didja', spoken: 'didja', formal: 'did you', season: 0,
+          discovery: {
+            sentence: "Didja hear what he said?",
+            pt: 'Você ouviu o que ele disse?',
+            note: 'Fusão rápida de "did you". Aparece muito em perguntas casuais e rápidas.',
+          },
+          rounds: [
+            {
+              audio: "Didja hear what he said?",
+              question: 'O que essa pessoa está perguntando?',
+              options: ['Se você viu algo', 'Se você ouviu algo', 'Se você entendeu', 'Se você concordou'],
+              answer: 1,
+              recognize_question: 'Qual chunk inicia uma pergunta no passado?',
+              recognize_options: ['hear', 'what', 'didja', 'he said'],
+              recognize_answer: 2,
+              formal: "Did you hear what he said?",
+              new_audio: "Didja finish your homework?",
+              new_question: 'Sobre o que é a pergunta?',
+              new_options: ['Se terminou a tarefa', 'Se entendeu a aula', 'Se foi à escola', 'Se estudou ontem'],
+              new_answer: 0,
+              feedback: '"didja" = did you. Fusão rápida em perguntas casuais.',
+            },
+          ],
+        },
+        {
+          id: 'cause', spoken: "cause", formal: 'because', season: 0,
+          discovery: {
+            sentence: "I left early cause I was tired.",
+            pt: 'Saí cedo porque estava cansado.',
+            note: 'Encurtamento natural de "because". Aparece constantemente em fala informal.',
+          },
+          rounds: [
+            {
+              audio: "I left early cause I was tired.",
+              question: 'Por que essa pessoa foi embora cedo?',
+              options: ['Estava com pressa', 'Estava cansada', 'Tinha compromisso', 'Não gostou do lugar'],
+              answer: 1,
+              recognize_question: 'Qual palavra conecta a causa ao efeito?',
+              recognize_options: ['left', 'early', 'cause', 'tired'],
+              recognize_answer: 2,
+              formal: "I left early because I was tired.",
+              new_audio: "She is upset cause nobody called her.",
+              new_question: 'Por que ela está chateada?',
+              new_options: ['Ninguém a chamou', 'Perdeu algo importante', 'Chegou atrasada', 'Esqueceu algo'],
+              new_answer: 0,
+              feedback: '"cause" = because. Conecta causa e efeito de forma informal.',
+            },
+          ],
+        },
+        {
+          id: 'dunno', spoken: 'dunno', formal: "don't know", season: 0,
+          discovery: {
+            sentence: "I dunno, maybe tomorrow.",
+            pt: 'Não sei, talvez amanhã.',
+            note: 'Fusão extremamente comum de "I don\'t know". Muito usado em respostas vagas.',
+          },
+          rounds: [
+            {
+              audio: "I dunno, maybe tomorrow.",
+              question: 'Qual é o nível de certeza dessa pessoa?',
+              options: ['Muito certa', 'Incerta ou imprecisa', 'Completamente segura', 'Decidida'],
+              answer: 1,
+              recognize_question: 'Qual chunk expressa incerteza?',
+              recognize_options: ['maybe', 'dunno', 'tomorrow', 'I dunno'],
+              recognize_answer: 3,
+              formal: "I don't know, maybe tomorrow.",
+              new_audio: "Dunno if that is a good idea.",
+              new_question: 'Como ela avalia a ideia?',
+              new_options: ['Acha ótima', 'Não tem certeza', 'Discorda fortemente', 'Concorda plenamente'],
+              new_answer: 1,
+              feedback: '"dunno" = don\'t know. Expressa incerteza de forma muito natural.',
+            },
+          ],
+        },
+      ];
+
+      function hiGetReductionsForSeason(seasonIdx) {
+        return HI_REDUCTIONS.filter(function(r) { return r.season <= seasonIdx; });
+      }
+
+      function hiGetDominio(id) {
+        return ciGameState.hi.dominio[id] || 0;
+      }
+
+      function hiUpdateDominio(id, correct) {
+        var cur = ciGameState.hi.dominio[id] || 0;
+        ciGameState.hi.dominio[id] = correct ? Math.min(100, cur + 12) : Math.max(0, cur - 8);
+      }
+
+      function hiPickReduction() {
+        var pool = hiGetReductionsForSeason(ciGameState.hi.season);
+        var weights = pool.map(function(r) { return Math.max(5, 100 - hiGetDominio(r.id)); });
+        var total = weights.reduce(function(a, b) { return a + b; }, 0);
+        var rand = Math.random() * total;
+        for (var i = 0; i < pool.length; i++) {
+          rand -= weights[i];
+          if (rand <= 0) return pool[i];
+        }
+        return pool[pool.length - 1];
+      }
+
+      function hiPickRound(reduction) {
+        var rounds = reduction.rounds;
+        return rounds[Math.floor(Math.random() * rounds.length)];
+      }
+
+      function hiShuffleOpts(opts, answerIdx) {
+        var correct = opts[answerIdx];
+        var shuffled = shuffleArr(opts.slice());
+        var newIdx = shuffled.indexOf(correct);
+        return { opts: shuffled, answer: newIdx };
+      }
+
+      function renderHearIt() {
+        var container = document.getElementById('cig-content');
+        if (!container) return;
+        var hi = ciGameState.hi;
+        if (!hi._currentReduction) {
+          renderHIMenu(container);
+        } else {
+          renderHIRound(container);
+        }
+      }
+
+      function renderHIMenu(container) {
+        var hi = ciGameState.hi;
+        var season = HI_SEASONS[hi.season];
+        var reductions = hiGetReductionsForSeason(hi.season);
+        var avg = reductions.length
+          ? Math.round(reductions.reduce(function(s, r) { return s + hiGetDominio(r.id); }, 0) / reductions.length)
+          : 0;
+
+        var domCards = reductions.map(function(r) {
+          var d = hiGetDominio(r.id);
+          var bar = '<div style="height:3px;background:var(--border);overflow:hidden;margin-top:5px"><div style="height:100%;background:' + HI_COLOR + ';width:' + d + '%;transition:width 0.4s"></div></div>';
+          return '<div style="background:var(--surface);border:1px solid var(--border);padding:10px 12px">'
+            + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:13px;font-weight:700;color:var(--ink)">' + r.spoken + ' <span style="color:var(--ink4);font-weight:400;font-size:11px">&#8594; ' + r.formal + '</span></div>'
+            + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;color:' + HI_COLOR + ';font-weight:700;margin-top:2px">' + d + '% domínio</div>'
+            + bar + '</div>';
+        }).join('');
+
+        var seasonBtns = HI_SEASONS.map(function(s, i) {
+          var locked = i > 0 && avg < 60;
+          return '<button onclick="' + (locked ? '' : 'hiSelectSeason(' + i + ')') + '"'
+            + ' style="padding:10px 14px;background:' + (hi.season === i ? HI_COLOR_MID : 'var(--surface)') + ';border:1px solid ' + (hi.season === i ? HI_COLOR : 'var(--border)') + ';color:' + (locked ? 'var(--ink4)' : hi.season === i ? HI_COLOR : 'var(--ink2)') + ';font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.5px;cursor:' + (locked ? 'not-allowed' : 'pointer') + ';opacity:' + (locked ? '0.5' : '1') + ';text-align:left;width:100%">'
+            + s.icon + ' ' + s.name + (locked ? ' 🔒' : '') + '</button>';
+        }).join('');
+
+        container.innerHTML = '<div style="margin-bottom:20px">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px;color:var(--ink);margin-bottom:4px">🎧 Hear It</div>'
+          + '<div style="font-size:13px;color:var(--ink3);line-height:1.7;max-width:520px">Treine seu ouvido para compreender inglês falado real — reduções, connected speech e fala natural. O objetivo não é escrever. É entender.</div>'
+          + '</div>'
+          + '<div style="background:' + HI_COLOR_DIM + ';border:1px solid rgba(107,79,160,0.25);border-left:4px solid ' + HI_COLOR + ';padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--ink2);line-height:1.8">'
+          + '<strong>Regra fundamental:</strong> você nunca será testado em uma redução que ainda não encontrou. A primeira aparição é sempre uma descoberta.</div>'
+          + '<div style="margin-bottom:20px">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:10px">Temporadas</div>'
+          + '<div style="display:flex;flex-direction:column;gap:6px">' + seasonBtns + '</div></div>'
+          + '<div style="background:var(--surface);border:1px solid var(--border);padding:16px 18px;margin-bottom:20px">'
+          + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + HI_COLOR + '">Domínio Auditivo — ' + season.icon + ' ' + season.name + '</div>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:14px;font-weight:800;color:' + HI_COLOR + '">' + avg + '%</div></div>'
+          + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px">' + domCards + '</div></div>'
+          + '<button onclick="hiStartRound()" style="width:100%;padding:16px;background:' + HI_COLOR + ';border:none;color:#fff;font-family:\'Barlow Condensed\',sans-serif;font-size:14px;font-weight:800;letter-spacing:2px;text-transform:uppercase;cursor:pointer">🎧 Iniciar Sessão</button>';
+      }
+
+      function hiSelectSeason(i) {
+        ciGameState.hi.season = i;
+        renderHearIt();
+      }
+
+      function hiStartRound() {
+        var hi = ciGameState.hi;
+        var reduction = hiPickReduction();
+        var round = hiPickRound(reduction);
+        hi._currentReduction = reduction;
+        hi._currentRound = round;
+        hi._shuffListen = hiShuffleOpts(round.options, round.answer);
+        hi._shuffRecog = hiShuffleOpts(round.recognize_options, round.recognize_answer);
+        hi._shuffNew = hiShuffleOpts(round.new_options, round.new_answer);
+        hi._answered = {};
+        hi.step = hi.seen[reduction.id] ? 'listen' : 'discover';
+        hi.audioPlayed = false;
+        renderHearIt();
+      }
+
+      function renderHIRound(container) {
+        var hi = ciGameState.hi;
+        var reduction = hi._currentReduction;
+        var round = hi._currentRound;
+        var stepLabels = { discover:'🔍 Descoberta', listen:'🎧 Ouvir', recognize:'🎯 Reconhecimento', compare:'📝 Comparação', newctx:'🔄 Novo Contexto', result:'✅ Resultado' };
+        var allSteps = ['listen','recognize','compare','newctx'];
+        var curIdx = allSteps.indexOf(hi.step);
+        var pips = allSteps.map(function(s, i) {
+          var done = i < curIdx;
+          var cur = s === hi.step;
+          return '<div style="flex:1;height:3px;border-radius:2px;background:' + (cur ? HI_COLOR : done ? '#2d6a4f' : 'var(--border)') + ';transition:background 0.3s"></div>';
+        }).join('');
+        var body = '';
+        if (hi.step === 'discover')  body = hiBodyDiscover(reduction, round);
+        if (hi.step === 'listen')    body = hiBodyListen(reduction, round);
+        if (hi.step === 'recognize') body = hiBodyRecognize(reduction, round);
+        if (hi.step === 'compare')   body = hiBodyCompare(reduction, round);
+        if (hi.step === 'newctx')    body = hiBodyNewCtx(reduction, round);
+        if (hi.step === 'result')    body = hiBodyResult(reduction, round);
+        container.innerHTML = '<div>'
+          + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">'
+          + '<button onclick="hiExit()" style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:6px 13px;font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer" onmouseover="this.style.color=\'var(--ink)\';this.style.borderColor=\'var(--ink)\'" onmouseout="this.style.color=\'var(--ink3)\';this.style.borderColor=\'var(--border)\'">&#8592; Menu</button>'
+          + '<div style="flex:1"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:13px;font-weight:800;color:' + HI_COLOR + '">🎧 Hear It</div>'
+          + '<div style="font-size:11px;color:var(--ink4);margin-top:1px">' + HI_SEASONS[hi.season].name + ' &middot; foco: <strong style="color:' + HI_COLOR + '">' + reduction.spoken + '</strong></div></div>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;color:var(--ink4)">' + (stepLabels[hi.step] || '') + '</div></div>'
+          + (hi.step !== 'discover' && hi.step !== 'result' ? '<div style="display:flex;gap:3px;margin-bottom:18px">' + pips + '</div>' : '')
+          + body + '</div>';
+      }
+
+      function hiBodyDiscover(reduction, round) {
+        var d = reduction.discovery;
+        var safe = d.sentence.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
+          + '<div style="background:' + HI_COLOR + ';padding:13px 20px">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🔍 Nova Redução Encontrada</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Ouça, veja o padrão e entenda antes de qualquer pergunta.</div></div>'
+          + '<div style="padding:22px">'
+          + '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:32px;font-weight:900;color:' + HI_COLOR + '">' + reduction.spoken + '</div>'
+          + '<div style="color:var(--ink4);font-size:18px">&#8594;</div>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:20px;color:var(--ink2)">' + reduction.formal + '</div></div>'
+          + '<div style="font-family:\'Playfair Display\',serif;font-size:19px;color:var(--ink);line-height:1.8;padding:14px 18px;background:var(--bg2);border-left:4px solid ' + HI_COLOR + ';margin-bottom:10px">' + d.sentence + '</div>'
+          + '<div style="font-size:13px;color:var(--ink3);margin-bottom:14px;font-style:italic">PT-BR: ' + d.pt + '</div>'
+          + '<button onclick="AudioEngine.speak(\'' + safe + '\',function(){})" style="background:transparent;border:1px solid ' + HI_COLOR + ';color:' + HI_COLOR + ';padding:8px 20px;font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;margin-bottom:16px">&#9654; Ouvir exemplo</button>'
+          + '<div style="background:' + HI_COLOR_DIM + ';border-left:3px solid ' + HI_COLOR + ';padding:10px 14px;font-size:12px;color:var(--ink2);line-height:1.8">' + d.note + '</div></div>'
+          + '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end">'
+          + '<button onclick="hiAdvanceStep(\'listen\')" style="background:' + HI_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Entendido &#8594; Praticar</button></div></div>';
+      }
+
+      function hiBodyListen(reduction, round) {
+        var hi = ciGameState.hi;
+        var sl = hi._shuffListen;
+        var answered = hi._answered.listen;
+        var safe = round.audio.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        var optBtns = sl.opts.map(function(opt, i) {
+          var s;
+          if (answered !== undefined) {
+            if (i === sl.answer) s = 'padding:10px 16px;border:1px solid #2d6a4f;background:rgba(45,106,79,0.1);color:#2d6a4f;font-size:13px;font-family:\'Barlow\',sans-serif;cursor:default;text-align:left;width:100%;';
+            else if (i === answered) s = 'padding:10px 16px;border:1px solid var(--red);background:rgba(139,26,26,0.08);color:var(--red);font-size:13px;font-family:\'Barlow\',sans-serif;cursor:default;text-decoration:line-through;text-align:left;width:100%;';
+            else s = 'padding:10px 16px;border:1px solid var(--border);font-size:13px;color:var(--ink4);cursor:default;font-family:\'Barlow\',sans-serif;background:var(--bg);text-align:left;width:100%;';
+          } else {
+            s = 'padding:10px 16px;border:1px solid var(--border);font-size:13px;color:var(--ink2);cursor:pointer;font-family:\'Barlow\',sans-serif;background:var(--bg);transition:all 0.15s;text-align:left;width:100%;';
+          }
+          return '<button style="' + s + '" onclick="hiAnswerListen(' + i + ')">' + opt + '</button>';
+        }).join('');
+        var fb = answered !== undefined ? '<div style="margin-top:12px;padding:11px 15px;background:' + (answered === sl.answer ? 'rgba(45,106,79,0.06)' : 'var(--red-dim)') + ';border-left:3px solid ' + (answered === sl.answer ? '#2d6a4f' : 'var(--red)') + ';font-size:13px;color:' + (answered === sl.answer ? '#2d6a4f' : 'var(--red2)') + ';line-height:1.8">' + (answered === sl.answer ? '&#10003; Correto! ' : '&#10007; O foco era: <strong>' + sl.opts[sl.answer] + '</strong>. ') + round.feedback + '</div>' : '';
+        var missed = (answered !== undefined && answered !== sl.answer) ? '<div style="margin-top:10px;padding:11px 15px;background:#fffbf0;border-left:3px solid var(--gold);font-size:12px;color:var(--ink2);line-height:1.8"><strong>O que seu ouvido perdeu:</strong><br>Forma falada: <strong style="color:' + HI_COLOR + '">' + reduction.spoken + '</strong> &nbsp;&#8594;&nbsp; Forma completa: <strong>' + reduction.formal + '</strong></div>' : '';
+        return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
+          + '<div style="background:' + HI_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🎧 Ouvir</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Ouça o áudio. Nenhuma legenda. Nenhuma dica. Responda em PT-BR.</div></div>'
+          + '<div style="padding:22px">'
+          + '<div style="text-align:center;padding:24px;background:var(--bg2);border:2px dashed var(--border2);margin-bottom:18px">'
+          + '<button onclick="AudioEngine.speak(\'' + safe + '\',function(){})" style="background:' + HI_COLOR + ';border:none;color:#fff;padding:12px 32px;font-family:\'Barlow Condensed\',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;cursor:pointer">&#9654; Reproduzir Áudio</button>'
+          + '<div style="font-size:11px;color:var(--ink4);margin-top:8px;font-style:italic">Pode ouvir quantas vezes quiser</div></div>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">' + round.question + '</div>'
+          + '<div style="display:flex;flex-direction:column;gap:6px">' + optBtns + '</div>'
+          + fb + missed + '</div>'
+          + (answered !== undefined ? '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end"><button onclick="hiAdvanceStep(\'recognize\')" style="background:' + HI_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Próxima &#8594;</button></div>' : '')
+          + '</div>';
+      }
+
+      function hiAnswerListen(i) {
+        if (ciGameState.hi._answered.listen !== undefined) return;
+        var correct = ciGameState.hi._shuffListen.answer;
+        ciGameState.hi._answered.listen = i;
+        hiUpdateDominio(ciGameState.hi._currentReduction.id, i === correct);
+        renderHearIt();
+      }
+
+      function hiBodyRecognize(reduction, round) {
+        var hi = ciGameState.hi;
+        var sr = hi._shuffRecog;
+        var answered = hi._answered.recognize;
+        var safe = round.audio.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        var optBtns = sr.opts.map(function(opt, i) {
+          var s;
+          if (answered !== undefined) {
+            if (i === sr.answer) s = 'padding:8px 15px;border:1px solid #2d6a4f;background:rgba(45,106,79,0.1);color:#2d6a4f;font-size:13px;font-family:\'Barlow\',sans-serif;cursor:default;';
+            else if (i === answered) s = 'padding:8px 15px;border:1px solid var(--red);background:rgba(139,26,26,0.08);color:var(--red);font-size:13px;font-family:\'Barlow\',sans-serif;cursor:default;text-decoration:line-through;';
+            else s = 'padding:8px 15px;border:1px solid var(--border);font-size:13px;color:var(--ink4);cursor:default;font-family:\'Barlow\',sans-serif;background:var(--bg);';
+          } else {
+            s = 'padding:8px 15px;border:1px solid var(--border);font-size:13px;color:var(--ink2);cursor:pointer;font-family:\'Barlow\',sans-serif;background:var(--bg);transition:all 0.15s;';
+          }
+          return '<button style="' + s + '" onclick="hiAnswerRecog(' + i + ')">' + opt + '</button>';
+        }).join('');
+        var fb = answered !== undefined ? '<div style="margin-top:11px;padding:11px 15px;background:' + (answered === sr.answer ? 'rgba(45,106,79,0.06)' : 'var(--red-dim)') + ';border-left:3px solid ' + (answered === sr.answer ? '#2d6a4f' : 'var(--red)') + ';font-size:13px;color:' + (answered === sr.answer ? '#2d6a4f' : 'var(--red2)') + ';line-height:1.8">' + (answered === sr.answer ? '&#10003; Correto! ' : '&#10007; Era: <strong>' + sr.opts[sr.answer] + '</strong>. ') + round.feedback + '</div>' : '';
+        return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
+          + '<div style="background:' + HI_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🎯 Reconhecimento</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">A frase aparece escrita. Identifique o chunk auditivo principal.</div></div>'
+          + '<div style="padding:22px">'
+          + '<div style="font-family:\'Playfair Display\',serif;font-size:19px;color:var(--ink);line-height:1.8;padding:14px 18px;background:var(--bg2);border-left:4px solid ' + HI_COLOR + ';margin-bottom:10px">' + round.audio + '</div>'
+          + '<button onclick="AudioEngine.speak(\'' + safe + '\',function(){})" style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:5px 12px;font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;margin-bottom:16px">&#9654; Ouvir</button>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">' + round.recognize_question + '</div>'
+          + '<div style="display:flex;flex-wrap:wrap;gap:8px">' + optBtns + '</div>'
+          + fb + '</div>'
+          + (answered !== undefined ? '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end"><button onclick="hiAdvanceStep(\'compare\')" style="background:' + HI_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Próxima &#8594;</button></div>' : '')
+          + '</div>';
+      }
+
+      function hiAnswerRecog(i) {
+        if (ciGameState.hi._answered.recognize !== undefined) return;
+        ciGameState.hi._answered.recognize = i;
+        renderHearIt();
+      }
+
+      function hiBodyCompare(reduction, round) {
+        var audioSafe = round.audio.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        var formalSafe = round.formal.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
+          + '<div style="background:' + HI_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">📝 Comparação</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Mesma frase — como soa vs. como é escrita formalmente.</div></div>'
+          + '<div style="padding:22px">'
+          + '<div style="margin-bottom:16px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + HI_COLOR + ';margin-bottom:6px">Como foi dito (fala natural)</div>'
+          + '<div style="font-family:\'Playfair Display\',serif;font-size:18px;color:var(--ink);padding:12px 16px;background:' + HI_COLOR_DIM + ';border-left:4px solid ' + HI_COLOR + '">' + round.audio + ' <button onclick="AudioEngine.speak(\'' + audioSafe + '\',function(){})" style="background:transparent;border:none;color:' + HI_COLOR + ';cursor:pointer;font-size:11px;margin-left:8px">&#9654;</button></div></div>'
+          + '<div style="margin-bottom:16px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:6px">Como seria escrito formalmente</div>'
+          + '<div style="font-family:\'Playfair Display\',serif;font-size:18px;color:var(--ink);padding:12px 16px;background:var(--bg2);border-left:4px solid var(--border2)">' + round.formal + ' <button onclick="AudioEngine.speak(\'' + formalSafe + '\',function(){})" style="background:transparent;border:none;color:var(--ink4);cursor:pointer;font-size:11px;margin-left:8px">&#9654;</button></div></div>'
+          + '<div style="background:var(--bg2);border:1px solid var(--border);padding:10px 14px;font-size:13px;color:var(--ink2);line-height:1.8">Não é uma língua diferente. É a <strong>mesma língua</strong> soando de forma diferente na fala real.</div>'
+          + '</div>'
+          + '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end">'
+          + '<button onclick="hiAdvanceStep(\'newctx\')" style="background:' + HI_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Próxima &#8594;</button></div></div>';
+      }
+
+      function hiBodyNewCtx(reduction, round) {
+        var hi = ciGameState.hi;
+        var sn = hi._shuffNew;
+        var answered = hi._answered.newctx;
+        var safe = round.new_audio.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        var optBtns = sn.opts.map(function(opt, i) {
+          var s;
+          if (answered !== undefined) {
+            if (i === sn.answer) s = 'padding:10px 16px;border:1px solid #2d6a4f;background:rgba(45,106,79,0.1);color:#2d6a4f;font-size:13px;font-family:\'Barlow\',sans-serif;cursor:default;text-align:left;width:100%;';
+            else if (i === answered) s = 'padding:10px 16px;border:1px solid var(--red);background:rgba(139,26,26,0.08);color:var(--red);font-size:13px;font-family:\'Barlow\',sans-serif;cursor:default;text-decoration:line-through;text-align:left;width:100%;';
+            else s = 'padding:10px 16px;border:1px solid var(--border);font-size:13px;color:var(--ink4);cursor:default;font-family:\'Barlow\',sans-serif;background:var(--bg);text-align:left;width:100%;';
+          } else {
+            s = 'padding:10px 16px;border:1px solid var(--border);font-size:13px;color:var(--ink2);cursor:pointer;font-family:\'Barlow\',sans-serif;background:var(--bg);transition:all 0.15s;text-align:left;width:100%;';
+          }
+          return '<button style="' + s + '" onclick="hiAnswerNewCtx(' + i + ')">' + opt + '</button>';
+        }).join('');
+        var fb = answered !== undefined ? '<div style="margin-top:11px;padding:11px 15px;background:' + (answered === sn.answer ? 'rgba(45,106,79,0.06)' : 'var(--red-dim)') + ';border-left:3px solid ' + (answered === sn.answer ? '#2d6a4f' : 'var(--red)') + ';font-size:13px;color:' + (answered === sn.answer ? '#2d6a4f' : 'var(--red2)') + ';line-height:1.8">' + (answered === sn.answer ? '&#10003; Exato! ' : '&#10007; Era: <strong>' + sn.opts[sn.answer] + '</strong>. ') + round.feedback + '</div>' : '';
+        return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
+          + '<div style="background:' + HI_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🔄 Novo Contexto</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Mesma redução. Nova situação. Comprove que é uma função, não uma frase.</div></div>'
+          + '<div style="padding:22px">'
+          + '<div style="text-align:center;padding:20px;background:var(--bg2);border:2px dashed var(--border2);margin-bottom:18px">'
+          + '<button onclick="AudioEngine.speak(\'' + safe + '\',function(){})" style="background:' + HI_COLOR + ';border:none;color:#fff;padding:12px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;cursor:pointer">&#9654; Novo Áudio</button></div>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">' + round.new_question + '</div>'
+          + '<div style="display:flex;flex-direction:column;gap:6px">' + optBtns + '</div>'
+          + fb + '</div>'
+          + (answered !== undefined ? '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end"><button onclick="hiAdvanceStep(\'result\')" style="background:' + HI_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Ver Resultado &#8594;</button></div>' : '')
+          + '</div>';
+      }
+
+      function hiAnswerNewCtx(i) {
+        if (ciGameState.hi._answered.newctx !== undefined) return;
+        ciGameState.hi._answered.newctx = i;
+        renderHearIt();
+      }
+
+      function hiBodyResult(reduction, round) {
+        var hi = ciGameState.hi;
+        var listenOk = hi._answered.listen === hi._shuffListen.answer;
+        var recogOk  = hi._answered.recognize === hi._shuffRecog.answer;
+        var newctxOk = hi._answered.newctx === hi._shuffNew.answer;
+        var score = [listenOk, recogOk, newctxOk].filter(Boolean).length;
+        var pct = Math.round((score / 3) * 100);
+        var dom = hiGetDominio(reduction.id);
+        return '<div style="background:var(--surface);border:1px solid var(--border);border-top:4px solid ' + HI_COLOR + ';overflow:hidden">'
+          + '<div style="padding:28px 24px;text-align:center;border-bottom:1px solid var(--border)">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:56px;font-weight:900;color:' + HI_COLOR + ';line-height:1">' + pct + '%</div>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--ink4);text-transform:uppercase;margin-bottom:8px">' + score + '/3 etapas corretas</div>'
+          + '<div style="font-family:\'Playfair Display\',serif;font-size:14px;font-style:italic;color:var(--ink2);line-height:1.7">'
+          + (pct === 100 ? 'Perfeito — você reconheceu essa redução em dois contextos diferentes.' : pct >= 67 ? 'Bom. O padrão está se fixando.' : 'Continue. Cada encontro com essa redução aumenta seu domínio auditivo.') + '</div></div>'
+          + '<div style="padding:20px 24px;border-bottom:1px solid var(--border)">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + HI_COLOR + ';margin-bottom:12px">📋 Resumo da Rodada</div>'
+          + '<div style="display:flex;flex-direction:column;gap:8px">'
+          + '<div style="padding:9px 12px;background:' + (listenOk ? 'rgba(45,106,79,0.07)' : 'var(--red-dim)') + ';border-left:3px solid ' + (listenOk ? '#2d6a4f' : 'var(--red)') + ';font-size:12px;color:' + (listenOk ? '#2d6a4f' : 'var(--red2)') + '">' + (listenOk ? '&#10003;' : '&#10007;') + ' Ouvir &mdash; ' + round.question + '</div>'
+          + '<div style="padding:9px 12px;background:' + (recogOk ? 'rgba(45,106,79,0.07)' : 'var(--red-dim)') + ';border-left:3px solid ' + (recogOk ? '#2d6a4f' : 'var(--red)') + ';font-size:12px;color:' + (recogOk ? '#2d6a4f' : 'var(--red2)') + '">' + (recogOk ? '&#10003;' : '&#10007;') + ' Reconhecimento &mdash; ' + round.recognize_question + '</div>'
+          + '<div style="padding:9px 12px;background:' + (newctxOk ? 'rgba(45,106,79,0.07)' : 'var(--red-dim)') + ';border-left:3px solid ' + (newctxOk ? '#2d6a4f' : 'var(--red)') + ';font-size:12px;color:' + (newctxOk ? '#2d6a4f' : 'var(--red2)') + '">' + (newctxOk ? '&#10003;' : '&#10007;') + ' Novo Contexto &mdash; ' + round.new_question + '</div>'
+          + '</div></div>'
+          + '<div style="padding:20px 24px;border-bottom:1px solid var(--border)">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:10px">Domínio atual: <strong style="color:' + HI_COLOR + '">' + reduction.spoken + '</strong></div>'
+          + '<div style="height:6px;background:var(--border);overflow:hidden"><div style="height:100%;background:' + HI_COLOR + ';width:' + dom + '%;transition:width 0.5s"></div></div>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:11px;color:' + HI_COLOR + ';margin-top:5px;font-weight:700">' + dom + '%</div>'
+          + '</div>'
+          + '<div style="padding:16px 24px;background:var(--bg2);display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">'
+          + '<button onclick="hiExit()" style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:10px 20px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;cursor:pointer">Ver Domínio</button>'
+          + '<button onclick="hiStartRound()" style="background:' + HI_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">🎧 Próxima Rodada</button>'
+          + '</div></div>';
+      }
+
+      function hiAdvanceStep(next) {
+        var hi = ciGameState.hi;
+        if (next === 'listen' && !hi.seen[hi._currentReduction.id]) {
+          hi.seen[hi._currentReduction.id] = true;
+        }
+        hi.step = next;
+        renderHearIt();
+        scrollToCIContent();
+      }
+
+      function hiExit() {
+        ciGameState.hi._currentReduction = null;
+        ciGameState.hi._currentRound = null;
+        renderHearIt();
+        scrollToCIContent();
+      }
+
+
+      // ══════════════════════════════════════════════════════════════════
+      // STORY BUILDER — SISTEMA COMPLETO
+      // Transforma compreensão em produção ativa através de narrativas
+      // ══════════════════════════════════════════════════════════════════
+
+      var SB_COLOR = '#2d7a4a';
+      var SB_COLOR_DIM = 'rgba(45,122,74,0.08)';
+      var SB_COLOR_MID = 'rgba(45,122,74,0.18)';
+
+      var SB_SEASONS = [
+        { id: 's1', name: 'Core Writing',    icon: '📖', desc: 'Histórias do cotidiano. Estruturas simples e progressivas.' },
+        { id: 's2', name: 'Everyday Writing', icon: '💬', desc: 'Situações reais entre pessoas. Vocabulário natural.' },
+        { id: 's3', name: 'Books',            icon: '📚', desc: 'Narrativa literária. Estruturas mais ricas.' },
+        { id: 's4', name: 'Movies & Series',  icon: '🎬', desc: 'Diálogos e cenas cinematográficas.' },
+        { id: 's5', name: 'Games',            icon: '🎮', desc: 'Aventura e ação. Ritmo acelerado.' },
+      ];
+
+      var SB_STORIES = [
+        {
+          id: 'abandoned_house',
+          season: 0,
+          title: 'The Abandoned House',
+          genre: 'Mystery',
+          level: 1,
+          scenes: [
+            {
+              context_pt: 'Você chegou a uma casa abandonada durante uma tempestade. A porta está aberta. Você acredita que há alguém lá dentro.',
+              text: 'You slowly walk toward the entrance.\nThe wind is getting stronger.\nThe door is moving slightly.',
+              comp_question: 'O que está acontecendo nesta cena?',
+              comp_options: ['O personagem está se aproximando de uma casa', 'O personagem está saindo da casa', 'O personagem está dormindo', 'O personagem está dirigindo'],
+              comp_answer: 0,
+              produce_blank: 'You slowly ______ toward the entrance.',
+              produce_answer: 'walk',
+              produce_hint: 'O verbo que descreve o movimento do personagem.',
+              expand_base: 'I walk toward the entrance.',
+              expand_instruction: 'Adicione um motivo para entrar — por que você está indo até lá?',
+              expand_examples: ['I walk toward the entrance because I heard a noise inside.', 'I walk toward the entrance because I want to find shelter.', 'I walk toward the entrance because I see a light inside.'],
+              rewrite_connector: 'before',
+              rewrite_base: 'I walk toward the entrance.',
+              rewrite_examples: ['Before entering, I look around carefully.', 'Before I go in, I listen for any sounds.', 'Before reaching the entrance, I stop and wait.'],
+              choices: ['I enter the house.', 'I run away.', 'I call for help.', 'I wait outside and watch.'],
+              expressions: ['walk toward', 'getting stronger', 'moving slightly'],
+            },
+            {
+              context_pt: 'Você entrou na casa. Está escuro e faz frio. Há barulhos vindo do andar de cima.',
+              text: 'The house is completely dark.\nYou can hear strange noises coming from upstairs.\nYou feel a cold draft on your face.',
+              comp_question: 'Como é o ambiente dentro da casa?',
+              comp_options: ['Escuro, frio e com barulhos estranhos', 'Iluminado e silencioso', 'Quente e aconchegante', 'Cheio de pessoas'],
+              comp_answer: 0,
+              produce_blank: 'You can hear strange noises coming from ______.',
+              produce_answer: 'upstairs',
+              produce_hint: 'Onde estão vindo os barulhos?',
+              expand_base: 'I hear a noise from upstairs.',
+              expand_instruction: 'Descreva o que você sente neste momento — medo, curiosidade, algo físico?',
+              expand_examples: ['I hear a noise from upstairs and my heart starts beating faster.', 'I hear a noise from upstairs, but I decide to keep moving.', 'I hear a noise from upstairs and I freeze immediately.'],
+              rewrite_connector: 'although',
+              rewrite_base: 'I hear noises from upstairs.',
+              rewrite_examples: ['Although I hear noises from upstairs, I keep walking.', 'Although I am afraid, I decide to go up.', 'Although the noises scare me, I need to find out what is happening.'],
+              choices: ['I slowly go upstairs.', 'I look for a light switch.', 'I hide behind the door.', 'I leave the house immediately.'],
+              expressions: ['completely dark', 'cold draft', 'coming from upstairs'],
+            },
+            {
+              context_pt: 'Você subiu as escadas. No corredor, você vê uma porta levemente aberta com luz saindo de dentro.',
+              text: 'The hallway is long and narrow.\nAt the end, you see a door slightly open.\nA thin line of light comes from inside the room.',
+              comp_question: 'O que o personagem observa no corredor?',
+              comp_options: ['Uma porta aberta com luz dentro', 'Uma janela quebrada', 'Uma pessoa parada', 'Uma escada para baixo'],
+              comp_answer: 0,
+              produce_blank: 'A thin line of ______ comes from inside the room.',
+              produce_answer: 'light',
+              produce_hint: 'O que está vindo de dentro do quarto?',
+              expand_base: 'I see a light coming from the room.',
+              expand_instruction: 'Adicione o que você decide fazer ao ver a luz.',
+              expand_examples: ['I see a light coming from the room and I walk slowly toward it.', 'I see a light coming from the room, so I stop and listen before moving.', 'I see a light coming from the room and I wonder if someone is still inside.'],
+              rewrite_connector: 'when',
+              rewrite_base: 'I see the light. I stop walking.',
+              rewrite_examples: ['When I see the light, I stop walking immediately.', 'I stop walking when I notice the thin line of light.', 'When I reach the door, I see the light coming from inside.'],
+              choices: ['I push the door open slowly.', 'I knock on the door first.', 'I look through the gap in the door.', 'I wait and listen quietly.'],
+              expressions: ['long and narrow', 'slightly open', 'thin line of light'],
+            },
+          ],
+        },
+        {
+          id: 'morning_rush',
+          season: 0,
+          title: 'The Morning Rush',
+          genre: 'Everyday Life',
+          level: 1,
+          scenes: [
+            {
+              context_pt: 'É segunda-feira de manhã. Você acorda e percebe que está atrasado para o trabalho.',
+              text: 'You open your eyes and look at the clock.\nIt is already 8:45.\nYour meeting starts in fifteen minutes.',
+              comp_question: 'Qual é o problema do personagem?',
+              comp_options: ['Está quase atrasado para uma reunião', 'Está doente e não pode trabalhar', 'Esqueceu o endereço do trabalho', 'O despertador não funcionou e ele tem o dia livre'],
+              comp_answer: 0,
+              produce_blank: 'Your ______ starts in fifteen minutes.',
+              produce_answer: 'meeting',
+              produce_hint: 'O que começa em quinze minutos?',
+              expand_base: 'I am late for my meeting.',
+              expand_instruction: 'Adicione o que você faz primeiro ao perceber que está atrasado.',
+              expand_examples: ['I am late for my meeting, so I jump out of bed immediately.', 'I am late for my meeting and I start getting dressed as fast as I can.', 'I am late for my meeting, so I grab my phone and send a quick message.'],
+              rewrite_connector: 'as soon as',
+              rewrite_base: 'I wake up. I check the time.',
+              rewrite_examples: ['As soon as I wake up, I check the time.', 'As soon as I open my eyes, I see it is already 8:45.', 'As soon as I realize I am late, I get out of bed.'],
+              choices: ['I jump out of bed and get dressed quickly.', 'I send a message saying I will be late.', 'I decide to work from home instead.', 'I go back to sleep for ten more minutes.'],
+              expressions: ['look at the clock', 'starts in fifteen minutes', 'already 8:45'],
+            },
+            {
+              context_pt: 'Você está pronto mas perdeu o ônibus. Você precisa encontrar outra forma de chegar ao trabalho.',
+              text: 'You run to the bus stop.\nThe bus is pulling away as you arrive.\nYou need another way to get there.',
+              comp_question: 'O que aconteceu no ponto de ônibus?',
+              comp_options: ['O ônibus foi embora antes de o personagem chegar', 'O personagem pegou o ônibus a tempo', 'O ônibus estava quebrado', 'Não havia ônibus naquele horário'],
+              comp_answer: 0,
+              produce_blank: 'The bus is ______ away as you arrive.',
+              produce_answer: 'pulling',
+              produce_hint: 'O que o ônibus está fazendo enquanto você chega?',
+              expand_base: 'I missed the bus.',
+              expand_instruction: 'Descreva como você se sente e o que você pensa em fazer.',
+              expand_examples: ['I missed the bus, so I start looking for a taxi immediately.', 'I missed the bus and I feel frustrated, but I decide to walk.', 'I missed the bus, so I call a colleague and ask for a ride.'],
+              rewrite_connector: 'because',
+              rewrite_base: 'I have to find another way. I missed the bus.',
+              rewrite_examples: ['I have to find another way because I missed the bus.', 'Because I missed the bus, I need to think fast.', 'I have to find another option because the bus left without me.'],
+              choices: ['I call a taxi right away.', 'I decide to walk as fast as I can.', 'I call a colleague for a ride.', 'I call the office and explain the situation.'],
+              expressions: ['run to the bus stop', 'pulling away', 'another way to get there'],
+            },
+          ],
+        },
+        {
+          id: 'new_city',
+          season: 0,
+          title: 'Lost in a New City',
+          genre: 'Adventure',
+          level: 2,
+          scenes: [
+            {
+              context_pt: 'Você acabou de chegar a uma cidade nova. É sua primeira vez lá e você não conhece ninguém.',
+              text: 'You step off the train with your backpack.\nThe city feels large and unfamiliar.\nYou look around, trying to get your bearings.',
+              comp_question: 'Como o personagem se sente chegando à cidade?',
+              comp_options: ['Desorientado em um lugar desconhecido', 'Animado porque conhece a cidade bem', 'Com pressa para chegar a um destino específico', 'Cansado e querendo dormir'],
+              comp_answer: 0,
+              produce_blank: 'You look around, trying to get your ______.',
+              produce_answer: 'bearings',
+              produce_hint: 'Expressão que significa tentar entender onde você está e se orientar.',
+              expand_base: 'I just arrived in a new city.',
+              expand_instruction: 'Adicione o que você observa ao seu redor ou o que você decide fazer primeiro.',
+              expand_examples: ['I just arrived in a new city and I start looking for a map or a sign.', 'I just arrived in a new city, so I take a moment to look around and breathe.', 'I just arrived in a new city and I feel both excited and nervous at the same time.'],
+              rewrite_connector: 'even though',
+              rewrite_base: 'I don\'t know the city. I feel confident.',
+              rewrite_examples: ['Even though I don\'t know the city, I feel confident.', 'Even though the city is unfamiliar, I am ready to explore.', 'I feel calm even though I have never been here before.'],
+              choices: ['I find a map on my phone and start navigating.', 'I ask someone nearby for directions.', 'I sit down at a café and plan my day.', 'I follow the crowd and see where they go.'],
+              expressions: ['step off the train', 'get your bearings', 'large and unfamiliar'],
+            },
+          ],
+        },
+      ];
+
+      // ── helpers ─────────────────────────────────────────────────────────
+      function sbGetDominio(key) {
+        return ciGameState.sb.dominio[key] || 0;
+      }
+      function sbUpdateDominio(key, correct) {
+        var cur = sbGetDominio(key);
+        ciGameState.sb.dominio[key] = correct ? Math.min(100, cur + 10) : Math.max(0, cur - 6);
+      }
+      function sbGetStoriesForSeason(seasonIdx) {
+        return SB_STORIES.filter(function(s) { return s.season <= seasonIdx; });
+      }
+      function sbCurrentStory() {
+        var stories = sbGetStoriesForSeason(ciGameState.sb.season);
+        return stories[ciGameState.sb.storyIdx] || stories[0];
+      }
+      function sbCurrentScene() {
+        var story = sbCurrentStory();
+        return story ? story.scenes[ciGameState.sb.sceneIdx] : null;
+      }
+      function sbShuffleComp(scene) {
+        if (ciGameState.sb.compShuffled) return ciGameState.sb.compShuffled;
+        var correct = scene.comp_options[scene.comp_answer];
+        var shuffled = shuffleArr(scene.comp_options.slice());
+        ciGameState.sb.compShuffled = { opts: shuffled, answer: shuffled.indexOf(correct) };
+        return ciGameState.sb.compShuffled;
+      }
+
+      // ── main render ─────────────────────────────────────────────────────
+      function renderStoryBuilder() {
+        var container = document.getElementById('cig-content');
+        if (!container) return;
+        var step = ciGameState.sb.step;
+        if (step === 'menu') { sbRenderMenu(container); return; }
+        sbRenderRound(container);
+      }
+
+      // ── MENU ────────────────────────────────────────────────────────────
+      function sbRenderMenu(container) {
+        var sb = ciGameState.sb;
+        var season = SB_SEASONS[sb.season];
+        var stories = sbGetStoriesForSeason(sb.season);
+
+        var seasonBtns = SB_SEASONS.map(function(s, i) {
+          var locked = i > 0 && Object.keys(sb.dominio).length < 8;
+          var active = sb.season === i;
+          return '<button onclick="' + (locked ? '' : 'sbSelectSeason(' + i + ')') + '"'
+            + ' style="padding:10px 14px;background:' + (active ? SB_COLOR_MID : 'var(--surface)') + ';border:1px solid ' + (active ? SB_COLOR : 'var(--border)') + ';color:' + (locked ? 'var(--ink4)' : active ? SB_COLOR : 'var(--ink2)') + ';font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.5px;cursor:' + (locked ? 'not-allowed' : 'pointer') + ';opacity:' + (locked ? '0.5' : '1') + ';text-align:left;width:100%">'
+            + s.icon + ' ' + s.name + (locked ? ' 🔒' : '') + '</button>';
+        }).join('');
+
+        var storyCards = stories.map(function(story, i) {
+          var active = sb.storyIdx === i;
+          var sceneDone = active ? sb.sceneIdx : 0;
+          var sceneTotal = story.scenes.length;
+          var pct = Math.round((sceneDone / sceneTotal) * 100);
+          return '<div onclick="sbSelectStory(' + i + ')" style="background:var(--surface);border:1px solid ' + (active ? SB_COLOR : 'var(--border)') + ';padding:14px 16px;cursor:pointer;transition:all 0.15s;position:relative" onmouseover="this.style.borderColor=\'' + SB_COLOR + '\'" onmouseout="this.style.borderColor=\'' + (active ? SB_COLOR : 'var(--border)') + '\'">'
+            + (active ? '<div style="position:absolute;top:8px;right:8px;background:' + SB_COLOR + ';color:#fff;font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 7px">EM CURSO</div>' : '')
+            + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:4px">' + story.genre + ' · Level ' + story.level + '</div>'
+            + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px">' + story.title + '</div>'
+            + '<div style="font-size:12px;color:var(--ink3);margin-bottom:10px">' + sceneTotal + ' cenas</div>'
+            + '<div style="display:flex;justify-content:space-between;font-size:10px;color:var(--ink4);margin-bottom:4px;font-family:\'Barlow Condensed\',sans-serif;text-transform:uppercase;letter-spacing:1px"><span>Progresso</span><span>' + sceneDone + '/' + sceneTotal + '</span></div>'
+            + '<div style="height:3px;background:var(--border);overflow:hidden"><div style="height:100%;background:' + SB_COLOR + ';width:' + pct + '%;transition:width 0.4s"></div></div>'
+            + '</div>';
+        }).join('');
+
+        container.innerHTML = '<div style="margin-bottom:20px">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px;color:var(--ink);margin-bottom:4px">📖 Story Builder</div>'
+          + '<div style="font-size:13px;color:var(--ink3);line-height:1.7;max-width:520px">Avance por histórias textuais construindo frases cada vez mais complexas. Compreensão → Produção. O texto é o protagonista.</div>'
+          + '</div>'
+          + '<div style="background:' + SB_COLOR_DIM + ';border:1px solid rgba(45,122,74,0.25);border-left:4px solid ' + SB_COLOR + ';padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--ink2);line-height:1.8">'
+          + '<strong>Regra fundamental:</strong> você nunca será obrigado a produzir uma estrutura que ainda não encontrou na história. A narrativa sempre apresenta o padrão antes de exigi-lo.</div>'
+          + '<div style="margin-bottom:20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:10px">Temporadas</div>'
+          + '<div style="display:flex;flex-direction:column;gap:6px">' + seasonBtns + '</div></div>'
+          + '<div style="margin-bottom:20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + SB_COLOR + ';margin-bottom:10px">Histórias — ' + season.icon + ' ' + season.name + '</div>'
+          + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">' + storyCards + '</div></div>'
+          + '<button onclick="sbStartScene()" style="width:100%;padding:16px;background:' + SB_COLOR + ';border:none;color:#fff;font-family:\'Barlow Condensed\',sans-serif;font-size:14px;font-weight:800;letter-spacing:2px;text-transform:uppercase;cursor:pointer">📖 Continuar História</button>';
+      }
+
+      function sbSelectSeason(i) { ciGameState.sb.season = i; ciGameState.sb.storyIdx = 0; ciGameState.sb.sceneIdx = 0; renderStoryBuilder(); }
+      function sbSelectStory(i) { ciGameState.sb.storyIdx = i; ciGameState.sb.sceneIdx = 0; renderStoryBuilder(); }
+
+      function sbStartScene() {
+        var sb = ciGameState.sb;
+        sb.step = 'context';
+        sb.compAnswered = null;
+        sb.compShuffled = null;
+        sb.produceInput = '';
+        sb.expandInput = '';
+        sb.rewriteInput = '';
+        sb.choiceAnswered = null;
+        sb.evalResult = null;
+        renderStoryBuilder();
+        scrollToCIContent();
+      }
+
+      // ── ROUND WRAPPER ────────────────────────────────────────────────────
+      function sbRenderRound(container) {
+        var sb = ciGameState.sb;
+        var story = sbCurrentStory();
+        var scene = sbCurrentScene();
+        if (!story || !scene) { sb.step = 'menu'; renderStoryBuilder(); return; }
+
+        var stepLabels = { context:'📍 Contexto', read:'📖 Leitura', comprehend:'❓ Compreensão', produce:'✏️ Produção', expand:'🔧 Expansão', rewrite:'🔄 Reescrita', choice:'🗺️ Escolha', feedback:'✅ Avançar' };
+        var stepOrder = ['context','read','comprehend','produce','expand','rewrite','choice'];
+        var curIdx = stepOrder.indexOf(sb.step);
+
+        var pips = stepOrder.map(function(s, i) {
+          var done = i < curIdx;
+          var cur = s === sb.step;
+          return '<div style="flex:1;height:3px;border-radius:2px;background:' + (cur ? SB_COLOR : done ? '#2d6a4f' : 'var(--border)') + ';transition:background 0.3s" title="' + (stepLabels[s] || s) + '"></div>';
+        }).join('');
+
+        var body = '';
+        if (sb.step === 'context')    body = sbBodyContext(story, scene);
+        if (sb.step === 'read')       body = sbBodyRead(story, scene);
+        if (sb.step === 'comprehend') body = sbBodyComprehend(story, scene);
+        if (sb.step === 'produce')    body = sbBodyProduce(story, scene);
+        if (sb.step === 'expand')     body = sbBodyExpand(story, scene);
+        if (sb.step === 'rewrite')    body = sbBodyRewrite(story, scene);
+        if (sb.step === 'choice')     body = sbBodyChoice(story, scene);
+        if (sb.step === 'feedback')   body = sbBodyFeedback(story, scene);
+
+        container.innerHTML = '<div>'
+          + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">'
+          + '<button onclick="ciGameState.sb.step=\'menu\';renderStoryBuilder()" style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:6px 13px;font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer" onmouseover="this.style.color=\'var(--ink)\'" onmouseout="this.style.color=\'var(--ink3)\'">&#8592; Histórias</button>'
+          + '<div style="flex:1"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:13px;font-weight:800;color:' + SB_COLOR + '">📖 ' + story.title + '</div>'
+          + '<div style="font-size:11px;color:var(--ink4);margin-top:1px">Cena ' + (sb.sceneIdx + 1) + '/' + story.scenes.length + ' &middot; ' + story.genre + '</div></div>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;color:var(--ink4)">' + (stepLabels[sb.step] || '') + '</div>'
+          + '</div>'
+          + '<div style="display:flex;gap:3px;margin-bottom:20px">' + pips + '</div>'
+          + body
+          + '</div>';
+      }
+
+      // ── ETAPA 1: CONTEXTO ────────────────────────────────────────────────
+      function sbBodyContext(story, scene) {
+        return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
+          + '<div style="background:' + SB_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">📍 Contexto da Cena</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Leia o contexto em PT-BR antes de avançar para a narrativa em inglês.</div></div>'
+          + '<div style="padding:24px">'
+          + '<div style="font-family:\'Playfair Display\',serif;font-size:18px;color:var(--ink);line-height:1.9;padding:18px 20px;background:' + SB_COLOR_DIM + ';border-left:4px solid ' + SB_COLOR + '">' + scene.context_pt + '</div>'
+          + '</div>'
+          + '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end">'
+          + '<button onclick="ciGameState.sb.step=\'read\';renderStoryBuilder();scrollToCIContent()" style="background:' + SB_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Ler a Cena &#8594;</button>'
+          + '</div></div>';
+      }
+
+      // ── ETAPA 2: LEITURA ─────────────────────────────────────────────────
+      function sbBodyRead(story, scene) {
+        var lines = scene.text.split('\n').map(function(l) {
+          return '<div style="font-family:\'Playfair Display\',serif;font-size:19px;color:var(--ink);line-height:2;padding:4px 0">' + l + '</div>';
+        }).join('');
+        var exprTags = scene.expressions.map(function(e) {
+          return '<span style="background:' + SB_COLOR_DIM + ';border:1px solid rgba(45,122,74,0.3);color:' + SB_COLOR + ';font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;padding:3px 9px">' + e + '</span>';
+        }).join(' ');
+        return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
+          + '<div style="background:' + SB_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">📖 Narrativa</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Leia com atenção. O texto é o protagonista.</div></div>'
+          + '<div style="padding:24px">'
+          + '<div style="padding:20px 24px;background:var(--bg2);border:1px solid var(--border);margin-bottom:18px">' + lines + '</div>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:8px">Expressões desta cena</div>'
+          + '<div style="display:flex;flex-wrap:wrap;gap:6px">' + exprTags + '</div>'
+          + '</div>'
+          + '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end">'
+          + '<button onclick="ciGameState.sb.step=\'comprehend\';renderStoryBuilder();scrollToCIContent()" style="background:' + SB_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Próxima &#8594;</button>'
+          + '</div></div>';
+      }
+
+      // ── ETAPA 3: COMPREENSÃO ─────────────────────────────────────────────
+      function sbBodyComprehend(story, scene) {
+        var sb = ciGameState.sb;
+        var comp = sbShuffleComp(scene);
+        var answered = sb.compAnswered;
+        var optBtns = comp.opts.map(function(opt, i) {
+          var s;
+          if (answered !== null && answered !== undefined) {
+            if (i === comp.answer) s = 'padding:10px 16px;border:1px solid #2d6a4f;background:rgba(45,106,79,0.1);color:#2d6a4f;font-size:13px;font-family:\'Barlow\',sans-serif;cursor:default;text-align:left;width:100%;';
+            else if (i === answered) s = 'padding:10px 16px;border:1px solid var(--red);background:rgba(139,26,26,0.08);color:var(--red);font-size:13px;font-family:\'Barlow\',sans-serif;cursor:default;text-decoration:line-through;text-align:left;width:100%;';
+            else s = 'padding:10px 16px;border:1px solid var(--border);font-size:13px;color:var(--ink4);cursor:default;font-family:\'Barlow\',sans-serif;background:var(--bg);text-align:left;width:100%;';
+          } else {
+            s = 'padding:10px 16px;border:1px solid var(--border);font-size:13px;color:var(--ink2);cursor:pointer;font-family:\'Barlow\',sans-serif;background:var(--bg);transition:all 0.15s;text-align:left;width:100%;';
+          }
+          return '<button style="' + s + '" onclick="sbAnswerComp(' + i + ')">' + opt + '</button>';
+        }).join('');
+        var fb = (answered !== null && answered !== undefined) ? '<div style="margin-top:12px;padding:11px 15px;background:' + (answered === comp.answer ? 'rgba(45,106,79,0.06)' : 'var(--red-dim)') + ';border-left:3px solid ' + (answered === comp.answer ? '#2d6a4f' : 'var(--red)') + ';font-size:13px;color:' + (answered === comp.answer ? '#2d6a4f' : 'var(--red2)') + ';line-height:1.8">' + (answered === comp.answer ? '&#10003; Correto!' : '&#10007; A cena mostra: <strong>' + comp.opts[comp.answer] + '</strong>') + '</div>' : '';
+        return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
+          + '<div style="background:' + SB_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">❓ Compreensão</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Foco no significado — não na gramática.</div></div>'
+          + '<div style="padding:22px">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:12px">' + scene.comp_question + '</div>'
+          + '<div style="display:flex;flex-direction:column;gap:6px">' + optBtns + '</div>'
+          + fb + '</div>'
+          + ((answered !== null && answered !== undefined) ? '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end"><button onclick="ciGameState.sb.step=\'produce\';renderStoryBuilder();scrollToCIContent()" style="background:' + SB_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Próxima &#8594;</button></div>' : '')
+          + '</div>';
+      }
+
+      function sbAnswerComp(i) {
+        if (ciGameState.sb.compAnswered !== null && ciGameState.sb.compAnswered !== undefined) return;
+        var scene = sbCurrentScene();
+        var comp = sbShuffleComp(scene);
+        ciGameState.sb.compAnswered = i;
+        sbUpdateDominio(scene.expressions[0], i === comp.answer);
+        renderStoryBuilder();
+      }
+
+      // ── ETAPA 4: PRODUÇÃO ────────────────────────────────────────────────
+      function sbBodyProduce(story, scene) {
+        var sb = ciGameState.sb;
+        var answered = sb.produceInput && sb.produceInput !== '';
+        var submitted = sb._produceSubmitted;
+        var parts = scene.produce_blank.split('______');
+        var before = parts[0] || '';
+        var after = parts[1] || '';
+        var inputVal = sb.produceInput || '';
+        var correct = submitted ? (inputVal.trim().toLowerCase() === scene.produce_answer.toLowerCase()) : null;
+        var inputHtml = submitted
+          ? '<span style="font-family:\'Playfair Display\',serif;font-size:19px;font-weight:700;color:' + (correct ? '#2d6a4f' : 'var(--red)') + ';border-bottom:2px solid ' + (correct ? '#2d6a4f' : 'var(--red)') + '">' + inputVal + '</span>'
+          : '<input type="text" id="sb-produce-input" value="' + inputVal.replace(/"/g,'&quot;') + '" placeholder="' + scene.produce_answer.replace(/"/g,'&quot;') + '..." style="background:var(--bg);border:none;border-bottom:3px solid ' + SB_COLOR + ';color:' + SB_COLOR + ';font-family:\'Playfair Display\',serif;font-size:19px;width:120px;outline:none;padding:2px 4px" oninput="ciGameState.sb.produceInput=this.value" onkeydown="if(event.key===\'Enter\')sbSubmitProduce()">';
+        var fb = submitted ? '<div style="margin-top:12px;padding:11px 15px;background:' + (correct ? 'rgba(45,106,79,0.06)' : 'var(--red-dim)') + ';border-left:3px solid ' + (correct ? '#2d6a4f' : 'var(--red)') + ';font-size:13px;color:' + (correct ? '#2d6a4f' : 'var(--red2)') + ';line-height:1.8">'
+          + (correct ? '&#10003; Perfeito!' : '&#10007; A palavra correta é: <strong>' + scene.produce_answer + '</strong>. ' + scene.produce_hint) + '</div>' : '';
+        return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
+          + '<div style="background:' + SB_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">✏️ Produção</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Recupere o que você acabou de ler. Não é adivinhação.</div></div>'
+          + '<div style="padding:22px">'
+          + '<div style="font-family:\'Playfair Display\',serif;font-size:19px;color:var(--ink);line-height:2;padding:16px 20px;background:var(--bg2);border-left:4px solid ' + SB_COLOR + ';margin-bottom:16px">' + before + inputHtml + after + '</div>'
+          + '<div style="font-size:12px;color:var(--ink4);font-style:italic;margin-bottom:16px">' + scene.produce_hint + '</div>'
+          + (submitted ? '' : '<button onclick="sbSubmitProduce()" style="background:' + SB_COLOR + ';border:none;color:#fff;padding:8px 22px;font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;cursor:pointer">Verificar &#8594;</button>')
+          + fb + '</div>'
+          + (submitted ? '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end"><button onclick="ciGameState.sb.step=\'expand\';renderStoryBuilder();scrollToCIContent()" style="background:' + SB_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Próxima &#8594;</button></div>' : '')
+          + '</div>';
+      }
+
+      function sbSubmitProduce() {
+        var val = (document.getElementById('sb-produce-input') || {value: ''}).value || ciGameState.sb.produceInput;
+        if (!val.trim()) return;
+        ciGameState.sb.produceInput = val.trim();
+        ciGameState.sb._produceSubmitted = true;
+        var scene = sbCurrentScene();
+        sbUpdateDominio(scene.produce_answer, val.trim().toLowerCase() === scene.produce_answer.toLowerCase());
+        renderStoryBuilder();
+      }
+
+      // ── ETAPA 5: EXPANSÃO ────────────────────────────────────────────────
+      function sbBodyExpand(story, scene) {
+        var sb = ciGameState.sb;
+        var submitted = sb._expandSubmitted;
+        var val = sb.expandInput || '';
+        var exHtml = scene.expand_examples.map(function(ex) {
+          return '<div style="font-family:\'Playfair Display\',serif;font-size:13px;color:var(--ink2);line-height:1.7;padding:6px 12px;border-left:2px solid ' + SB_COLOR + '44;margin-bottom:4px;font-style:italic">' + ex + '</div>';
+        }).join('');
+        return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
+          + '<div style="background:' + SB_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🔧 Expansão</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Adicione uma ideia nova à frase base. Produção guiada.</div></div>'
+          + '<div style="padding:22px">'
+          + '<div style="font-family:\'Playfair Display\',serif;font-size:18px;color:' + SB_COLOR + ';padding:12px 18px;background:' + SB_COLOR_DIM + ';border-left:4px solid ' + SB_COLOR + ';margin-bottom:14px">' + scene.expand_base + '</div>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">' + scene.expand_instruction + '</div>'
+          + '<textarea id="sb-expand-input" placeholder="Escreva sua expansão aqui..." style="width:100%;min-height:80px;background:var(--bg);border:1px solid var(--border);color:var(--ink);font-family:\'Playfair Display\',serif;font-size:15px;padding:12px 14px;outline:none;resize:vertical;' + (submitted ? 'pointer-events:none;opacity:0.7' : '') + '" oninput="ciGameState.sb.expandInput=this.value">' + val + '</textarea>'
+          + '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;margin-bottom:16px">'
+          + (submitted ? '' : '<button onclick="sbSubmitExpand()" style="background:' + SB_COLOR + ';border:none;color:#fff;padding:8px 22px;font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;cursor:pointer">Enviar &#8594;</button>')
+          + '</div>'
+          + (submitted ? '<div style="margin-bottom:14px;padding:11px 14px;background:rgba(45,122,74,0.06);border-left:3px solid ' + SB_COLOR + ';font-size:13px;color:' + SB_COLOR + ';line-height:1.8">&#10003; Frase registrada! Compare com os exemplos abaixo.</div>' : '')
+          + '<div style="background:var(--bg2);border:1px solid var(--border);overflow:hidden"><div style="padding:8px 14px;background:var(--ink);font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.6)">Exemplos de expansões válidas</div><div style="padding:11px 13px">' + exHtml + '</div></div>'
+          + '</div>'
+          + (submitted ? '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end"><button onclick="ciGameState.sb.step=\'rewrite\';renderStoryBuilder();scrollToCIContent()" style="background:' + SB_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Próxima &#8594;</button></div>' : '')
+          + '</div>';
+      }
+
+      function sbSubmitExpand() {
+        var val = (document.getElementById('sb-expand-input') || {value: ''}).value || ciGameState.sb.expandInput;
+        if (!val.trim()) return;
+        ciGameState.sb.expandInput = val.trim();
+        ciGameState.sb._expandSubmitted = true;
+        renderStoryBuilder();
+      }
+
+      // ── ETAPA 6: REESCRITA ───────────────────────────────────────────────
+      function sbBodyRewrite(story, scene) {
+        var sb = ciGameState.sb;
+        var submitted = sb._rewriteSubmitted;
+        var val = sb.rewriteInput || '';
+        var exHtml = scene.rewrite_examples.map(function(ex) {
+          return '<div style="font-family:\'Playfair Display\',serif;font-size:13px;color:var(--ink2);line-height:1.7;padding:6px 12px;border-left:2px solid rgba(45,122,74,0.35);margin-bottom:4px;font-style:italic">' + ex + '</div>';
+        }).join('');
+        return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
+          + '<div style="background:' + SB_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🔄 Reescrita</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Use o conector indicado para transformar a frase.</div></div>'
+          + '<div style="padding:22px">'
+          + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;color:var(--ink4)">Frase base:</div>'
+          + '<div style="font-family:\'Playfair Display\',serif;font-size:15px;color:var(--ink2);font-style:italic">' + scene.rewrite_base + '</div></div>'
+          + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;color:var(--ink4)">Use o conector:</div>'
+          + '<span style="background:' + SB_COLOR + ';color:#fff;font-family:\'Barlow Condensed\',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;padding:4px 14px">' + scene.rewrite_connector + '</span>'
+          + '</div>'
+          + '<textarea id="sb-rewrite-input" placeholder="Reescreva usando \'' + scene.rewrite_connector + '\'..." style="width:100%;min-height:72px;background:var(--bg);border:1px solid var(--border);color:var(--ink);font-family:\'Playfair Display\',serif;font-size:15px;padding:12px 14px;outline:none;resize:vertical;' + (submitted ? 'pointer-events:none;opacity:0.7' : '') + '" oninput="ciGameState.sb.rewriteInput=this.value">' + val + '</textarea>'
+          + '<div style="margin-top:10px;margin-bottom:16px">'
+          + (submitted ? '' : '<button onclick="sbSubmitRewrite()" style="background:' + SB_COLOR + ';border:none;color:#fff;padding:8px 22px;font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;cursor:pointer">Enviar &#8594;</button>')
+          + '</div>'
+          + (submitted ? '<div style="margin-bottom:14px;padding:11px 14px;background:rgba(45,122,74,0.06);border-left:3px solid ' + SB_COLOR + ';font-size:13px;color:' + SB_COLOR + ';line-height:1.8">&#10003; Registrado! Compare com os exemplos abaixo.</div>' : '')
+          + '<div style="background:var(--bg2);border:1px solid var(--border);overflow:hidden"><div style="padding:8px 14px;background:var(--ink);font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.6)">Exemplos usando "' + scene.rewrite_connector + '"</div><div style="padding:11px 13px">' + exHtml + '</div></div>'
+          + '<div style="margin-top:12px;font-size:12px;color:var(--ink4);font-style:italic;line-height:1.7">Conectores organizam relações entre ideias. Domínio real vem do uso em produção, não do reconhecimento em alternativas.</div>'
+          + '</div>'
+          + (submitted ? '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end"><button onclick="ciGameState.sb.step=\'choice\';renderStoryBuilder();scrollToCIContent()" style="background:' + SB_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Próxima &#8594;</button></div>' : '')
+          + '</div>';
+      }
+
+      function sbSubmitRewrite() {
+        var val = (document.getElementById('sb-rewrite-input') || {value: ''}).value || ciGameState.sb.rewriteInput;
+        if (!val.trim()) return;
+        ciGameState.sb.rewriteInput = val.trim();
+        ciGameState.sb._rewriteSubmitted = true;
+        var scene = sbCurrentScene();
+        sbUpdateDominio(scene.rewrite_connector, true);
+        renderStoryBuilder();
+      }
+
+      // ── ETAPA 7: ESCOLHA NARRATIVA ───────────────────────────────────────
+      function sbBodyChoice(story, scene) {
+        var sb = ciGameState.sb;
+        var answered = sb.choiceAnswered;
+        var choiceBtns = scene.choices.map(function(c, i) {
+          var active = answered === i;
+          return '<button onclick="sbAnswerChoice(' + i + ')" style="padding:12px 18px;background:' + (active ? SB_COLOR_MID : 'var(--surface)') + ';border:1px solid ' + (active ? SB_COLOR : 'var(--border)') + ';color:' + (active ? SB_COLOR : 'var(--ink2)') + ';font-family:\'Playfair Display\',serif;font-size:14px;cursor:pointer;text-align:left;width:100%;transition:all 0.15s;font-style:italic;line-height:1.6">'
+            + (active ? '<strong>' : '') + c + (active ? '</strong>' : '') + '</button>';
+        }).join('');
+        return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
+          + '<div style="background:' + SB_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🗺️ Escolha Narrativa</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Todas as opções são frases corretas em inglês. Você está escolhendo o próximo passo da história.</div></div>'
+          + '<div style="padding:22px">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:14px">O que você faz agora?</div>'
+          + '<div style="display:flex;flex-direction:column;gap:8px">' + choiceBtns + '</div>'
+          + (answered !== null && answered !== undefined ? '<div style="margin-top:14px;padding:10px 14px;background:' + SB_COLOR_DIM + ';border-left:3px solid ' + SB_COLOR + ';font-size:13px;color:var(--ink2);line-height:1.8">Você escolheu: <strong style="color:' + SB_COLOR + '">' + scene.choices[answered] + '</strong><br><span style="font-size:12px;color:var(--ink4)">Esta frase alimentará a próxima cena.</span></div>' : '')
+          + '</div>'
+          + (answered !== null && answered !== undefined ? '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end"><button onclick="sbFinishScene()" style="background:' + SB_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Avançar História &#8594;</button></div>' : '')
+          + '</div>';
+      }
+
+      function sbAnswerChoice(i) {
+        ciGameState.sb.choiceAnswered = i;
+        renderStoryBuilder();
+      }
+
+      // ── FIM DE CENA / AVANÇO ─────────────────────────────────────────────
+      function sbFinishScene() {
+        var sb = ciGameState.sb;
+        var story = sbCurrentStory();
+        sb.step = 'feedback';
+        renderStoryBuilder();
+        scrollToCIContent();
+      }
+
+      function sbBodyFeedback(story, scene) {
+        var sb = ciGameState.sb;
+        var isLastScene = sb.sceneIdx >= story.scenes.length - 1;
+        var exprDom = scene.expressions.map(function(e) {
+          var d = sbGetDominio(e);
+          return '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)">'
+            + '<span style="font-family:\'Barlow Condensed\',sans-serif;font-size:13px;font-weight:700;color:var(--ink)">' + e + '</span>'
+            + '<span style="font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;color:' + SB_COLOR + '">' + d + '%</span>'
+            + '</div>';
+        }).join('');
+        return '<div style="background:var(--surface);border:1px solid var(--border);border-top:4px solid ' + SB_COLOR + ';overflow:hidden">'
+          + '<div style="padding:28px 24px;text-align:center;border-bottom:1px solid var(--border)">'
+          + '<div style="font-size:40px;margin-bottom:8px">📖</div>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:18px;font-weight:900;color:' + SB_COLOR + ';letter-spacing:1px;margin-bottom:4px">Cena Concluída!</div>'
+          + '<div style="font-size:13px;color:var(--ink3);line-height:1.7">' + (isLastScene ? 'Você completou a história <strong>' + story.title + '</strong>.' : 'Próxima cena disponível.') + '</div>'
+          + '</div>'
+          + '<div style="padding:18px 24px;border-bottom:1px solid var(--border)">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + SB_COLOR + ';margin-bottom:10px">Expressões desta cena</div>'
+          + exprDom
+          + '</div>'
+          + (sb.choiceAnswered !== null && sb.choiceAnswered !== undefined ? '<div style="padding:14px 24px;border-bottom:1px solid var(--border);background:' + SB_COLOR_DIM + '">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:5px">Você escolheu para a próxima cena</div>'
+          + '<div style="font-family:\'Playfair Display\',serif;font-size:15px;color:' + SB_COLOR + ';font-style:italic">' + scene.choices[sb.choiceAnswered] + '</div>'
+          + '</div>' : '')
+          + '<div style="padding:16px 24px;background:var(--bg2);display:flex;gap:8px;flex-wrap:wrap;justify-content:' + (isLastScene ? 'center' : 'flex-end') + '">'
+          + '<button onclick="ciGameState.sb.step=\'menu\';renderStoryBuilder()" style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:10px 20px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;cursor:pointer">Ver Histórias</button>'
+          + (isLastScene
+            ? '<button onclick="sbFinishStory()" style="background:' + SB_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">&#127942; Completar História</button>'
+            : '<button onclick="sbNextScene()" style="background:' + SB_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Próxima Cena &#8594;</button>')
+          + '</div></div>';
+      }
+
+      function sbNextScene() {
+        var sb = ciGameState.sb;
+        sb.sceneIdx += 1;
+        sb.step = 'context';
+        sb.compAnswered = null;
+        sb.compShuffled = null;
+        sb.produceInput = '';
+        sb.expandInput = '';
+        sb.rewriteInput = '';
+        sb.choiceAnswered = null;
+        sb.evalResult = null;
+        sb._produceSubmitted = false;
+        sb._expandSubmitted = false;
+        sb._rewriteSubmitted = false;
+        renderStoryBuilder();
+        scrollToCIContent();
+      }
+
+      function sbFinishStory() {
+        var sb = ciGameState.sb;
+        var stories = sbGetStoriesForSeason(sb.season);
+        sb.sceneIdx = 0;
+        sb._produceSubmitted = false;
+        sb._expandSubmitted = false;
+        sb._rewriteSubmitted = false;
+        if (sb.storyIdx < stories.length - 1) {
+          sb.storyIdx += 1;
+        } else {
+          sb.storyIdx = 0;
+        }
+        sb.step = 'menu';
+        renderStoryBuilder();
+        scrollToCIContent();
+      }
+
       // ── CI Game 2: Missing Meaning ──
-      // ═══════════════════════════════════
       // MISSING MEANING — FULL SYSTEM
       // ═══════════════════════════════════
 
