@@ -2815,8 +2815,8 @@
         flex-direction: column;
         gap: 24px;
         padding: 24px;
+        border-radius: 12px;
       }
-
       .method-intro {
         font-family: 'Playfair Display', serif;
         font-size: 18px;
@@ -3604,7 +3604,6 @@
         perspective: 1200px;
         margin-bottom: 24px;
         cursor: pointer;
-        min-height: 280px;
       }
       .srs-card-inner {
         position: relative;
@@ -3625,9 +3624,28 @@
         -webkit-backface-visibility: hidden;
         border: 1px solid var(--border);
         overflow: hidden;
+        border-radius: 12px;
       }
+@media (max-width: 600px) {
+  .srs-card-wrap,
+  .srs-card-inner,
+  .srs-card-front,
+  .srs-card-back {
+    min-height: 340px;
+  }
+  .btn-srs-known,
+  .btn-srs-unknown {
+    padding: 20px 12px;
+    font-size: 13px;
+  }
+  .srs-rate-row {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+}
       .srs-card-back {
         transform: rotateY(180deg);
+        border-radius: 12px;
       }
 
       /* progress strip */
@@ -3671,6 +3689,7 @@
         letter-spacing: 1.5px;
         text-transform: uppercase;
         border: none;
+        min-width: 0;
         cursor: pointer;
         transition: all 0.15s;
         display: flex;
@@ -6326,6 +6345,7 @@
   `;
 
         container.innerHTML = `
+    setTimeout(() => srsSyncCardHeight(), 0);
     <div class="method-body">
       <div class="method-main">
         <p class="method-intro">${c.intro}</p>
@@ -11468,6 +11488,15 @@
         }
         renderSRSSession();
       }
+      function srsSyncCardHeight() {
+  const inner = document.getElementById('srs-card-inner');
+  if (!inner) return;
+  const front = inner.querySelector('.srs-card-front');
+  const back = inner.querySelector('.srs-card-back');
+  if (!front || !back) return;
+  const h = Math.max(front.scrollHeight, back.scrollHeight, 280);
+  inner.style.minHeight = h + 'px';
+}
 
       function srsSpeakCard(text) {
         AudioEngine.stop();
