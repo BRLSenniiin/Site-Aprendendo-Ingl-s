@@ -15341,6 +15341,7 @@
           answered: null,      // chosen option index or string
           dominio: {},         // reduction id -> mastery 0..100
           seen: {},            // reduction id -> bool (already discovered)
+          categoryFilter: null, // selected category id or null = all
           history: [],         // { reductionId, correct } per round
           pendingAudio: false, // waiting for user to press play
           audioPlayed: false,  // audio was played in current step
@@ -15369,7 +15370,7 @@
         const games = [
           { id: 'contextChoice', icon: '💬', label: 'Context Choice', desc: 'Aprenda expressões pelo contexto — não pela tradução. Cada conceito tem 10 fases: da descoberta à produção própria.' },
           { id: 'missingMeaning', icon: '🔍', label: 'Missing Meaning', desc: 'Progressão por temporadas e níveis. Veja frases em contexto e compreenda — sem traduzir palavra por palavra.' },
-          { id: 'hearIt', icon: '🎧', label: 'Hear It', desc: 'Treine seu ouvido. Reconheça reduções, contrações e fala natural — como gonna, wanna, didja. Transforme sons em significado.' },
+          { id: 'hearIt', icon: '🎧', label: 'Hear It', desc: 'Treine seu ouvido para compreender inglês falado real. Reduções, vocabulário, frases icônicas, expressões e connected speech — qualquer tipo de dificuldade auditiva, um treino de cada vez.' },
           { id: 'storyBuilder', icon: '📖', label: 'Story Builder', desc: 'Transforme compreensão em produção. Avance por histórias textuais construindo frases cada vez mais complexas e naturais.' },
           { id: 'stories', icon: '🎬', label: 'Stories', desc: 'Cenas reais. Uma expressão, 10 fases — veja como ela evolui do básico ao natural em contextos autênticos.' },
         ];
@@ -18472,9 +18473,18 @@
         { id: 's5', name: 'Podcasts',         icon: '🎙️', desc: 'Fala espontânea de apresentadores e convidados.' },
       ];
 
+      const HI_CATEGORIES = [
+        { id: 'reduction',  icon: '🔊', label: 'Reduções' },
+        { id: 'vocabulary', icon: '📖', label: 'Vocabulário' },
+        { id: 'iconic',     icon: '🎬', label: 'Frases Icônicas' },
+        { id: 'expression', icon: '🔗', label: 'Expressões' },
+        { id: 'connected',  icon: '⚡', label: 'Connected Speech' },
+      ];
+
+
       const HI_REDUCTIONS = [
         {
-          id: 'gonna', spoken: 'gonna', formal: 'going to', season: 0,
+          id: 'gonna', category: 'reduction', spoken: 'gonna', formal: 'going to', season: 0,
           discovery: {
             sentence: "I'm gonna call him later.",
             pt: 'Vou ligar para ele mais tarde.',
@@ -18514,7 +18524,7 @@
           ],
         },
         {
-          id: 'wanna', spoken: 'wanna', formal: 'want to', season: 0,
+          id: 'wanna', category: 'reduction', spoken: 'wanna', formal: 'want to', season: 0,
           discovery: {
             sentence: "Do you wanna grab some food?",
             pt: 'Você quer pegar uma comida?',
@@ -18554,7 +18564,7 @@
           ],
         },
         {
-          id: 'gotta', spoken: 'gotta', formal: 'got to / have to', season: 0,
+          id: 'gotta', category: 'reduction', spoken: 'gotta', formal: 'got to / have to', season: 0,
           discovery: {
             sentence: "I gotta go now.",
             pt: 'Eu tenho que ir agora.',
@@ -18579,7 +18589,7 @@
           ],
         },
         {
-          id: 'kinda', spoken: 'kinda', formal: 'kind of', season: 0,
+          id: 'kinda', category: 'reduction', spoken: 'kinda', formal: 'kind of', season: 0,
           discovery: {
             sentence: "It's kinda weird, honestly.",
             pt: 'É meio estranho, honestamente.',
@@ -18604,7 +18614,7 @@
           ],
         },
         {
-          id: 'lemme', spoken: 'lemme', formal: 'let me', season: 0,
+          id: 'lemme', category: 'reduction', spoken: 'lemme', formal: 'let me', season: 0,
           discovery: {
             sentence: "Lemme check that real quick.",
             pt: 'Deixa eu verificar isso rapidinho.',
@@ -18629,7 +18639,7 @@
           ],
         },
         {
-          id: 'gimme', spoken: 'gimme', formal: 'give me', season: 0,
+          id: 'gimme', category: 'reduction', spoken: 'gimme', formal: 'give me', season: 0,
           discovery: {
             sentence: "Gimme a second, I'm almost done.",
             pt: 'Me dá um segundo, já vou terminar.',
@@ -18654,7 +18664,7 @@
           ],
         },
         {
-          id: 'outta', spoken: 'outta', formal: 'out of', season: 0,
+          id: 'outta', category: 'reduction', spoken: 'outta', formal: 'out of', season: 0,
           discovery: {
             sentence: "We're outta time.",
             pt: 'Estamos sem tempo.',
@@ -18679,7 +18689,7 @@
           ],
         },
         {
-          id: 'didja', spoken: 'didja', formal: 'did you', season: 0,
+          id: 'didja', category: 'reduction', spoken: 'didja', formal: 'did you', season: 0,
           discovery: {
             sentence: "Didja hear what he said?",
             pt: 'Você ouviu o que ele disse?',
@@ -18704,7 +18714,7 @@
           ],
         },
         {
-          id: 'cause', spoken: "cause", formal: 'because', season: 0,
+          id: 'cause', category: 'reduction', spoken: "cause", formal: 'because', season: 0,
           discovery: {
             sentence: "I left early cause I was tired.",
             pt: 'Saí cedo porque estava cansado.',
@@ -18729,7 +18739,7 @@
           ],
         },
         {
-          id: 'dunno', spoken: 'dunno', formal: "don't know", season: 0,
+          id: 'dunno', category: 'reduction', spoken: 'dunno', formal: "don't know", season: 0,
           discovery: {
             sentence: "I dunno, maybe tomorrow.",
             pt: 'Não sei, talvez amanhã.',
@@ -18753,10 +18763,425 @@
             },
           ],
         },
+        {
+          id: 'find_voc', category: 'vocabulary', spoken: 'find', formal: 'achar / considerar', season: 0,
+          discovery: {
+            sentence: "I find this movie boring.",
+            pt: 'Eu acho esse filme chato.',
+            note: '"find" geralmente é traduzido como "encontrar", mas aqui significa "achar/considerar". Brasileiro tende a esperar um sentido de busca e se perde no significado real da frase.',
+          },
+          rounds: [
+            {
+              audio: "I find this movie boring.",
+              question: 'O que essa pessoa está expressando?',
+              options: ['Que perdeu o filme', 'Sua opinião sobre o filme', 'Que vai procurar o filme', 'Que encontrou o filme'],
+              answer: 1,
+              recognize_question: 'Qual palavra introduz uma opinião, não uma busca?',
+              recognize_options: ['movie', 'boring', 'find', 'this'],
+              recognize_answer: 2,
+              formal: "I think this movie is boring.",
+              new_audio: "She finds his jokes annoying.",
+              new_question: 'O que ela pensa sobre as piadas dele?',
+              new_options: ['Que são divertidas', 'Que são irritantes', 'Que não existem', 'Que são raras'],
+              new_answer: 1,
+              feedback: '"find" + adjetivo = opinião/julgamento, não busca física.',
+            },
+          ],
+        },
+        {
+          id: 'lack', category: 'vocabulary', spoken: 'lack', formal: 'falta de', season: 0,
+          discovery: {
+            sentence: "He has a lack of experience.",
+            pt: 'Ele tem uma falta de experiência.',
+            note: '"lack" não é um verbo de "falhar" ou "fracassar" como brasileiro pode supor pelo som. É um substantivo/verbo que indica ausência ou falta de algo.',
+          },
+          rounds: [
+            {
+              audio: "He has a lack of experience.",
+              question: 'O que esse homem não possui o suficiente?',
+              options: ['Dinheiro', 'Experiência', 'Tempo', 'Paciência'],
+              answer: 1,
+              recognize_question: 'Qual palavra indica ausência de algo?',
+              recognize_options: ['has', 'lack', 'experience', 'he'],
+              recognize_answer: 1,
+              formal: "He doesn't have enough experience.",
+              new_audio: "There's a lack of information about this topic.",
+              new_question: 'O que está faltando sobre esse assunto?',
+              new_options: ['Informação', 'Interesse', 'Dinheiro', 'Tempo'],
+              new_answer: 0,
+              feedback: '"lack of" = falta de. Indica ausência ou escassez de algo.',
+            },
+          ],
+        },
+        {
+          id: 'disturbing', category: 'vocabulary', spoken: 'disturbing', formal: 'perturbador', season: 0,
+          discovery: {
+            sentence: "That news was disturbing.",
+            pt: 'Aquela notícia foi perturbadora.',
+            note: 'Brasileiro tende a associar "disturbing" a "disturbar/incomodar levemente", mas o sentido real é muito mais forte: algo perturbador, angustiante ou chocante.',
+          },
+          rounds: [
+            {
+              audio: "That news was disturbing.",
+              question: 'Como essa pessoa reagiu à notícia?',
+              options: ['Ficou indiferente', 'Ficou perturbada', 'Ficou animada', 'Não entendeu'],
+              answer: 1,
+              recognize_question: 'Qual palavra expressa um impacto emocional forte?',
+              recognize_options: ['that', 'news', 'was', 'disturbing'],
+              recognize_answer: 3,
+              formal: "That news was upsetting and unsettling.",
+              new_audio: "The movie had some disturbing scenes.",
+              new_question: 'Como eram as cenas do filme?',
+              new_options: ['Divertidas', 'Perturbadoras', 'Sem importância', 'Engraçadas'],
+              new_answer: 1,
+              feedback: '"disturbing" = perturbador, angustiante. Sentido muito mais forte do que "incomodar".',
+            },
+          ],
+        },
+        {
+          id: 'worth', category: 'vocabulary', spoken: 'worth', formal: 'vale a pena', season: 0,
+          discovery: {
+            sentence: "This movie is worth watching.",
+            pt: 'Esse filme vale a pena ver.',
+            note: '"worth" não tem tradução direta de uma palavra só em português, o que confunde brasileiros. A estrutura "worth + -ing" expressa "vale a pena fazer algo".',
+          },
+          rounds: [
+            {
+              audio: "This movie is worth watching.",
+              question: 'O que essa pessoa recomenda?',
+              options: ['Evitar o filme', 'Assistir ao filme', 'Esperar a sequência', 'Ler o livro'],
+              answer: 1,
+              recognize_question: 'Qual chunk expressa recomendação de valor?',
+              recognize_options: ['this movie', 'is worth', 'watching', 'movie is'],
+              recognize_answer: 1,
+              formal: "This movie deserves to be watched / it's a good use of your time.",
+              new_audio: "Is it worth the price?",
+              new_question: 'O que essa pessoa quer saber?',
+              new_options: ['Se o preço é justo pelo benefício', 'Se está em promoção', 'Se ainda existe', 'Se é caro de manter'],
+              new_answer: 0,
+              feedback: '"worth" = vale a pena / tem valor equivalente a. Estrutura comum: worth + -ing ou worth + substantivo.',
+            },
+          ],
+        },
+        {
+          id: 'deal', category: 'vocabulary', spoken: 'deal', formal: 'lidar com', season: 0,
+          discovery: {
+            sentence: "I need to deal with this problem.",
+            pt: 'Eu preciso lidar com esse problema.',
+            note: 'Brasileiro associa "deal" só a "negócio" ou "acordo", mas "deal with" é um phrasal verb muito comum que significa "lidar com, resolver, enfrentar".',
+          },
+          rounds: [
+            {
+              audio: "I need to deal with this problem.",
+              question: 'O que essa pessoa precisa fazer?',
+              options: ['Ignorar o problema', 'Resolver o problema', 'Vender algo', 'Fechar um negócio'],
+              answer: 1,
+              recognize_question: 'Qual chunk significa "lidar com / resolver"?',
+              recognize_options: ['I need', 'deal with', 'this problem', 'to deal'],
+              recognize_answer: 1,
+              formal: "I need to handle / resolve this problem.",
+              new_audio: "She doesn't know how to deal with stress.",
+              new_question: 'Com o que ela tem dificuldade?',
+              new_options: ['Fazer negócios', 'Lidar com estresse', 'Vender produtos', 'Fazer acordos'],
+              new_answer: 1,
+              feedback: '"deal with" = lidar com, enfrentar, resolver. Não tem relação com "negócio" nesse contexto.',
+            },
+          ],
+        },
+        {
+          id: 'find_disturbing', category: 'iconic', spoken: 'find ... disturbing', formal: 'acho ... perturbador', season: 0,
+          discovery: {
+            sentence: "I find your lack of faith disturbing.",
+            pt: 'Acho sua falta de fé perturbadora.',
+            note: '"find" aqui não significa encontrar. Significa achar, considerar. Erro clássico de brasileiro. Frase icônica de Darth Vader em Star Wars.',
+            gif: 'images/hear-it/vader.gif',
+            audio: 'audios/hear-it/vader-find.mp3',
+          },
+          rounds: [
+            {
+              audio: "I find your lack of faith disturbing.",
+              question: 'O que essa pessoa está dizendo sobre a outra?',
+              options: ['Que ela é corajosa', 'Que sua falta de fé a perturba', 'Que ela encontrou algo', 'Que ela está certa'],
+              answer: 1,
+              recognize_question: 'Qual chunk expressa uma opinião/julgamento?',
+              recognize_options: ['your lack', 'of faith', 'I find', 'disturbing'],
+              recognize_answer: 2,
+              formal: "I think your lack of faith is disturbing.",
+              new_audio: "I find his confidence disturbing.",
+              new_question: 'O que essa pessoa pensa sobre a confiança dele?',
+              new_options: ['Acha admirável', 'Acha perturbadora', 'Não percebeu', 'Acha normal'],
+              new_answer: 1,
+              feedback: '"I find X disturbing" = acho X perturbador. Estrutura comum para opiniões fortes.',
+            },
+          ],
+        },
+        {
+          id: 'no_try', category: 'iconic', spoken: 'do or do not, there is no try', formal: 'faça ou não faça, tentar não existe', season: 0,
+          discovery: {
+            sentence: "Do or do not, there is no try.",
+            pt: 'Faça ou não faça, não existe tentar.',
+            note: 'Brasileiro tende a traduzir "do" como "fazer" de forma genérica, mas aqui "do or do not" é uma estrutura de contraste enfático — fazer ou não fazer, sem meio-termo. Frase icônica de Yoda em Star Wars.',
+          },
+          rounds: [
+            {
+              audio: "Do or do not, there is no try.",
+              question: 'Qual é a mensagem dessa frase?',
+              options: ['Tentar é o mais importante', 'Não existe meio-termo entre fazer e não fazer', 'É preciso descansar antes', 'Tentar várias vezes é bom'],
+              answer: 1,
+              recognize_question: 'Qual palavra é apresentada como algo que "não existe"?',
+              recognize_options: ['do', 'or', 'try', 'there'],
+              recognize_answer: 2,
+              formal: "Either you do it or you don't — there's no such thing as 'trying'.",
+              new_audio: "You either commit or you don't, there is no halfway.",
+              new_question: 'Qual é a ideia central dessa frase?',
+              new_options: ['Comprometimento total ou nada', 'Meio-termo é sempre melhor', 'Desistir é aceitável', 'Tentar é suficiente'],
+              new_answer: 0,
+              feedback: '"there is no X" = X simplesmente não existe como opção válida. Estrutura enfática de contraste.',
+            },
+          ],
+        },
+        {
+          id: 'with_me', category: 'iconic', spoken: 'are you with me', formal: 'você está comigo / topa', season: 0,
+          discovery: {
+            sentence: "Are you with me?",
+            pt: 'Você está comigo? / Você topa?',
+            note: 'Brasileiro pode interpretar literalmente como "você está perto de mim fisicamente", mas em jogos e filmes essa frase pergunta sobre apoio, lealdade ou compreensão — "você está do meu lado / entendeu o plano?".',
+          },
+          rounds: [
+            {
+              audio: "Are you with me?",
+              question: 'O que essa pessoa está perguntando?',
+              options: ['Se está perto fisicamente', 'Se a outra pessoa apoia/entende o plano', 'Se está com fome', 'Se está atrasada'],
+              answer: 1,
+              recognize_question: 'Qual chunk pergunta sobre apoio ou compreensão?',
+              recognize_options: ['are you', 'with me', 'you with', 'me'],
+              recognize_answer: 1,
+              formal: "Do you support me / understand the plan?",
+              new_audio: "We go in at midnight. Are you with me?",
+              new_question: 'O que essa pessoa espera como resposta?',
+              new_options: ['Confirmação de apoio ao plano', 'Localização exata', 'Hora do dia', 'Nome de alguém'],
+              new_answer: 0,
+              feedback: '"are you with me?" = você topa / está do meu lado / entendeu? Não é sobre proximidade física.',
+            },
+          ],
+        },
+        {
+          id: 'trust_me', category: 'iconic', spoken: "you're gonna have to trust me", formal: 'você vai ter que confiar em mim', season: 0,
+          discovery: {
+            sentence: "You're just gonna have to trust me.",
+            pt: 'Você só vai precisar confiar em mim.',
+            note: 'Combinação de "gonna" (going to) com "have to" — duas reduções/estruturas empilhadas. Brasileiro que não domina "gonna" se perde tentando processar a frase inteira.',
+          },
+          rounds: [
+            {
+              audio: "You're just gonna have to trust me.",
+              question: 'O que essa pessoa está pedindo?',
+              options: ['Que expliquem tudo antes', 'Confiança, sem explicações completas', 'Que esperem mais', 'Que desistam do plano'],
+              answer: 1,
+              recognize_question: 'Qual chunk indica uma obrigação futura?',
+              recognize_options: ['just gonna', 'have to', 'trust me', "you're"],
+              recognize_answer: 1,
+              formal: "You're just going to have to trust me.",
+              new_audio: "We're gonna have to move fast.",
+              new_question: 'O que esse grupo precisará fazer?',
+              new_options: ['Agir rapidamente', 'Esperar com calma', 'Voltar atrás', 'Discutir o plano'],
+              new_answer: 0,
+              feedback: '"gonna have to" = going to have to. Duas estruturas de fala natural empilhadas.',
+            },
+          ],
+        },
+        {
+          id: 'give_up', category: 'expression', spoken: 'give up', formal: 'desistir', season: 0,
+          discovery: {
+            sentence: "Don't give up on your dreams.",
+            pt: 'Não desista dos seus sonhos.',
+            note: '"give up" não tem relação com "dar" algo "para cima". É um phrasal verb fixo que significa "desistir". Brasileiro tenta traduzir palavra por palavra e se perde.',
+          },
+          rounds: [
+            {
+              audio: "Don't give up on your dreams.",
+              question: 'O que essa frase está incentivando?',
+              options: ['Continuar tentando', 'Mudar de sonho', 'Dar algo a alguém', 'Esperar mais tempo'],
+              answer: 0,
+              recognize_question: 'Qual chunk significa "desistir"?',
+              recognize_options: ['give up', "don't", 'on your', 'dreams'],
+              recognize_answer: 0,
+              formal: "Don't quit / abandon your dreams.",
+              new_audio: "He gave up smoking last year.",
+              new_question: 'O que ele parou de fazer?',
+              new_options: ['Fumar', 'Beber', 'Trabalhar', 'Dirigir'],
+              new_answer: 0,
+              feedback: '"give up" = desistir / abandonar. Phrasal verb fixo, sentido não literal.',
+            },
+          ],
+        },
+        {
+          id: 'turn_out', category: 'expression', spoken: 'turn out', formal: 'resultar, acontecer', season: 0,
+          discovery: {
+            sentence: "Everything turned out fine.",
+            pt: 'Tudo acabou bem / deu certo.',
+            note: '"turn out" não é sobre "virar" algo. Significa "resultar em / revelar-se / acabar sendo". Brasileiro tende a pensar em "apagar" (turn off the light) e se confunde.',
+          },
+          rounds: [
+            {
+              audio: "Everything turned out fine.",
+              question: 'Como a situação terminou?',
+              options: ['Mal', 'Bem', 'Sem solução', 'De forma confusa'],
+              answer: 1,
+              recognize_question: 'Qual chunk indica o resultado final de algo?',
+              recognize_options: ['everything', 'turned out', 'fine', 'turned'],
+              recognize_answer: 1,
+              formal: "Everything ended up being fine.",
+              new_audio: "It turned out he was right all along.",
+              new_question: 'O que se revelou no final?',
+              new_options: ['Que ele estava certo', 'Que ele mentiu', 'Que ele desistiu', 'Que ele se mudou'],
+              new_answer: 0,
+              feedback: '"turn out" = resultar em, revelar-se, acabar sendo. Não tem relação com "virar/desligar".',
+            },
+          ],
+        },
+        {
+          id: 'look_forward', category: 'expression', spoken: 'look forward to', formal: 'estar ansioso por', season: 0,
+          discovery: {
+            sentence: "I'm looking forward to the weekend.",
+            pt: 'Estou ansioso pelo fim de semana.',
+            note: '"look forward to" é seguido por substantivo ou verbo + ing, nunca infinitivo. Brasileiro costuma errar tentando usar "to + verbo no infinitivo" como em português.',
+          },
+          rounds: [
+            {
+              audio: "I'm looking forward to the weekend.",
+              question: 'Como essa pessoa se sente em relação ao fim de semana?',
+              options: ['Indiferente', 'Ansiosa, no sentido positivo', 'Preocupada', 'Triste'],
+              answer: 1,
+              recognize_question: 'Qual chunk expressa expectativa positiva?',
+              recognize_options: ['looking forward to', "I'm", 'the weekend', 'forward'],
+              recognize_answer: 0,
+              formal: "I'm excited about / eagerly anticipating the weekend.",
+              new_audio: "We're looking forward to seeing you.",
+              new_question: 'O que esse grupo está esperando com expectativa?',
+              new_options: ['Ver essa pessoa', 'Receber uma encomenda', 'Terminar um projeto', 'Viajar sozinhos'],
+              new_answer: 0,
+              feedback: '"look forward to" + substantivo/-ing = estar ansioso, animado por algo que vai acontecer.',
+            },
+          ],
+        },
+        {
+          id: 'put_up_with', category: 'expression', spoken: 'put up with', formal: 'aguentar, tolerar', season: 0,
+          discovery: {
+            sentence: "I can't put up with this noise anymore.",
+            pt: 'Eu não consigo mais aguentar esse ruído.',
+            note: '"put up with" é um phrasal verb de três palavras, comum em reclamações. Brasileiro tenta entender "put up" e "with" separadamente e perde o sentido de "tolerar/aguentar".',
+          },
+          rounds: [
+            {
+              audio: "I can't put up with this noise anymore.",
+              question: 'O que essa pessoa não consegue mais fazer?',
+              options: ['Ouvir música', 'Tolerar o ruído', 'Dormir cedo', 'Sair de casa'],
+              answer: 1,
+              recognize_question: 'Qual chunk significa "tolerar/aguentar"?',
+              recognize_options: ['put up with', "can't", 'this noise', 'anymore'],
+              recognize_answer: 0,
+              formal: "I can't tolerate / stand this noise anymore.",
+              new_audio: "She won't put up with his excuses any longer.",
+              new_question: 'O que ela não vai mais aceitar?',
+              new_options: ['As desculpas dele', 'Os atrasos dela', 'O salário', 'A viagem'],
+              new_answer: 0,
+              feedback: '"put up with" = aguentar, tolerar algo desagradável. Sentido idiomático, não literal.',
+            },
+          ],
+        },
+        {
+          id: 'did_you', category: 'connected', spoken: 'didja', formal: 'did you', season: 0,
+          discovery: {
+            sentence: "Didja eat?",
+            pt: 'Você comeu?',
+            note: 'Em fala rápida, "did you" gruda e some quase todo o som de "you", virando "didja". Brasileiro acostumado com "did" + "you" separados não reconhece a fusão.',
+          },
+          rounds: [
+            {
+              audio: "Didja eat?",
+              question: 'O que essa pessoa está perguntando?',
+              options: ['Se a pessoa dormiu', 'Se a pessoa comeu', 'Se a pessoa chegou', 'Se a pessoa saiu'],
+              answer: 1,
+              recognize_question: 'Qual som corresponde a "did you" na fala rápida?',
+              recognize_options: ['eat', 'didja', 'did', 'you'],
+              recognize_answer: 1,
+              formal: "Did you eat?",
+              new_audio: "Didja see that?",
+              new_question: 'O que essa pessoa está perguntando?',
+              new_options: ['Se a pessoa viu algo', 'Se a pessoa ouviu algo', 'Se a pessoa fez algo', 'Se a pessoa foi a algum lugar'],
+              new_answer: 0,
+              feedback: '"didja" = did you, fundidos na fala rápida (connected speech).',
+            },
+          ],
+        },
+        {
+          id: 'what_are_you', category: 'connected', spoken: 'whatcha', formal: 'what are you', season: 0,
+          discovery: {
+            sentence: "Whatcha doin'?",
+            pt: 'O que você está fazendo?',
+            note: '"what are you" colapsa em "whatcha" na fala rápida, e "doing" perde o "g" final virando "doin". Duas reduções empilhadas que somem do som esperado por um brasileiro.',
+          },
+          rounds: [
+            {
+              audio: "Whatcha doin'?",
+              question: 'O que essa pessoa está perguntando?',
+              options: ['Onde você está', 'O que você está fazendo', 'Quem é você', 'Por que você está aqui'],
+              answer: 1,
+              recognize_question: 'Qual som corresponde a "what are you" na fala rápida?',
+              recognize_options: ['doin', 'whatcha', 'are', 'you'],
+              recognize_answer: 1,
+              formal: "What are you doing?",
+              new_audio: "Whatcha thinkin' about?",
+              new_question: 'O que essa pessoa quer saber?',
+              new_options: ['No que a pessoa está pensando', 'Onde a pessoa está', 'O que a pessoa comprou', 'Quando a pessoa chega'],
+              new_answer: 0,
+              feedback: '"whatcha" = what are you. Connected speech típico de perguntas informais.',
+            },
+          ],
+        },
+        {
+          id: 'going_to', category: 'connected', spoken: 'you gonna', formal: 'are you going to', season: 0,
+          discovery: {
+            sentence: "You gonna come or not?",
+            pt: 'Você vai vir ou não?',
+            note: 'Em fala rápida, "are you going to" pode encolher até "you gonna", quase eliminando o verbo "are". Brasileiro espera ouvir "are" claramente e não encontra esse som.',
+          },
+          rounds: [
+            {
+              audio: "You gonna come or not?",
+              question: 'O que essa pessoa quer saber?',
+              options: ['Se a outra pessoa vai chegar', 'Se a outra pessoa comeu', 'Se a outra pessoa gostou', 'Se a outra pessoa saiu'],
+              answer: 0,
+              recognize_question: 'Qual chunk substitui "are you going to"?',
+              recognize_options: ['come or', 'you gonna', 'or not', 'gonna come'],
+              recognize_answer: 1,
+              formal: "Are you going to come or not?",
+              new_audio: "You gonna tell her the truth?",
+              new_question: 'O que essa pessoa está perguntando?',
+              new_options: ['Se vai contar a verdade a ela', 'Se vai viajar com ela', 'Se vai esperar por ela', 'Se vai ligar para ela'],
+              new_answer: 0,
+              feedback: '"you gonna" = are you going to. O "are" praticamente desaparece na fala rápida.',
+            },
+          ],
+        },
       ];
 
       function hiGetReductionsForSeason(seasonIdx) {
         return HI_REDUCTIONS.filter(function(r) { return r.season <= seasonIdx; });
+      }
+
+      function hiGetFilteredReductions(seasonIdx) {
+        var pool = hiGetReductionsForSeason(seasonIdx);
+        var filter = ciGameState.hi.categoryFilter;
+        if (!filter) return pool;
+        return pool.filter(function(r) { return r.category === filter; });
+      }
+
+      function hiSetCategoryFilter(catId) {
+        var hi = ciGameState.hi;
+        hi.categoryFilter = (hi.categoryFilter === catId) ? null : catId;
+        renderHearIt();
       }
 
       function hiGetDominio(id) {
@@ -18769,7 +19194,8 @@
       }
 
       function hiPickReduction() {
-        var pool = hiGetReductionsForSeason(ciGameState.hi.season);
+        var pool = hiGetFilteredReductions(ciGameState.hi.season);
+        if (!pool.length) pool = hiGetReductionsForSeason(ciGameState.hi.season);
         var weights = pool.map(function(r) { return Math.max(5, 100 - hiGetDominio(r.id)); });
         var total = weights.reduce(function(a, b) { return a + b; }, 0);
         var rand = Math.random() * total;
@@ -18806,10 +19232,12 @@
       function renderHIMenu(container) {
         var hi = ciGameState.hi;
         var season = HI_SEASONS[hi.season];
-        var reductions = hiGetReductionsForSeason(hi.season);
-        var avg = reductions.length
-          ? Math.round(reductions.reduce(function(s, r) { return s + hiGetDominio(r.id); }, 0) / reductions.length)
+        var allReductions = hiGetReductionsForSeason(hi.season);
+        var avg = allReductions.length
+          ? Math.round(allReductions.reduce(function(s, r) { return s + hiGetDominio(r.id); }, 0) / allReductions.length)
           : 0;
+
+        var reductions = hiGetFilteredReductions(hi.season);
 
         var domCards = reductions.map(function(r) {
           var d = hiGetDominio(r.id);
@@ -18827,15 +19255,25 @@
             + s.icon + ' ' + s.name + (locked ? ' 🔒' : '') + '</button>';
         }).join('');
 
+        var categoryBtns = HI_CATEGORIES.map(function(c) {
+          var active = hi.categoryFilter === c.id;
+          return '<button onclick="hiSetCategoryFilter(\'' + c.id + '\')"'
+            + ' style="padding:8px 14px;background:' + (active ? HI_COLOR_MID : 'var(--surface)') + ';border:1px solid ' + (active ? HI_COLOR : 'var(--border)') + ';color:' + (active ? HI_COLOR : 'var(--ink2)') + ';font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.5px;cursor:pointer;white-space:nowrap">'
+            + c.icon + ' ' + c.label + '</button>';
+        }).join('');
+
         container.innerHTML = '<div style="margin-bottom:20px">'
           + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px;color:var(--ink);margin-bottom:4px">🎧 Hear It</div>'
-          + '<div style="font-size:13px;color:var(--ink3);line-height:1.7;max-width:520px">Treine seu ouvido para compreender inglês falado real — reduções, connected speech e fala natural. O objetivo não é escrever. É entender.</div>'
+          + '<div style="font-size:13px;color:var(--ink3);line-height:1.7;max-width:520px">Treine seu ouvido para compreender inglês falado real. Reduções, vocabulário, frases icônicas, expressões e connected speech — qualquer tipo de dificuldade auditiva, um treino de cada vez.</div>'
           + '</div>'
           + '<div style="background:' + HI_COLOR_DIM + ';border:1px solid rgba(107,79,160,0.25);border-left:4px solid ' + HI_COLOR + ';padding:12px 16px;margin-bottom:20px;font-size:13px;color:var(--ink2);line-height:1.8">'
           + '<strong>Regra fundamental:</strong> você nunca será testado em uma redução que ainda não encontrou. A primeira aparição é sempre uma descoberta.</div>'
           + '<div style="margin-bottom:20px">'
           + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:10px">Temporadas</div>'
           + '<div style="display:flex;flex-direction:column;gap:6px">' + seasonBtns + '</div></div>'
+          + '<div style="margin-bottom:20px">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:10px">Categoria</div>'
+          + '<div style="display:flex;flex-wrap:wrap;gap:6px">' + categoryBtns + '</div></div>'
           + '<div style="background:var(--surface);border:1px solid var(--border);padding:16px 18px;margin-bottom:20px">'
           + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">'
           + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + HI_COLOR + '">Domínio Auditivo — ' + season.icon + ' ' + season.name + '</div>'
@@ -18843,6 +19281,7 @@
           + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px">' + domCards + '</div></div>'
           + '<button onclick="hiStartRound()" style="width:100%;padding:16px;background:' + HI_COLOR + ';border:none;color:#fff;font-family:\'Barlow Condensed\',sans-serif;font-size:14px;font-weight:800;letter-spacing:2px;text-transform:uppercase;cursor:pointer">🎧 Iniciar Sessão</button>';
       }
+
 
       function hiSelectSeason(i) {
         ciGameState.hi.season = i;
@@ -18896,22 +19335,34 @@
       function hiBodyDiscover(reduction, round) {
         var d = reduction.discovery;
         var safe = d.sentence.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        var gifHtml = d.gif
+          ? '<div style="text-align:center;margin-bottom:14px"><img src="' + d.gif + '" loading="lazy" style="max-width:360px;width:100%;border-radius:8px"></div>'
+          : '';
+        var realAudioSafe = d.audio ? d.audio.replace(/\\/g,'\\\\').replace(/'/g,"\\'") : '';
+        var realAudioBtn = d.audio
+          ? '<button onclick="new Audio(\'' + realAudioSafe + '\').play()" style="background:' + HI_COLOR + ';border:none;color:#fff;padding:10px 24px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:800;letter-spacing:1.5px;cursor:pointer;margin-bottom:16px;margin-right:10px">&#9654; Ouvir</button>'
+          : '';
         return '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">'
           + '<div style="background:' + HI_COLOR + ';padding:13px 20px">'
           + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🔍 Nova Redução Encontrada</div>'
           + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Ouça, veja o padrão e entenda antes de qualquer pergunta.</div></div>'
           + '<div style="padding:22px">'
+          + gifHtml
           + '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">'
           + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:32px;font-weight:900;color:' + HI_COLOR + '">' + reduction.spoken + '</div>'
           + '<div style="color:var(--ink4);font-size:18px">&#8594;</div>'
           + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:20px;color:var(--ink2)">' + reduction.formal + '</div></div>'
           + '<div style="font-family:\'Playfair Display\',serif;font-size:19px;color:var(--ink);line-height:1.8;padding:14px 18px;background:var(--bg2);border-left:4px solid ' + HI_COLOR + ';margin-bottom:10px">' + d.sentence + '</div>'
           + '<div style="font-size:13px;color:var(--ink3);margin-bottom:14px;font-style:italic">PT-BR: ' + d.pt + '</div>'
+          + '<div>'
+          + realAudioBtn
           + '<button onclick="AudioEngine.speak(\'' + safe + '\',function(){})" style="background:transparent;border:1px solid ' + HI_COLOR + ';color:' + HI_COLOR + ';padding:8px 20px;font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;margin-bottom:16px">&#9654; Ouvir exemplo</button>'
+          + '</div>'
           + '<div style="background:' + HI_COLOR_DIM + ';border-left:3px solid ' + HI_COLOR + ';padding:10px 14px;font-size:12px;color:var(--ink2);line-height:1.8">' + d.note + '</div></div>'
           + '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--bg2);display:flex;justify-content:flex-end">'
           + '<button onclick="hiAdvanceStep(\'listen\')" style="background:' + HI_COLOR + ';border:none;color:#fff;padding:10px 28px;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">Entendido &#8594; Praticar</button></div></div>';
       }
+
 
       function hiBodyListen(reduction, round) {
         var hi = ciGameState.hi;
