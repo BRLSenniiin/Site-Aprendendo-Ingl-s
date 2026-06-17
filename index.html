@@ -16031,6 +16031,1046 @@
       // ── Story Builder progress persisted across stories (Improvement 4C) ──
       var storyBuilderProgress = {}; // storyId -> { scenesCompleted: N, done: bool }
 
+      // ══════════════════════════════════════════════════════════════════
+      // WORD BRANCHES — "The Meaning Network"
+      // Estrutura de dados unificada (ver design doc): word → branches[] →
+      // {meaning, register, frequency, examples, collocations, brazilian_trap}
+      // ══════════════════════════════════════════════════════════════════
+
+      const WB_WORDS = [
+        {
+          word: 'assist',
+          difficulty: 'intermediate',
+          branches: [
+            {
+              id: 'assist_help',
+              meaning: 'ajudar',
+              register: 'formal',
+              frequency: 'alta',
+              examples: [
+                { en: 'The IT department will assist you with this issue.', pt: 'O departamento de TI vai te ajudar com esse problema.' },
+                { en: 'Can you assist me with these documents?', pt: 'Você pode me ajudar com esses documentos?' },
+              ],
+              collocations_natural: ['assist with', 'assist in', 'will assist you'],
+              collocations_unnatural: ['assist a problem', 'assist happy'],
+              brazilian_trap: 'Brasileiro tende a usar "help" sempre e nunca migra para "assist" em contexto formal/profissional, perdendo registro adequado em e-mails e situações de trabalho.',
+            },
+            {
+              id: 'assist_sports',
+              meaning: 'assistência esportiva',
+              register: 'informal/esportivo',
+              frequency: 'média',
+              examples: [
+                { en: 'He got the assist on the winning goal.', pt: 'Ele deu a assistência no gol da vitória.' },
+                { en: 'She has 10 assists this season.', pt: 'Ela tem 10 assistências essa temporada.' },
+              ],
+              collocations_natural: ['get the assist', 'assists this season', 'credited with an assist'],
+              collocations_unnatural: ['assist of help', 'make an assist to someone'],
+              brazilian_trap: 'Brasileiro já conhece esse sentido por causa de games e futebol — geralmente o único sentido que reconhece, o que causa erro nos outros dois ramos.',
+            },
+            {
+              id: 'assist_presence',
+              meaning: 'estar presente em um evento',
+              register: 'arcaico/literário',
+              frequency: 'muito baixa',
+              examples: [
+                { en: 'I assisted at the ceremony.', pt: 'Eu estive presente/assisti à cerimônia.' },
+                { en: 'He assisted at the representation of several plays.', pt: 'Ele assistiu à apresentação de várias peças.' },
+              ],
+              collocations_natural: ['assisted at the ceremony', 'assisted at the performance'],
+              collocations_unnatural: ['assist a movie at home', 'assist TV'],
+              brazilian_trap: 'Esse é o único ramo onde a tradução literal de "assistir" (ver algo) por acaso funciona — mas só nesse uso raro e antiquado. Usar esse sentido em conversa moderna soa estranho ou pedante.',
+            },
+          ],
+        },
+        {
+          word: 'appreciate',
+          difficulty: 'intermediate',
+          branches: [
+            {
+              id: 'appreciate_thanks',
+              meaning: 'agradecer',
+              register: 'neutro',
+              frequency: 'alta',
+              examples: [
+                { en: 'I really appreciate your help today.', pt: 'Eu realmente agradeço sua ajuda hoje.' },
+                { en: 'Thanks, I appreciate it.', pt: 'Obrigado, eu agradeço.' },
+              ],
+              collocations_natural: ['I appreciate it', 'really appreciate your help', 'would appreciate it if'],
+              collocations_unnatural: ['appreciate you for thing', 'appreciate happy'],
+              brazilian_trap: 'Brasileiro usa "thank you" para tudo e raramente migra para "appreciate", que soa mais sincero e um pouco mais formal em agradecimentos importantes.',
+            },
+            {
+              id: 'appreciate_aesthetic',
+              meaning: 'apreciar esteticamente',
+              register: 'neutro/culto',
+              frequency: 'média',
+              examples: [
+                { en: 'You really have to stand close to appreciate the detail in this painting.', pt: 'Você precisa ficar perto de verdade para apreciar o detalhe dessa pintura.' },
+                { en: 'I appreciate good design when I see it.', pt: 'Eu aprecio um bom design quando vejo um.' },
+              ],
+              collocations_natural: ['appreciate the detail', 'appreciate good design', 'truly appreciate art'],
+              collocations_unnatural: ['appreciate fast', 'appreciate of beauty'],
+              brazilian_trap: 'Brasileiro tende a confundir esse ramo com o de "agradecer" — em "I appreciate art" não há nenhum agradecimento envolvido, é apreciação estética pura.',
+            },
+            {
+              id: 'appreciate_gravity',
+              meaning: 'reconhecer a gravidade/importância de algo',
+              register: 'formal',
+              frequency: 'média',
+              examples: [
+                { en: 'I appreciate the seriousness of the situation.', pt: 'Eu reconheço a seriedade da situação.' },
+                { en: 'She fully appreciates the risks involved.', pt: 'Ela reconhece plenamente os riscos envolvidos.' },
+              ],
+              collocations_natural: ['appreciate the seriousness', 'appreciate the risks', 'fully appreciate'],
+              collocations_unnatural: ['appreciate danger happy', 'appreciate the risk for'],
+              brazilian_trap: 'Brasileiro costuma traduzir por "apreciar" no sentido de gostar, quando aqui o sentido real é "entender plenamente a gravidade" — quase o oposto de "gostar".',
+            },
+            {
+              id: 'appreciate_value',
+              meaning: 'valorizar financeiramente (raro saber)',
+              register: 'técnico/financeiro',
+              frequency: 'muito baixa',
+              examples: [
+                { en: 'The property has appreciated in value since we bought it.', pt: 'O imóvel se valorizou desde que o compramos.' },
+                { en: 'Stocks tend to appreciate over the long term.', pt: 'Ações tendem a se valorizar no longo prazo.' },
+              ],
+              collocations_natural: ['appreciate in value', 'appreciated since', 'tend to appreciate'],
+              collocations_unnatural: ['appreciate the money happy', 'appreciate to dollars'],
+              brazilian_trap: 'Esse ramo é quase desconhecido pelo aprendiz brasileiro fora de contexto financeiro — muitos nunca encontram esse sentido e ficam confusos ao ler notícias econômicas em inglês.',
+            },
+          ],
+        },
+        {
+          word: 'engage',
+          difficulty: 'intermediate',
+          branches: [
+            {
+              id: 'engage_involve',
+              meaning: 'envolver-se/participar',
+              register: 'neutro',
+              frequency: 'alta',
+              examples: [
+                { en: 'Students need to engage with the material.', pt: 'Os alunos precisam se envolver com o conteúdo.' },
+                { en: 'It is hard to engage a remote audience.', pt: 'É difícil envolver uma audiência remota.' },
+              ],
+              collocations_natural: ['engage with', 'engage the audience', 'fully engaged'],
+              collocations_unnatural: ['engage of the work', 'engage happy'],
+              brazilian_trap: 'Brasileiro tende a usar apenas "participate" ou "get involved" e ignora "engage", que é a escolha mais natural em contextos educacionais e de marketing.',
+            },
+            {
+              id: 'engage_hire',
+              meaning: 'contratar',
+              register: 'formal',
+              frequency: 'média',
+              examples: [
+                { en: 'We engaged a lawyer for the case.', pt: 'Contratamos um advogado para o caso.' },
+                { en: 'The company engaged a consultant to review the process.', pt: 'A empresa contratou um consultor para revisar o processo.' },
+              ],
+              collocations_natural: ['engage a lawyer', 'engage a consultant', 'engaged to review'],
+              collocations_unnatural: ['engage with a lawyer for hire', 'engage worker happy'],
+              brazilian_trap: 'Brasileiro só conhece "hire" e estranha "engage" nesse sentido — é comum em contextos jurídicos e de consultoria, mais formal que "hire".',
+            },
+            {
+              id: 'engage_marriage',
+              meaning: 'noivar',
+              register: 'neutro',
+              frequency: 'alta',
+              examples: [
+                { en: 'They got engaged last month.', pt: 'Eles ficaram noivos no mês passado.' },
+                { en: 'She is engaged to her college boyfriend.', pt: 'Ela está noiva do namorado da faculdade.' },
+              ],
+              collocations_natural: ['get engaged', 'engaged to', 'announce their engagement'],
+              collocations_unnatural: ['engage marriage happy', 'engage of wedding'],
+              brazilian_trap: 'Esse é geralmente o primeiro sentido que o brasileiro aprende (por causa de "engagement ring"), mas falha em reconhecer os outros três ramos da palavra.',
+            },
+            {
+              id: 'engage_combat',
+              meaning: 'entrar em combate',
+              register: 'formal/militar',
+              frequency: 'baixa',
+              examples: [
+                { en: 'The troops engaged the enemy at dawn.', pt: 'As tropas entraram em combate com o inimigo ao amanhecer.' },
+                { en: 'The two ships engaged in battle.', pt: 'Os dois navios entraram em combate.' },
+              ],
+              collocations_natural: ['engage the enemy', 'engaged in battle', 'engage in combat'],
+              collocations_unnatural: ['engage war happy', 'engage of fight'],
+              brazilian_trap: 'Brasileiro raramente encontra esse sentido fora de contextos militares/históricos e tende a não reconhecer "engage" como "atacar/combater".',
+            },
+          ],
+        },
+        {
+          word: 'address',
+          difficulty: 'intermediate',
+          branches: [
+            {
+              id: 'address_location',
+              meaning: 'endereço (residencial/postal)',
+              register: 'neutro',
+              frequency: 'alta',
+              examples: [
+                { en: 'Can you give me your home address?', pt: 'Você pode me dar seu endereço residencial?' },
+                { en: 'I changed my address last year.', pt: 'Eu mudei meu endereço no ano passado.' },
+              ],
+              collocations_natural: ['home address', 'change your address', 'mailing address'],
+              collocations_unnatural: ['address of place happy', 'address number street'],
+              brazilian_trap: 'Esse é o único sentido que o brasileiro reconhece de cara, fazendo com que ele estranhe "address" como verbo nos outros ramos.',
+            },
+            {
+              id: 'address_speak_to',
+              meaning: 'dirigir-se a/discursar para',
+              register: 'formal',
+              frequency: 'média',
+              examples: [
+                { en: 'The president will address the nation tonight.', pt: 'O presidente vai se dirigir à nação hoje à noite.' },
+                { en: 'She addressed the committee directly.', pt: 'Ela se dirigiu diretamente ao comitê.' },
+              ],
+              collocations_natural: ['address the nation', 'address the committee', 'address the crowd'],
+              collocations_unnatural: ['address to talk people', 'address happy speech'],
+              brazilian_trap: 'Brasileiro usa "talk to" ou "speak to" sempre e não reconhece "address" como verbo formal de "discursar/dirigir-se a" uma audiência.',
+            },
+            {
+              id: 'address_deal_with',
+              meaning: 'lidar com/resolver (um problema)',
+              register: 'formal/profissional',
+              frequency: 'alta',
+              examples: [
+                { en: 'We need to address this issue before the deadline.', pt: 'Precisamos resolver essa questão antes do prazo.' },
+                { en: 'The report fails to address the root cause.', pt: 'O relatório não trata a causa raiz.' },
+              ],
+              collocations_natural: ['address the issue', 'address the problem', 'fails to address'],
+              collocations_unnatural: ['address with solve happy', 'address of fix'],
+              brazilian_trap: 'Brasileiro tende a usar "solve" ou "deal with" sempre, perdendo o registro mais profissional e específico de "address an issue" em e-mails e relatórios de trabalho.',
+            },
+          ],
+        },
+        {
+          word: 'get',
+          difficulty: 'boss',
+          branches: [
+            {
+              id: 'get_obtain',
+              meaning: 'obter/conseguir',
+              register: 'neutro',
+              frequency: 'alta',
+              examples: [
+                { en: 'I need to get a new phone.', pt: 'Eu preciso conseguir um celular novo.' },
+                { en: 'She got the job after three interviews.', pt: 'Ela conseguiu o emprego depois de três entrevistas.' },
+              ],
+              collocations_natural: ['get a job', 'get a new phone', 'got the job'],
+              collocations_unnatural: ['get of job happy', 'get to obtain thing'],
+              brazilian_trap: 'Brasileiro geralmente domina esse sentido primeiro (por ser o mais próximo de "pegar/conseguir"), mas trava nos sentidos seguintes.',
+            },
+            {
+              id: 'get_become',
+              meaning: 'tornar-se/ficar (mudança de estado)',
+              register: 'neutro',
+              frequency: 'alta',
+              examples: [
+                { en: "It's getting late, we should go.", pt: 'Está ficando tarde, deveríamos ir.' },
+                { en: 'He got angry when he heard the news.', pt: 'Ele ficou bravo quando ouviu a notícia.' },
+              ],
+              collocations_natural: ['getting late', 'got angry', 'get better'],
+              collocations_unnatural: ['get of angry happy', 'get to become state'],
+              brazilian_trap: 'Brasileiro tenta usar "become" para tudo (mais formal) e não percebe que "get" é a escolha natural e comum no dia a dia para mudanças de estado.',
+            },
+            {
+              id: 'get_understand',
+              meaning: 'entender',
+              register: 'informal',
+              frequency: 'alta',
+              examples: [
+                { en: "I don't get this joke.", pt: 'Eu não entendo essa piada.' },
+                { en: 'Do you get what I mean?', pt: 'Você entende o que eu quero dizer?' },
+              ],
+              collocations_natural: ["I don't get it", 'get what I mean', 'get the joke'],
+              collocations_unnatural: ['get of understand happy', 'get to comprehend thing'],
+              brazilian_trap: 'Brasileiro usa apenas "understand" e não reconhece "get it" como a forma mais natural e casual de dizer "entendi" entre nativos.',
+            },
+            {
+              id: 'get_arrive',
+              meaning: 'chegar',
+              register: 'neutro',
+              frequency: 'média',
+              examples: [
+                { en: 'What time do you get home?', pt: 'A que horas você chega em casa?' },
+                { en: 'We got there just in time.', pt: 'Nós chegamos lá bem na hora.' },
+              ],
+              collocations_natural: ['get home', 'get there', 'get to the airport'],
+              collocations_unnatural: ['get of arrive place happy', 'get to arriving'],
+              brazilian_trap: 'Brasileiro tende a usar "arrive" sempre, mesmo quando "get home/get there" é muito mais comum e natural na fala cotidiana.',
+            },
+            {
+              id: 'get_fetch',
+              meaning: 'buscar/trazer',
+              register: 'informal',
+              frequency: 'média',
+              examples: [
+                { en: 'Can you get me a glass of water?', pt: 'Você pode me trazer um copo de água?' },
+                { en: "I'll get the kids from school.", pt: 'Eu vou buscar as crianças na escola.' },
+              ],
+              collocations_natural: ['get me water', 'get the kids', 'get the mail'],
+              collocations_unnatural: ['get of fetch happy', 'get to bring thing'],
+              brazilian_trap: 'Brasileiro usa "bring" ou "fetch" (raro) quando "get" é a opção mais natural e comum nesse sentido no dia a dia.',
+            },
+            {
+              id: 'get_punish',
+              meaning: 'pegar/punir alguém (ameaça informal)',
+              register: 'informal/coloquial',
+              frequency: 'baixa',
+              examples: [
+                { en: "I'll get you for this!", pt: 'Eu vou te pegar por isso!' },
+                { en: 'Just wait, he\'ll get his.', pt: 'Só espera, ele vai pegar o que merece.' },
+              ],
+              collocations_natural: ["I'll get you", "he'll get his", 'get even'],
+              collocations_unnatural: ['get of punish happy', 'get to revenge person'],
+              brazilian_trap: 'Esse ramo é raramente ensinado e o brasileiro fica confuso ao ouvir "I\'ll get you" em filmes — pensa em "obter você" em vez de "vou te pegar".',
+            },
+          ],
+        },
+        {
+          word: 'run',
+          difficulty: 'boss',
+          branches: [
+            {
+              id: 'run_move',
+              meaning: 'correr',
+              register: 'neutro',
+              frequency: 'alta',
+              examples: [
+                { en: 'She runs five miles every morning.', pt: 'Ela corre oito quilômetros toda manhã.' },
+                { en: 'We had to run to catch the bus.', pt: 'Tivemos que correr para pegar o ônibus.' },
+              ],
+              collocations_natural: ['run five miles', 'run to catch', 'go for a run'],
+              collocations_unnatural: ['run of moving fast happy', 'run to running'],
+              brazilian_trap: 'Esse é o sentido óbvio que todo brasileiro conhece primeiro — e por isso ele estranha os outros sentidos de "run" mais abstratos.',
+            },
+            {
+              id: 'run_manage',
+              meaning: 'administrar/gerenciar',
+              register: 'neutro/profissional',
+              frequency: 'alta',
+              examples: [
+                { en: 'She runs a small business downtown.', pt: 'Ela administra um pequeno negócio no centro.' },
+                { en: 'Who runs this department?', pt: 'Quem administra esse departamento?' },
+              ],
+              collocations_natural: ['run a business', 'run a department', 'run the show'],
+              collocations_unnatural: ['run of manage happy', 'run to administrate place'],
+              brazilian_trap: 'Brasileiro usa só "manage" e não reconhece "run a business" como a forma mais idiomática e comum de dizer "administrar um negócio".',
+            },
+            {
+              id: 'run_operate',
+              meaning: 'funcionar (máquina/sistema)',
+              register: 'técnico',
+              frequency: 'média',
+              examples: [
+                { en: 'The engine is running smoothly.', pt: 'O motor está funcionando bem.' },
+                { en: 'This app runs on both phones and computers.', pt: 'Esse aplicativo funciona tanto em celulares quanto em computadores.' },
+              ],
+              collocations_natural: ['engine running', 'app runs on', 'keep it running'],
+              collocations_unnatural: ['run of working happy', 'run to function machine'],
+              brazilian_trap: 'Brasileiro usa "work" para tudo e ignora "run" como o verbo técnico natural para máquinas, motores e softwares em funcionamento.',
+            },
+            {
+              id: 'run_candidate',
+              meaning: 'candidatar-se (eleição)',
+              register: 'formal/político',
+              frequency: 'média',
+              examples: [
+                { en: 'She is running for mayor this year.', pt: 'Ela está se candidatando a prefeita este ano.' },
+                { en: 'He decided to run for president.', pt: 'Ele decidiu se candidatar à presidência.' },
+              ],
+              collocations_natural: ['run for mayor', 'run for president', 'running for office'],
+              collocations_unnatural: ['run of candidate happy', 'run to election person'],
+              brazilian_trap: 'Brasileiro tenta traduzir literalmente "se candidatar" (apply/candidate) e não reconhece "run for" como a expressão política padrão em inglês.',
+            },
+            {
+              id: 'run_flow',
+              meaning: 'correr/fluir (líquido, tempo, narrativa)',
+              register: 'neutro/literário',
+              frequency: 'baixa',
+              examples: [
+                { en: 'Tears ran down her face.', pt: 'Lágrimas corriam pelo rosto dela.' },
+                { en: 'The story runs for three generations.', pt: 'A história se estende por três gerações.' },
+              ],
+              collocations_natural: ['tears ran down', 'the story runs', 'time runs out'],
+              collocations_unnatural: ['run of flow liquid happy', 'run to flowing time'],
+              brazilian_trap: 'Esse ramo poético/abstrato é raramente ensinado, e o brasileiro fica perdido ao ler "tears ran down her face" pensando em corrida física.',
+            },
+          ],
+        },
+      ];
+
+      // ── DOMINÂNCIA (criada dinamicamente por palavra, persistida) ───────
+      // estrutura: wbDominance[word] = { [branchId]: 0..100, ... }
+      // calculada via wbGetAggregate(word)
+
+      // ══════════════════════════════════════════════════════════════════
+      // WORD BRANCHES — STATE & PERSISTENCE
+      // ══════════════════════════════════════════════════════════════════
+
+      const WB_STORE_KEY = 'lingua_word_branches_v1';
+
+      function wbLoadStore() {
+        try {
+          return JSON.parse(localStorage.getItem(WB_STORE_KEY)) || {};
+        } catch (e) {
+          return {};
+        }
+      }
+      function wbSaveStore() {
+        try {
+          localStorage.setItem(WB_STORE_KEY, JSON.stringify(wbStore));
+        } catch (e) {}
+      }
+
+      // wbStore structure:
+      // {
+      //   dominance: { [word]: { [branchId]: 0..100 } },
+      //   discovered: { [word]: { [branchId]: true } },
+      //   dnaUnlocked: { [word]: true },
+      // }
+      let wbStore = wbLoadStore();
+      if (!wbStore.dominance) wbStore.dominance = {};
+      if (!wbStore.discovered) wbStore.discovered = {};
+      if (!wbStore.dnaUnlocked) wbStore.dnaUnlocked = {};
+
+      function wbGetWordData(word) {
+        return WB_WORDS.find((w) => w.word === word);
+      }
+
+      // ── BOSS WORDS: PROGRESSIVE BRANCH RELEASE ───────────────────────────
+      // Para palavras 'boss', os ramos são ordenados por frequência e liberados
+      // progressivamente: os 2-3 mais frequentes primeiro; o próximo ramo só
+      // libera quando o anterior atinge domínio mínimo (50%).
+      const WB_FREQ_ORDER = { alta: 0, média: 1, baixa: 2, 'muito baixa': 3 };
+      const WB_BOSS_UNLOCK_THRESHOLD = 50;
+      const WB_BOSS_INITIAL_BRANCHES = 2;
+
+      function wbSortedBranchesByFrequency(wordData) {
+        return wordData.branches.slice().sort((a, b) => (WB_FREQ_ORDER[a.frequency] ?? 9) - (WB_FREQ_ORDER[b.frequency] ?? 9));
+      }
+
+      function wbGetUnlockedBranches(wordData) {
+        if (wordData.difficulty !== 'boss') return wordData.branches;
+        const sorted = wbSortedBranchesByFrequency(wordData);
+        const unlocked = [];
+        for (let i = 0; i < sorted.length; i++) {
+          if (i < WB_BOSS_INITIAL_BRANCHES) {
+            unlocked.push(sorted[i]);
+            continue;
+          }
+          const prevDom = wbGetBranchDominance(wordData.word, sorted[i - 1].id);
+          if (prevDom >= WB_BOSS_UNLOCK_THRESHOLD) {
+            unlocked.push(sorted[i]);
+          } else {
+            break; // respects the obligatory cognitive sequence
+          }
+        }
+        return unlocked;
+      }
+
+      // ── DOMINANCE (two-layer mastery system) ─────────────────────────────
+      function wbGetBranchDominance(word, branchId) {
+        return (wbStore.dominance[word] && wbStore.dominance[word][branchId]) || 0;
+      }
+
+      function wbSetBranchDominance(word, branchId, value) {
+        if (!wbStore.dominance[word]) wbStore.dominance[word] = {};
+        wbStore.dominance[word][branchId] = Math.max(0, Math.min(100, value));
+        wbSaveStore();
+      }
+
+      function wbRecordBranchResult(word, branchId, wasCorrect) {
+        const current = wbGetBranchDominance(word, branchId);
+        const delta = wasCorrect ? 14 : -8;
+        wbSetBranchDominance(word, branchId, current + delta);
+        wbCheckDNAUnlock(word);
+      }
+
+      function wbGetAggregate(word) {
+        const wordData = wbGetWordData(word);
+        if (!wordData || !wordData.branches.length) return 0;
+        const total = wordData.branches.reduce((sum, b) => sum + wbGetBranchDominance(word, b.id), 0);
+        return Math.round(total / wordData.branches.length);
+      }
+
+      const WB_DNA_THRESHOLD = 70;
+      function wbCheckDNAUnlock(word) {
+        if (wbGetAggregate(word) >= WB_DNA_THRESHOLD && !wbStore.dnaUnlocked[word]) {
+          wbStore.dnaUnlocked[word] = true;
+          wbSaveStore();
+          wbState.justUnlockedDNA = word;
+        }
+      }
+
+      // ── MANDATORY DISCOVERY SEQUENCE ──────────────────────────────────────
+      function wbHasSeenDiscovery(word, branchId) {
+        return !!(wbStore.discovered[word] && wbStore.discovered[word][branchId]);
+      }
+      function wbMarkDiscoverySeen(word, branchId) {
+        if (!wbStore.discovered[word]) wbStore.discovered[word] = {};
+        wbStore.discovered[word][branchId] = true;
+        wbSaveStore();
+      }
+
+      // ══════════════════════════════════════════════════════════════════
+      // WORD BRANCHES — SESSION STATE
+      // ══════════════════════════════════════════════════════════════════
+
+      let wbState = {
+        view: 'hub',          // 'hub' | 'word' | 'discovery' | 'game' | 'dna'
+        word: null,
+        pendingBranchId: null,
+        gameFormat: null,         // 'same' | 'hunter' | 'visual'
+        currentBranchId: null,
+        answered: null,
+        _options: null,
+        _trapDistractor: null,
+        _visualPicks: [],
+        _visualSet: null,
+        lastGameFormat: null,
+        justUnlockedDNA: null,
+      };
+
+      // ══════════════════════════════════════════════════════════════════
+      // ENTRY POINT / HUB
+      // ══════════════════════════════════════════════════════════════════
+
+      function renderWordBranches() {
+        wbState.view = 'hub';
+        renderWBHub();
+      }
+
+      function renderWBHub() {
+        const container = document.getElementById('cig-content');
+        const cards = WB_WORDS.map((wordData) => {
+          const agg = wbGetAggregate(wordData.word);
+          const dnaUnlocked = !!wbStore.dnaUnlocked[wordData.word];
+          const diffBadge = wordData.difficulty === 'boss'
+            ? '<span style="background:var(--red);color:#fff;font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px">👑 BOSS WORD</span>'
+            : '<span style="background:var(--bg2);border:1px solid var(--border);color:var(--ink4);font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 8px">' + wordData.difficulty + '</span>';
+          const barColor = agg >= WB_DNA_THRESHOLD ? '#2d6a4f' : agg >= 40 ? 'var(--gold)' : 'var(--red)';
+          return `<div onclick="renderWBWord('${wordData.word}')" style="background:var(--surface);border:1px solid ${dnaUnlocked ? 'var(--gold)' : 'var(--border)'};padding:16px 18px;cursor:pointer;transition:transform 0.15s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+              <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:0.5px">${wordData.word}</div>
+              ${dnaUnlocked ? '<span style="font-size:18px">🧬</span>' : ''}
+            </div>
+            <div style="margin-bottom:10px">${diffBadge}</div>
+            <div style="font-size:11px;color:var(--ink4);margin-bottom:5px">${wordData.branches.length} significados · Domínio geral</div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;width:${agg}%;background:${barColor};transition:width 0.4s"></div></div>
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;color:${barColor}">${agg}%</span>
+            </div>
+          </div>`;
+        }).join('');
+
+        container.innerHTML = `
+          <div style="margin-bottom:20px">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;letter-spacing:1px;color:var(--ink);margin-bottom:4px">🌳 Word Branches</div>
+            <div style="font-size:12px;color:var(--ink4);line-height:1.7">Uma palavra é uma árvore. Cada ramo é um sentido diferente, com seu próprio registro, colocações naturais e armadilhas comuns de brasileiros. Você não aprende palavras — aprende comportamentos linguísticos.</div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--red);padding:10px 16px;margin-bottom:20px;font-size:13px;color:var(--ink3);line-height:1.7">
+            <strong>Como funciona:</strong> cada ramo é apresentado em uma tela de descoberta antes de qualquer pergunta. Depois, três formatos de jogo testam se você reconhece e distingue os ramos entre si.
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px">
+            ${cards}
+          </div>`;
+      }
+
+      // ══════════════════════════════════════════════════════════════════
+      // WORD VIEW — branch dominance breakdown + play button
+      // ══════════════════════════════════════════════════════════════════
+
+      function renderWBWord(word) {
+        wbState.view = 'word';
+        wbState.word = word;
+        const container = document.getElementById('cig-content');
+        const wordData = wbGetWordData(word);
+        const unlockedBranches = wbGetUnlockedBranches(wordData);
+        const lockedCount = wordData.branches.length - unlockedBranches.length;
+        const agg = wbGetAggregate(word);
+        const dnaUnlocked = !!wbStore.dnaUnlocked[word];
+
+        const branchRows = unlockedBranches.map((b) => {
+          const dom = wbGetBranchDominance(word, b.id);
+          const barColor = dom >= 70 ? '#2d6a4f' : dom >= 40 ? 'var(--gold)' : 'var(--red)';
+          const seen = wbHasSeenDiscovery(word, b.id);
+          return `<div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink2);margin-bottom:3px">
+              <span>${seen ? '' : '🆕 '}${b.meaning} <span style="color:var(--ink4);font-size:10px">(${b.register} · freq. ${b.frequency})</span></span>
+              <span style="font-family:'Barlow Condensed',sans-serif;font-weight:800;color:${barColor}">${dom}%</span>
+            </div>
+            <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;width:${dom}%;background:${barColor};transition:width 0.4s"></div></div>
+          </div>`;
+        }).join('');
+
+        const lockedNote = lockedCount > 0
+          ? `<div style="font-size:11px;color:var(--ink4);font-style:italic;margin-top:6px">🔒 ${lockedCount} ramo(s) raro(s) ainda bloqueado(s) — domine os ramos atuais (50%+) para liberá-los.</div>`
+          : '';
+
+        const dnaBanner = dnaUnlocked
+          ? `<div style="background:var(--gold-dim);border:1px solid var(--gold);padding:10px 16px;margin-bottom:16px;font-size:13px;color:var(--ink2);cursor:pointer" onclick="renderWBWordDNA('${word}')">🧬 <strong>Word DNA desbloqueado!</strong> Toque para ver a árvore completa de "${word}".</div>`
+          : '';
+
+        container.innerHTML = `
+          <button onclick="renderWordBranches()" style="background:transparent;border:none;color:var(--ink4);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;padding:0;margin-bottom:18px">← TODAS AS PALAVRAS</button>
+
+          ${dnaBanner}
+
+          <div style="background:var(--surface);border:1px solid var(--border);padding:22px 20px;margin-bottom:18px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+              <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--ink);text-transform:uppercase">${word}</div>
+              <div style="text-align:right">
+                <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:${agg >= 70 ? '#2d6a4f' : agg >= 40 ? 'var(--gold)' : 'var(--red)'}">${agg}%</div>
+                <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4)">domínio geral</div>
+              </div>
+            </div>
+            ${branchRows}
+            ${lockedNote}
+          </div>
+
+          <button onclick="wbStartRound('${word}')" style="width:100%;padding:16px;background:var(--red);border:none;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:2px;text-transform:uppercase;cursor:pointer">🌳 Jogar com "${word}"</button>`;
+      }
+
+      // ══════════════════════════════════════════════════════════════════
+      // ROUND DECISION: discovery gate → pick a game format
+      // ══════════════════════════════════════════════════════════════════
+
+      function wbStartRound(word) {
+        wbState.word = word;
+        const wordData = wbGetWordData(word);
+        const unlockedBranches = wbGetUnlockedBranches(wordData);
+
+        const undiscovered = unlockedBranches.filter((b) => !wbHasSeenDiscovery(word, b.id));
+        if (undiscovered.length > 0) {
+          wbState.pendingBranchId = undiscovered[0].id;
+          wbState.view = 'discovery';
+          renderWBDiscovery();
+          return;
+        }
+
+        wbPickGameRound(word, unlockedBranches);
+      }
+
+      function wbPickGameRound(word, unlockedBranches) {
+        const weighted = [];
+        unlockedBranches.forEach((b) => {
+          const dom = wbGetBranchDominance(word, b.id);
+          const weight = dom >= 70 ? 1 : dom >= 40 ? 2 : 4;
+          for (let i = 0; i < weight; i++) weighted.push(b);
+        });
+        const branch = weighted[Math.floor(Math.random() * weighted.length)];
+
+        const formats = ['same', 'hunter', 'visual'];
+        const available = formats.filter((f) => f !== wbState.lastGameFormat);
+        const format = available[Math.floor(Math.random() * available.length)];
+
+        wbState.currentBranchId = branch.id;
+        wbState.gameFormat = format;
+        wbState.lastGameFormat = format;
+        wbState.answered = null;
+        wbState._options = null;
+        wbState._trapDistractor = null;
+        wbState._visualPicks = [];
+        wbState._visualSet = null;
+        wbState.view = 'game';
+
+        if (format === 'visual') renderWBVisualBranches();
+        else if (format === 'hunter') renderWBMeaningHunter();
+        else renderWBSameMeaning();
+      }
+
+      // ══════════════════════════════════════════════════════════════════
+      // DISCOVERY SCREEN — shown once per branch, before any test
+      // ══════════════════════════════════════════════════════════════════
+
+      function renderWBDiscovery() {
+        const container = document.getElementById('cig-content');
+        const word = wbState.word;
+        const wordData = wbGetWordData(word);
+        const branch = wordData.branches.find((b) => b.id === wbState.pendingBranchId);
+        const ex = branch.examples[0];
+
+        container.innerHTML = `
+          <div style="background:var(--gold);padding:14px 20px;margin-bottom:0">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(0,0,0,0.55)">🆕 NOVO RAMO DESCOBERTO</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;color:#2a1c00;letter-spacing:1px;text-transform:uppercase">${word}</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);padding:24px 22px">
+            <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--red2);text-align:center;margin-bottom:6px">${branch.meaning}</div>
+            <div style="display:flex;justify-content:center;gap:8px;margin-bottom:18px">
+              <span style="background:var(--bg2);border:1px solid var(--border);color:var(--ink4);font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px">${branch.register}</span>
+              <span style="background:var(--bg2);border:1px solid var(--border);color:var(--ink4);font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px">freq. ${branch.frequency}</span>
+            </div>
+            <div style="background:var(--bg2);border-left:3px solid var(--red);padding:14px 16px;margin-bottom:10px">
+              <div style="font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--ink);line-height:1.7">${ex.en}</div>
+              <div style="font-size:13px;color:var(--ink3);margin-top:4px">${ex.pt}</div>
+            </div>
+            ${branch.examples[1] ? `<div style="background:var(--bg2);border-left:3px solid var(--red);padding:14px 16px;margin-bottom:16px">
+              <div style="font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--ink);line-height:1.7">${branch.examples[1].en}</div>
+              <div style="font-size:13px;color:var(--ink3);margin-top:4px">${branch.examples[1].pt}</div>
+            </div>` : ''}
+            <div style="background:var(--red-dim);border-left:3px solid var(--red);padding:12px 16px;margin-bottom:18px;font-size:13px;color:var(--red2);line-height:1.7">
+              🇧🇷 <strong>Armadilha comum:</strong> ${branch.brazilian_trap}
+            </div>
+            <button onclick="wbContinueFromDiscovery()" style="width:100%;padding:14px;background:var(--gold);border:none;color:#2a1c00;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;cursor:pointer">Entendi este ramo →</button>
+          </div>`;
+      }
+
+      function wbContinueFromDiscovery() {
+        wbMarkDiscoverySeen(wbState.word, wbState.pendingBranchId);
+        const wordData = wbGetWordData(wbState.word);
+        const unlockedBranches = wbGetUnlockedBranches(wordData);
+        const stillUndiscovered = unlockedBranches.filter((b) => !wbHasSeenDiscovery(wbState.word, b.id));
+        if (stillUndiscovered.length > 0) {
+          wbState.pendingBranchId = stillUndiscovered[0].id;
+          renderWBDiscovery();
+          return;
+        }
+        wbState.pendingBranchId = null;
+        wbPickGameRound(wbState.word, unlockedBranches);
+      }
+
+      // ══════════════════════════════════════════════════════════════════
+      // FORMAT 1 — SAME MEANING
+      // ══════════════════════════════════════════════════════════════════
+
+      const WB_SAME_MEANING_SYNONYMS = {
+        assist_help: 'Help out', assist_sports: 'Set up a goal', assist_presence: 'Be present',
+        appreciate_thanks: 'Be grateful', appreciate_aesthetic: 'Admire', appreciate_gravity: 'Recognize', appreciate_value: 'Increase in value',
+        engage_involve: 'Get involved', engage_hire: 'Hire', engage_marriage: 'Get betrothed', engage_combat: 'Fight',
+        address_location: 'Mailing details', address_speak_to: 'Speak formally to', address_deal_with: 'Tackle',
+        get_obtain: 'Obtain', get_become: 'Turn into', get_understand: 'Comprehend', get_arrive: 'Reach', get_fetch: 'Bring', get_punish: 'Retaliate against',
+        run_move: 'Sprint', run_manage: 'Operate (a business)', run_operate: 'Function', run_candidate: 'Stand for election', run_flow: 'Flow',
+      };
+
+      function wbBuildSameMeaningOptions(word, branch) {
+        const wordData = wbGetWordData(word);
+        const otherBranches = wordData.branches.filter((b) => b.id !== branch.id);
+        const distractor1 = otherBranches.length ? otherBranches[Math.floor(Math.random() * otherBranches.length)].meaning : 'Unrelated concept';
+        const fillerPool = ['Sadness', 'Celebration', 'Confusion', 'Curiosity', 'Patience', 'Silence', 'Distance', 'Hesitation', 'Honesty', 'Routine'];
+        const fillers = shuffleArr(fillerPool).slice(0, 2);
+        const correctOption = WB_SAME_MEANING_SYNONYMS[branch.id] || branch.meaning;
+        return shuffleArr([
+          { text: correctOption, correct: true },
+          { text: distractor1, correct: false },
+          { text: fillers[0], correct: false },
+          { text: fillers[1], correct: false },
+        ]);
+      }
+
+      function renderWBSameMeaning() {
+        const container = document.getElementById('cig-content');
+        const word = wbState.word;
+        const wordData = wbGetWordData(word);
+        const branch = wordData.branches.find((b) => b.id === wbState.currentBranchId);
+
+        if (!wbState._options) wbState._options = wbBuildSameMeaningOptions(word, branch);
+        const options = wbState._options;
+        const answered = wbState.answered;
+
+        const optsHtml = options.map((opt, i) => {
+          let cls = 'srs-mc-option';
+          if (answered !== null) {
+            cls += ' disabled';
+            if (opt.correct) cls += ' correct';
+            else if (i === answered) cls += ' wrong';
+          }
+          return `<button class="${cls}" ${answered !== null ? 'disabled' : ''} onclick="wbAnswerSameMeaning(${i})" style="text-align:left;display:block;width:100%">${opt.text}</button>`;
+        }).join('');
+
+        const correctOpt = options.find((o) => o.correct);
+        const feedback = answered !== null
+          ? `<div style="margin-top:12px;padding:14px 16px;background:var(--bg2);border-left:3px solid ${options[answered].correct ? '#2d6a4f' : 'var(--red)'};font-size:13px;color:${options[answered].correct ? '#2d6a4f' : 'var(--red2)'};line-height:1.8">
+              ${options[answered].correct ? '✓ Correto' : '✗ Quase'}<br>
+              <strong>${word.toUpperCase()}</strong> (nesse ramo) = <strong>${correctOpt.text}</strong> — ${branch.meaning}.<br>
+              <em style="font-style:italic;color:var(--ink2)">"${branch.examples[0].en}"</em> <span style="color:var(--ink4)">(${branch.examples[0].pt})</span>
+            </div>`
+          : '';
+
+        const nextBtn = answered !== null
+          ? `<div style="display:flex;justify-content:flex-end;margin-top:14px"><button onclick="wbAfterRound()" style="background:var(--red);border:none;color:#fff;padding:10px 24px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">CONTINUAR →</button></div>`
+          : '';
+
+        container.innerHTML = `
+          ${wbHeaderHtml('🔗 Same Meaning')}
+          <div style="background:var(--surface);border:1px solid var(--border);padding:22px 20px">
+            <div style="font-size:12px;color:var(--ink4);margin-bottom:10px">Qual das opções abaixo significa a mesma coisa que "<strong style="color:var(--red2)">${word}</strong>" neste ramo?</div>
+            <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--ink);text-align:center;padding:14px;background:var(--bg2);border:1px solid var(--border);margin-bottom:16px;text-transform:uppercase">${word}</div>
+            <div style="display:flex;flex-direction:column;gap:8px">${optsHtml}</div>
+            ${feedback}
+            ${nextBtn}
+          </div>`;
+      }
+
+      function wbAnswerSameMeaning(i) {
+        if (wbState.answered !== null) return;
+        wbState.answered = i;
+        const wasCorrect = wbState._options[i].correct;
+        wbRecordBranchResult(wbState.word, wbState.currentBranchId, wasCorrect);
+        renderWBSameMeaning();
+      }
+
+      // ══════════════════════════════════════════════════════════════════
+      // FORMAT 2 — MEANING HUNTER (com brazilian trap incorporado)
+      // ══════════════════════════════════════════════════════════════════
+
+      function wbBuildMeaningHunterOptions(word, branch) {
+        const wordData = wbGetWordData(word);
+        const otherBranches = wordData.branches.filter((b) => b.id !== branch.id);
+        const sortedOthers = otherBranches.slice().sort((a, b) => (WB_FREQ_ORDER[a.frequency] ?? 9) - (WB_FREQ_ORDER[b.frequency] ?? 9));
+        const trapDistractor = sortedOthers[0] || null;
+        const remainingOthers = otherBranches.filter((b) => !trapDistractor || b.id !== trapDistractor.id);
+        const extra = shuffleArr(remainingOthers).slice(0, Math.min(2, remainingOthers.length));
+
+        const allOptionBranches = [branch, trapDistractor, ...extra].filter(Boolean);
+        const fillerMeanings = ['Substituir alguém', 'Negociar um preço', 'Adiar um compromisso', 'Memorizar um texto'];
+        let fillerIdx = 0;
+        while (allOptionBranches.length < 4) {
+          allOptionBranches.push({ meaning: fillerMeanings[fillerIdx] || 'Outro sentido não relacionado', _filler: true });
+          fillerIdx++;
+        }
+        const options = shuffleArr(
+          allOptionBranches.slice(0, 4).map((b) => ({ text: b.meaning, correct: b.id === branch.id, isTrap: !!(trapDistractor && b.id === trapDistractor.id) }))
+        );
+        return { options, trapDistractor };
+      }
+
+      function renderWBMeaningHunter() {
+        const container = document.getElementById('cig-content');
+        const word = wbState.word;
+        const wordData = wbGetWordData(word);
+        const branch = wordData.branches.find((b) => b.id === wbState.currentBranchId);
+        if (!wbState._example) wbState._example = branch.examples[Math.floor(Math.random() * branch.examples.length)];
+        const example = wbState._example;
+
+        if (!wbState._options) {
+          const built = wbBuildMeaningHunterOptions(word, branch);
+          wbState._options = built.options;
+          wbState._trapDistractor = built.trapDistractor;
+        }
+        const options = wbState._options;
+        const answered = wbState.answered;
+
+        const optsHtml = options.map((opt, i) => {
+          let cls = 'srs-mc-option';
+          if (answered !== null) {
+            cls += ' disabled';
+            if (opt.correct) cls += ' correct';
+            else if (i === answered) cls += ' wrong';
+          }
+          return `<button class="${cls}" ${answered !== null ? 'disabled' : ''} onclick="wbAnswerMeaningHunter(${i})" style="text-align:left;display:block;width:100%">${opt.text}</button>`;
+        }).join('');
+
+        const trapBranch = wbState._trapDistractor;
+        const feedback = answered !== null
+          ? `<div style="margin-top:12px;padding:14px 16px;background:var(--bg2);border-left:3px solid ${options[answered].correct ? '#2d6a4f' : 'var(--red)'};font-size:13px;color:${options[answered].correct ? '#2d6a4f' : 'var(--red2)'};line-height:1.8">
+              ${options[answered].correct ? '✓ Correto' : '✗ Não é esse sentido'}<br>
+              <strong>${word.toUpperCase()}</strong> aqui significa <strong>${branch.meaning}</strong>, no registro ${branch.register}.<br>
+              <em style="font-style:italic;color:var(--ink2)">"${example.en}"</em> <span style="color:var(--ink4)">(${example.pt})</span>
+              ${(!options[answered].correct && trapBranch) ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);color:var(--ink2)">🇧🇷 <strong>Por que você poderia ter errado:</strong> ${branch.brazilian_trap}</div>` : ''}
+            </div>`
+          : '';
+
+        const nextBtn = answered !== null
+          ? `<div style="display:flex;justify-content:flex-end;margin-top:14px"><button onclick="wbAfterRound()" style="background:var(--red);border:none;color:#fff;padding:10px 24px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">CONTINUAR →</button></div>`
+          : '';
+
+        const highlightedEn = example.en.replace(new RegExp(word, 'i'), (m) => `<strong style="color:var(--red2)">${m}</strong>`);
+
+        container.innerHTML = `
+          ${wbHeaderHtml('🎯 Meaning Hunter')}
+          <div style="background:var(--surface);border:1px solid var(--border);padding:22px 20px">
+            <div style="font-size:12px;color:var(--ink4);margin-bottom:10px">Em qual sentido "<strong style="color:var(--red2)">${word}</strong>" está sendo usado nesta frase?</div>
+            <div style="background:var(--bg2);border-left:3px solid var(--red);padding:14px 16px;font-family:'Playfair Display',serif;font-size:17px;font-style:italic;color:var(--ink);margin-bottom:16px;line-height:1.7">"${highlightedEn}"</div>
+            <div style="display:flex;flex-direction:column;gap:8px">${optsHtml}</div>
+            ${feedback}
+            ${nextBtn}
+          </div>`;
+      }
+
+      function wbAnswerMeaningHunter(i) {
+        if (wbState.answered !== null) return;
+        wbState.answered = i;
+        const wasCorrect = wbState._options[i].correct;
+        wbRecordBranchResult(wbState.word, wbState.currentBranchId, wasCorrect);
+        renderWBMeaningHunter();
+      }
+
+      // ══════════════════════════════════════════════════════════════════
+      // FORMAT 3 — VISUAL BRANCHES (emoji sets, variable count per round)
+      // ══════════════════════════════════════════════════════════════════
+
+      const WB_BRANCH_EMOJI = {
+        assist_help: '🤝', assist_sports: '⚽', assist_presence: '🎭',
+        appreciate_thanks: '🙏', appreciate_aesthetic: '🎨', appreciate_gravity: '⚠️', appreciate_value: '📈',
+        engage_involve: '📚', engage_hire: '👔', engage_marriage: '💍', engage_combat: '⚔️',
+        address_location: '🏠', address_speak_to: '🎤', address_deal_with: '🛠️',
+        get_obtain: '🎁', get_become: '🌙', get_understand: '💡', get_arrive: '🏁', get_fetch: '🚰', get_punish: '😠',
+        run_move: '🏃', run_manage: '🏢', run_operate: '⚙️', run_candidate: '🗳️', run_flow: '💧',
+      };
+      const WB_NEUTRAL_EMOJI = ['🚗', '🌳', '📺', '🍕', '🧶', '🪑', '🪴', '🧦', '🔑', '🪞'];
+
+      const WB_VISUAL_LAYOUTS = [
+        { total: 3, correctCount: 1 },
+        { total: 4, correctCount: 2 },
+        { total: 6, correctCount: 3 },
+        { total: 8, correctCount: null }, // quantity not disclosed to the player
+      ];
+
+      function wbBuildVisualSet(word) {
+        const wordData = wbGetWordData(word);
+        const unlockedBranches = wbGetUnlockedBranches(wordData).filter((b) => wbHasSeenDiscovery(word, b.id));
+        const usable = unlockedBranches.length ? unlockedBranches : wordData.branches.slice(0, 1);
+        const possibleLayouts = WB_VISUAL_LAYOUTS.filter((l) => (l.correctCount || 2) <= usable.length);
+        const layout = (possibleLayouts.length ? possibleLayouts : WB_VISUAL_LAYOUTS)[Math.floor(Math.random() * (possibleLayouts.length ? possibleLayouts.length : WB_VISUAL_LAYOUTS.length))];
+        const correctCount = layout.correctCount || Math.min(usable.length, Math.max(2, Math.floor(layout.total / 2)));
+
+        const correctBranches = shuffleArr(usable).slice(0, Math.min(correctCount, usable.length));
+        const neededFillers = Math.max(0, layout.total - correctBranches.length);
+        const fillerEmojis = shuffleArr(WB_NEUTRAL_EMOJI).slice(0, neededFillers);
+
+        const items = shuffleArr([
+          ...correctBranches.map((b) => ({ emoji: WB_BRANCH_EMOJI[b.id] || '❓', branch: b, correct: true })),
+          ...fillerEmojis.map((e) => ({ emoji: e, branch: null, correct: false })),
+        ]);
+
+        return { items, layout, disclosedCount: layout.correctCount };
+      }
+
+      function renderWBVisualBranches() {
+        const container = document.getElementById('cig-content');
+        const word = wbState.word;
+
+        if (!wbState._visualSet) wbState._visualSet = wbBuildVisualSet(word);
+        const vs = wbState._visualSet;
+        const picks = wbState._visualPicks;
+        const answered = wbState.answered;
+
+        const tilesHtml = vs.items.map((item, i) => {
+          const isPicked = picks.includes(i);
+          let style = 'aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:34px;cursor:pointer;border:2px solid var(--border);background:var(--bg2);transition:all 0.15s';
+          if (answered !== null) {
+            style = 'aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:34px;border:2px solid var(--border);background:var(--bg2)';
+            if (item.correct) style += ';border-color:#2d6a4f;background:rgba(45,106,79,0.1)';
+            else if (isPicked) style += ';border-color:var(--red);background:var(--red-dim)';
+          } else if (isPicked) {
+            style += ';border-color:var(--red2);background:var(--red-dim)';
+          }
+          return `<div onclick="${answered === null ? `wbToggleVisualPick(${i})` : ''}" style="${style}">${item.emoji}</div>`;
+        }).join('');
+
+        const askText = vs.disclosedCount
+          ? `Escolha as ${vs.disclosedCount} imagens que representam um sentido de "${word}".`
+          : `Quantas dessas imagens representam um sentido de "${word}"? Toque em todas que se aplicam.`;
+
+        const correctItems = vs.items.filter((it) => it.correct);
+        const feedback = answered !== null
+          ? `<div style="margin-top:14px">
+              ${correctItems.map((it) => `<div style="background:var(--bg2);border-left:3px solid #2d6a4f;padding:10px 14px;margin-bottom:6px;font-size:13px;color:var(--ink2);line-height:1.7"><span style="font-size:18px;margin-right:6px">${it.emoji}</span><strong>${word.toUpperCase()}</strong> = ${it.branch.meaning}<br><em style="font-style:italic;color:var(--ink3)">"${it.branch.examples[0].en}" (${it.branch.examples[0].pt})</em></div>`).join('')}
+            </div>`
+          : '';
+
+        const gridCols = Math.min(vs.items.length, 4);
+        const submitBtn = answered === null
+          ? `<div style="display:flex;justify-content:flex-end;margin-top:16px"><button onclick="wbSubmitVisualBranches()" style="background:var(--red);border:none;color:#fff;padding:10px 24px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">CONFIRMAR →</button></div>`
+          : `<div style="display:flex;justify-content:flex-end;margin-top:14px"><button onclick="wbAfterRound()" style="background:var(--red);border:none;color:#fff;padding:10px 24px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer">CONTINUAR →</button></div>`;
+
+        container.innerHTML = `
+          ${wbHeaderHtml('🖼️ Visual Branches')}
+          <div style="background:var(--surface);border:1px solid var(--border);padding:22px 20px">
+            <div style="font-size:13px;color:var(--ink2);margin-bottom:16px">${askText}</div>
+            <div style="display:grid;grid-template-columns:repeat(${gridCols},1fr);gap:10px">${tilesHtml}</div>
+            ${feedback}
+            ${submitBtn}
+          </div>`;
+      }
+
+      function wbToggleVisualPick(i) {
+        const idx = wbState._visualPicks.indexOf(i);
+        if (idx === -1) wbState._visualPicks.push(i);
+        else wbState._visualPicks.splice(idx, 1);
+        renderWBVisualBranches();
+      }
+
+      function wbSubmitVisualBranches() {
+        if (wbState.answered !== null) return;
+        const vs = wbState._visualSet;
+        const correctIndices = vs.items.map((it, i) => (it.correct ? i : -1)).filter((i) => i !== -1);
+        const picks = wbState._visualPicks;
+        const isExactMatch = picks.length === correctIndices.length && picks.every((p) => correctIndices.includes(p));
+        wbState.answered = isExactMatch ? 'correct' : 'wrong';
+
+        vs.items.forEach((it, i) => {
+          if (it.correct) {
+            const picked = picks.includes(i);
+            wbRecordBranchResult(wbState.word, it.branch.id, picked);
+          }
+        });
+        renderWBVisualBranches();
+      }
+
+      // ══════════════════════════════════════════════════════════════════
+      // SHARED: round header + after-round routing
+      // ══════════════════════════════════════════════════════════════════
+
+      function wbHeaderHtml(formatLabel) {
+        const word = wbState.word;
+        const agg = wbGetAggregate(word);
+        return `<button onclick="renderWBWord('${word}')" style="background:transparent;border:none;color:var(--ink4);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;padding:0;margin-bottom:14px">← ${word.toUpperCase()}</button>
+          <div style="background:var(--red);padding:12px 20px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;color:#fff;letter-spacing:1px">${formatLabel}</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,0.75)">Domínio: ${agg}%</div>
+          </div>`;
+      }
+
+      function wbAfterRound() {
+        const word = wbState.word;
+        wbState._example = null;
+        const justUnlocked = wbState.justUnlockedDNA;
+        wbState.justUnlockedDNA = null;
+        if (justUnlocked) {
+          renderWBWordDNA(justUnlocked);
+          return;
+        }
+        renderWBWord(word);
+      }
+
+      // ══════════════════════════════════════════════════════════════════
+      // WORD DNA — reward screen (unlocked at 70% aggregate)
+      // ══════════════════════════════════════════════════════════════════
+
+      function renderWBWordDNA(word) {
+        const container = document.getElementById('cig-content');
+        const wordData = wbGetWordData(word);
+        const agg = wbGetAggregate(word);
+        const sortedByFreq = wbSortedBranchesByFrequency(wordData);
+        const freqSummary = sortedByFreq.map((b) => `${b.frequency} (${b.meaning})`).join(' / ');
+        const registerSummary = wordData.branches.map((b) => b.register).join(' / ');
+        const allCollocations = [...new Set(wordData.branches.flatMap((b) => b.collocations_natural))].slice(0, 6);
+        const mostCommonTrap = wordData.branches[0].brazilian_trap;
+        const relatedWords = WB_WORDS.filter((w) => w.word !== word).slice(0, 3).map((w) => w.word);
+
+        container.innerHTML = `
+          <button onclick="renderWBWord('${word}')" style="background:transparent;border:none;color:var(--ink4);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;padding:0;margin-bottom:18px">← ${word.toUpperCase()}</button>
+          <div style="background:linear-gradient(135deg,var(--gold),#c4922a);padding:32px 24px;text-align:center;margin-bottom:0">
+            <div style="font-size:44px;margin-bottom:8px">🧬</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(0,0,0,0.55)">WORD DNA DESBLOQUEADO</div>
+            <div style="font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:#2a1c00;text-transform:uppercase">${word}</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:rgba(0,0,0,0.6)">Domínio agregado: ${agg}%</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);padding:22px 20px">
+            <div style="margin-bottom:14px"><span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4)">Significados</span><div style="font-size:14px;color:var(--ink2);margin-top:2px">${wordData.branches.length} ramos</div></div>
+            <div style="margin-bottom:14px"><span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4)">Colocações mais naturais</span><div style="font-size:14px;color:var(--ink2);margin-top:2px">${allCollocations.join(', ')}</div></div>
+            <div style="margin-bottom:14px"><span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4)">Frequência por ramo</span><div style="font-size:14px;color:var(--ink2);margin-top:2px">${freqSummary}</div></div>
+            <div style="margin-bottom:14px"><span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4)">Registro</span><div style="font-size:14px;color:var(--ink2);margin-top:2px">${registerSummary}</div></div>
+            <div style="margin-bottom:14px;background:var(--red-dim);border-left:3px solid var(--red);padding:12px 14px"><span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red2)">🇧🇷 Erro mais comum de brasileiros</span><div style="font-size:13px;color:var(--ink2);margin-top:4px;line-height:1.7">${mostCommonTrap}</div></div>
+            ${relatedWords.length ? `<div><span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4)">Palavras relacionadas no sistema</span><div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">${relatedWords.map((w) => `<span onclick="renderWBWord('${w}')" style="cursor:pointer;background:var(--bg2);border:1px solid var(--border);padding:4px 10px;font-family:'Playfair Display',serif;font-size:13px;color:var(--ink2)">${w}</span>`).join('')}</div></div>` : ''}
+          </div>`;
+      }
+
+
       function renderCIGamesHub() {
         const container = document.getElementById('ci-tab-content');
         const games = [
@@ -16039,6 +17079,7 @@
           { id: 'hearIt', icon: '🎧', label: 'Hear It', desc: 'Treine seu ouvido para compreender inglês falado real. Reduções, vocabulário, frases icônicas, expressões e connected speech — qualquer tipo de dificuldade auditiva, um treino de cada vez.' },
           { id: 'storyBuilder', icon: '📖', label: 'Story Builder', desc: 'Transforme compreensão em produção. Avance por histórias textuais construindo frases cada vez mais complexas e naturais.' },
           { id: 'stories', icon: '🎬', label: 'Stories', desc: 'Cenas reais. Uma expressão, 10 fases — veja como ela evolui do básico ao natural em contextos autênticos.' },
+          { id: 'wordBranches', icon: '🌳', label: 'Word Branches', desc: 'Uma palavra é uma árvore de significados. Aprenda a distinguir os ramos, os registros e as armadilhas mais comuns de brasileiros — não decore traduções.' },
         ];
         const tabBtns = games
           .map(
@@ -16068,6 +17109,7 @@
         if (id === 'hearIt') renderHearIt();
         if (id === 'storyBuilder') renderStoryBuilder();
         if (id === 'stories') renderCIStoriesGame();
+        if (id === 'wordBranches') renderWordBranches();
       }
 
       // ══ CI STORIES GAME ══════════════════════════════════════════════
@@ -20214,6 +21256,7 @@
         },
         {
           id: 'find_disturbing', category: 'iconic', spoken: 'find ... disturbing', formal: 'acho ... perturbador', season: 0,
+          source: { character: 'Darth Vader', show: 'Star Wars', emoji: '🖤', color: '#1a1a2e' },
           discovery: {
             sentence: "I find your lack of faith disturbing.",
             pt: 'Acho sua falta de fé perturbadora.',
@@ -20241,6 +21284,7 @@
         },
         {
           id: 'no_try', category: 'iconic', spoken: 'do or do not, there is no try', formal: 'faça ou não faça, tentar não existe', season: 0,
+          source: { character: 'Yoda', show: 'Star Wars', emoji: '🟢', color: '#3a5f3a' },
           discovery: {
             sentence: "Do or do not, there is no try.",
             pt: 'Faça ou não faça, não existe tentar.',
@@ -20769,6 +21813,19 @@
           + body + '</div>';
       }
 
+      // Avatar circular com personagem/série, exibido quando reduction.source existe.
+      function hiSourceBadgeHtml(reduction) {
+        var src = reduction.source;
+        if (!src) return '';
+        var bg = src.color || HI_COLOR;
+        return '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:8px 12px 8px 8px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;width:fit-content">'
+          + '<div style="width:36px;height:36px;border-radius:50%;background:' + bg + ';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 0 0 2px var(--surface),0 0 0 3px ' + bg + '">' + (src.emoji || '🎬') + '</div>'
+          + '<div style="line-height:1.3">'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:800;color:var(--ink)">' + src.character + '</div>'
+          + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.5px;color:var(--ink4)">' + src.show + '</div>'
+          + '</div></div>';
+      }
+
       function hiBodyDiscover(reduction, round) {
         var d = reduction.discovery;
         var safe = d.sentence.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
@@ -20785,6 +21842,7 @@
           + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Ouça, veja o padrão e entenda antes de qualquer pergunta.</div></div>'
           + '<div style="padding:22px">'
           + gifHtml
+          + hiSourceBadgeHtml(reduction)
           + '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">'
           + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:32px;font-weight:900;color:' + HI_COLOR + '">' + reduction.spoken + '</div>'
           + '<div style="color:var(--ink4);font-size:18px">&#8594;</div>'
@@ -20826,6 +21884,7 @@
           + '<div style="background:' + HI_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🎧 Ouvir</div>'
           + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Ouça o áudio. Nenhuma legenda. Nenhuma dica. Responda em PT-BR.</div></div>'
           + '<div style="padding:22px">'
+          + hiSourceBadgeHtml(reduction)
           + '<div style="text-align:center;padding:24px;background:var(--bg2);border:2px dashed var(--border2);margin-bottom:18px">'
           + '<button onclick="AudioEngine.speak(\'' + safe + '\',function(){})" style="background:' + HI_COLOR + ';border:none;color:#fff;padding:12px 32px;font-family:\'Barlow Condensed\',sans-serif;font-size:13px;font-weight:800;letter-spacing:2px;cursor:pointer">&#9654; Reproduzir Áudio</button>'
           + '<div style="font-size:11px;color:var(--ink4);margin-top:8px;font-style:italic">Pode ouvir quantas vezes quiser</div></div>'
@@ -20872,6 +21931,7 @@
           + '<div style="background:' + HI_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">🎯 Reconhecimento</div>'
           + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">A frase aparece escrita. Identifique o chunk auditivo principal.</div></div>'
           + '<div style="padding:22px">'
+          + hiSourceBadgeHtml(reduction)
           + '<div style="font-family:\'Playfair Display\',serif;font-size:19px;color:var(--ink);line-height:1.8;padding:14px 18px;background:var(--bg2);border-left:4px solid ' + HI_COLOR + ';margin-bottom:10px">' + round.audio + '</div>'
           + '<button onclick="AudioEngine.speak(\'' + safe + '\',function(){})" style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:5px 12px;font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;margin-bottom:16px">&#9654; Ouvir</button>'
           + '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">' + round.recognize_question + '</div>'
@@ -20898,6 +21958,7 @@
           + '<div style="background:' + HI_COLOR + ';padding:13px 20px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">📝 Comparação</div>'
           + '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Mesma frase — como soa vs. como é escrita formalmente.</div></div>'
           + '<div style="padding:22px">'
+          + hiSourceBadgeHtml(reduction)
           + '<div style="margin-bottom:16px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + HI_COLOR + ';margin-bottom:6px">Como foi dito (fala natural)</div>'
           + '<div style="font-family:\'Playfair Display\',serif;font-size:18px;color:var(--ink);padding:12px 16px;background:' + HI_COLOR_DIM + ';border-left:4px solid ' + HI_COLOR + '">' + round.audio + ' <button onclick="AudioEngine.speak(\'' + audioSafe + '\',function(){})" style="background:transparent;border:none;color:' + HI_COLOR + ';cursor:pointer;font-size:11px;margin-left:8px">&#9654;</button></div></div>'
           + '<div style="margin-bottom:16px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:6px">Como seria escrito formalmente</div>'
