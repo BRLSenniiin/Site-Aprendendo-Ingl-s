@@ -199,6 +199,19 @@
         height: 6px;
         border-radius: 50%;
         background: #4ec994;
+        position: relative;
+      }
+      .progress-dot::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: #4ec994;
+        animation: dotPulse 2.2s ease-out infinite;
+      }
+      @keyframes dotPulse {
+        0% { transform: scale(1); opacity: 0.7; }
+        100% { transform: scale(3); opacity: 0; }
       }
 
       /* ── MAIN ── */
@@ -636,6 +649,9 @@
         letter-spacing: 1px;
         text-transform: uppercase;
         font-family: 'Barlow Condensed', sans-serif;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
       }
       .status-new {
         color: var(--red);
@@ -645,6 +661,39 @@
       }
       .status-ongoing {
         color: var(--gold);
+      }
+
+      .lesson-seal {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        position: relative;
+        display: inline-block;
+      }
+      .lesson-seal.seal-new {
+        border: 1.5px solid var(--red);
+        background: transparent;
+      }
+      .lesson-seal.seal-done {
+        background: #2d6a4f;
+        animation: sealStamp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .lesson-seal.seal-done::after {
+        content: '';
+        position: absolute;
+        left: 4px;
+        top: 6.5px;
+        width: 5px;
+        height: 2.5px;
+        border-left: 1.5px solid #fff;
+        border-bottom: 1.5px solid #fff;
+        transform: rotate(-45deg);
+      }
+      @keyframes sealStamp {
+        0% { transform: scale(0); }
+        60% { transform: scale(1.25); }
+        100% { transform: scale(1); }
       }
 
       /* ── SKILL DETAIL PANEL ── */
@@ -2182,8 +2231,12 @@
       }
       .sm-progress-fill {
         height: 100%;
+        width: 100%;
         background: #7b3fa0;
-        transition: width 0.4s ease;
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+        will-change: transform;
         border-radius: 2px;
       }
 
@@ -3179,8 +3232,12 @@
       }
       .spr-fill {
         height: 100%;
+        width: 100%;
         background: var(--red);
-        transition: width 0.6s ease;
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: transform 0.6s ease;
+        will-change: transform;
       }
 
       /* ── SISTEMA PT-BR ── */
@@ -3381,8 +3438,12 @@
       }
       .spr-fill {
         height: 100%;
+        width: 100%;
         background: var(--red);
-        transition: width 0.6s ease;
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: transform 0.6s ease;
+        will-change: transform;
       }
 
       /* ── SISTEMA PT-BR ── */
@@ -6196,7 +6257,7 @@
           <span>${skill?.name}</span>
           <span>${level?.name}</span>
         </div>
-        <span class="lesson-status ${isDone ? 'status-done' : 'status-new'}">${isDone ? '✓ Feita' : 'Nova'}</span>
+        <span class="lesson-status ${isDone ? 'status-done' : 'status-new'}"><span class="lesson-seal ${isDone ? 'seal-done' : 'seal-new'}"></span>${isDone ? 'Feita' : 'Nova'}</span>
       </div>
     </div>
   `;
@@ -7783,7 +7844,7 @@
 
       <!-- progress bar -->
       <div class="sm-progress-bar">
-        <div class="sm-progress-fill" style="width:${pct}%"></div>
+        <div class="sm-progress-fill" style="transform:scaleX(${pct/100})"></div>
       </div>
 
       <!-- card flip -->
@@ -8333,7 +8394,7 @@
     `;
           bySkill.appendChild(row);
           setTimeout(() => {
-            row.querySelector('.spr-fill').style.width = pct + '%';
+            row.querySelector('.spr-fill').style.transform = `scaleX(${pct / 100})`;
           }, 100);
         });
       }
@@ -10380,7 +10441,7 @@
             <div style="font-size:12px;color:var(--ink3);margin-bottom:10px;line-height:1.5">${concept.desc}</div>
             <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:#52796f;padding:3px 8px;background:rgba(82,121,111,0.08);border:1px solid rgba(82,121,111,0.2);display:inline-block;margin-bottom:11px">${concept.chunk}</div>
             <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--ink4);margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase"><span>Progresso</span><span>${done}/${total}</span></div>
-            <div style="height:3px;background:var(--border);overflow:hidden"><div style="height:100%;background:#52796f;width:${pct}%;transition:width 0.4s"></div></div>
+            <div style="height:3px;background:var(--border);overflow:hidden"><div style="height:100%;width:100%;background:#52796f;transform-origin:left;transform:scaleX(${pct/100});transition:transform 0.4s;will-change:transform"></div></div>
           </div>`;
         }).join('');
         el.innerHTML = `
@@ -20420,7 +20481,7 @@
             <div style="font-size:12px;color:var(--ink3);margin-bottom:10px;line-height:1.5">${concept.desc}</div>
             <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:#1d6fa4;padding:3px 8px;background:rgba(29,111,164,0.08);border:1px solid rgba(29,111,164,0.2);display:inline-block;margin-bottom:11px">${concept.chunk}</div>
             <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--ink4);margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase"><span>Progresso</span><span>${done}/${total}</span></div>
-            <div style="height:3px;background:var(--border);overflow:hidden"><div style="height:100%;background:#1d6fa4;width:${pct}%;transition:width 0.4s"></div></div>
+            <div style="height:3px;background:var(--border);overflow:hidden"><div style="height:100%;width:100%;background:#1d6fa4;transform-origin:left;transform:scaleX(${pct/100});transition:transform 0.4s;will-change:transform"></div></div>
           </div>`;
         }).join('');
         el.innerHTML = `
