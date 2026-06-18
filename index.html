@@ -22004,34 +22004,34 @@
           ],
         },
         {
-          id: 'find_disturbing',
+          id: 'one_shall_stand',
           category: 'iconic',
-          spoken: 'find ... disturbing',
-          formal: 'acho ... perturbador',
+          spoken: 'One shall stand, one shall fall',
+          formal: 'Um permanecerá de pé, outro cairá',
           season: 0,
-          source: { character: 'Darth Vader', show: 'Star Wars', emoji: '🖤', color: '#1a1a2e' },
+          source: { character: 'Optimus Prime', show: 'Transformers', icon: 'Images/Icons/OptimusPrime.ico', color: '#1e5aa8' },
           discovery: {
-            sentence: 'I find your lack of faith disturbing.',
-            pt: 'Acho sua falta de fé perturbadora.',
-            note: '"find" aqui não significa encontrar. Significa achar, considerar. Erro clássico de brasileiro. Frase icônica de Darth Vader em Star Wars.',
-            gif: 'images/hear-it/vader.gif',
-            audio: 'audios/hear-it/vader-find.mp3',
+            sentence: 'One shall stand, one shall fall.',
+            pt: 'Um permanecerá de pé, outro cairá.',
+            note: 'Frase icônica de Optimus Prime em Transformers, usada em confrontos decisivos contra Megatron. Estrutura "one shall X, one shall Y" é um paralelismo formal/arcaico — raro na fala cotidiana, comum em discursos de batalha.',
+            gif: 'Images/GIFs/OptimusPrime.gif',
+            audio: 'Images/Audio/OptimusPrime.mp3',
           },
           rounds: [
             {
-              audio: 'I find your lack of faith disturbing.',
-              question: 'O que essa pessoa está dizendo sobre a outra?',
-              options: ['Que ela é corajosa', 'Que sua falta de fé a perturba', 'Que ela encontrou algo', 'Que ela está certa'],
-              answer: 1,
-              recognize_question: 'Qual chunk expressa uma opinião/julgamento?',
-              recognize_options: ['your lack', 'of faith', 'I find', 'disturbing'],
-              recognize_answer: 2,
-              formal: 'I think your lack of faith is disturbing.',
-              new_audio: 'I find his confidence disturbing.',
-              new_question: 'O que essa pessoa pensa sobre a confiança dele?',
-              new_options: ['Acha admirável', 'Acha perturbadora', 'Não percebeu', 'Acha normal'],
-              new_answer: 1,
-              feedback: '"I find X disturbing" = acho X perturbador. Estrutura comum para opiniões fortes.',
+              audio: 'One shall stand, one shall fall.',
+              question: 'O que a frase sugere?',
+              options: ['Que ambos vencerão', 'Que ninguém perderá', 'Que apenas um permanecerá vitorioso', 'Que eles vão cooperar'],
+              answer: 2,
+              recognize_question: 'Qual chunk indica o resultado negativo?',
+              recognize_options: ['One shall', 'stand', 'one shall', 'fall'],
+              recognize_answer: 3,
+              formal: 'One side will remain standing while the other will be defeated',
+              new_audio: 'One shall lead, one shall follow',
+              new_question: 'Qual é a diferença entre as duas pessoas?',
+              new_options: ['Uma lidera e a outra segue', 'As duas lideram', 'As duas fracassam', 'Nenhuma participa'],
+              new_answer: 0,
+              feedback: '"Shall" é uma forma formal/solene de expressar futuro. "Stand" representa permanecer firme ou vencer; "fall" representa derrota ou queda.',
             },
           ],
         },
@@ -22708,7 +22708,7 @@
           ';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 0 0 2px var(--surface),0 0 0 3px ' +
           bg +
           '">' +
-          (src.emoji || '🎬') +
+          (src.icon ? '<img src="' + src.icon + '" style="width:100%;height:100%;border-radius:50%;object-fit:cover">' : src.emoji || '🎬') +
           '</div>' +
           '<div style="line-height:1.3">' +
           '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:12px;font-weight:800;color:var(--ink)">' +
@@ -22724,7 +22724,7 @@
       function hiBodyDiscover(reduction, round) {
         var d = reduction.discovery;
         var safe = d.sentence.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-        var gifHtml = d.gif ? '<div style="text-align:center;margin-bottom:14px"><img src="' + d.gif + '" loading="lazy" style="max-width:360px;width:100%;border-radius:8px"></div>' : '';
+        var gifHtml = d.gif ? '<div style="text-align:center;margin-bottom:14px"><img src="' + d.gif + '" loading="lazy" style="max-width:460px;width:100%;border-radius:8px"></div>' : '';
         var realAudioSafe = d.audio ? d.audio.replace(/\\/g, '\\\\').replace(/'/g, "\\'") : '';
         var realAudioBtn = d.audio ? '<button onclick="new Audio(\'' + realAudioSafe + '\').play()" style="background:' + HI_COLOR + ";border:none;color:#fff;padding:10px 24px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;letter-spacing:1.5px;cursor:pointer;margin-bottom:16px;margin-right:10px\">&#9654; Ouvir</button>" : '';
         return (
