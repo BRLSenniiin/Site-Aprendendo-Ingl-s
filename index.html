@@ -11749,19 +11749,20 @@
           <div style="background:var(--ink);padding:12px 20px;display:flex;align-items:center;justify-content:space-between">
             <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Você sabia?</span>
           </div>
-          <div style="flex:1;padding:24px 28px;display:flex;flex-direction:column;gap:12px;overflow-y:auto">
-            <div class="srs-back-sentence">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 32px;text-align:center">
+            ${card.img ? `<img src="${card.img}" style="max-width:100%;max-height:220px;object-fit:contain;margin-bottom:16px;border:1px solid var(--border)">` : ''}
+            ${card.gif ? `<img src="${card.gif}" style="max-width:100%;max-height:220px;object-fit:contain;margin-bottom:16px;border:1px solid var(--border)">` : ''}
+            ${card.video ? `<video src="${card.video}" controls style="max-width:100%;max-height:220px;margin-bottom:16px;border:1px solid var(--border)" onclick="event.stopPropagation()"></video>` : ''}
+            <div style="font-family:'Playfair Display',serif;font-size:24px;color:var(--ink);line-height:1.7;margin-bottom:20px">
               ${highlightTarget(card.s, card.t)}
             </div>
-            ${layerPT}
-            ${layerMeaning}
-            ${layerHint}
-            <button style="align-self:flex-start;background:transparent;border:1px solid var(--border);color:var(--ink3);padding:7px 18px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;cursor:pointer;transition:all 0.15s"
-              onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'"
-              onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--ink3)'"
-              onclick="event.stopPropagation();srsSpeakCard('${card.s.replace(/'/g, "\\'")}')" >
+            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+              <button style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:8px 20px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;cursor:pointer;transition:all 0.15s"
+                onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'"
+                onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--ink3)'"
+              onclick="event.stopPropagation();srsSpeakCard('${card.s.replace(/'/g, "\\'")}', ${card.audio ? `'${card.audio}'` : 'null'})" >
               ▶ Ouvir novamente
-            </button>
+              </button>
           </div>
         </div>
       </div>
@@ -11788,9 +11789,13 @@
         srsState.flipped = !srsState.flipped;
         if (srsState.flipped) {
           const card = srsState.queue[srsState.idx];
-          AudioEngine.speak(card.s, () => {});
+          srsSpeakCard(card.s, card.audio || null);
         }
         renderSRSSession();
+      }
+      if (srsState.flipped) {
+        const card = srsState.queue[srsState.idx];
+        AudioEngine.speak(card.s, () => {});
       }
       function srsSyncCardHeight() {
         const inner = document.getElementById('srs-card-inner');
@@ -11802,9 +11807,14 @@
         inner.style.minHeight = h + 'px';
       }
 
-      function srsSpeakCard(text) {
+      function srsSpeakCard(text, audioSrc) {
         AudioEngine.stop();
-        AudioEngine.speak(text, () => {});
+        if (audioSrc) {
+          const a = new Audio(audioSrc);
+          a.play();
+        } else {
+          AudioEngine.speak(text, () => {});
+        }
       }
 
       function srsRate(rating) {
@@ -22014,20 +22024,23 @@
             sentence: 'One shall stand, one shall fall.',
             pt: 'Um permanecerá de pé, outro cairá.',
             note: 'Frase icônica de Optimus Prime em Transformers, usada em confrontos decisivos contra Megatron. Estrutura "one shall X, one shall Y" é um paralelismo formal/arcaico — raro na fala cotidiana, comum em discursos de batalha.',
-            gif: 'Images/GIFs/OptimusPrime.gif',
-            audio: 'Images/Audio/OptimusPrime.mp3',
+            gif: 'Images/GIFs/HEARIT/OptimusPrime.gif',
+            audio: 'Images/Audio/HEARIT/OptimusPrime.mp3',
           },
           rounds: [
             {
+              audio_file: 'Images/Audio/HEARIT/OptimusPrime.mp3',
               audio: 'One shall stand, one shall fall.',
               question: 'O que a frase sugere?',
               options: ['Que ambos vencerão', 'Que ninguém perderá', 'Que apenas um permanecerá vitorioso', 'Que eles vão cooperar'],
               answer: 2,
               recognize_question: 'Qual chunk indica o resultado negativo?',
-              recognize_options: ['One shall', 'stand', 'one shall', 'fall'],
+              recognize_options: ['One shall', 'stand', 'one', 'fall'],
               recognize_answer: 3,
+              formal_file: 'Images/Audio/HEARIT/OptimusPrimeadd.mp3',
               formal: 'One side will remain standing while the other will be defeated',
-              new_audio: 'One shall lead, one shall follow',
+              new_audio: 'One shall stand, one shall fall.',
+              new_audio_file: 'Images/Audio/HEARIT/OptimusPrime.mp3',
               new_question: 'Qual é a diferença entre as duas pessoas?',
               new_options: ['Uma lidera e a outra segue', 'As duas lideram', 'As duas fracassam', 'Nenhuma participa'],
               new_answer: 0,
@@ -22773,11 +22786,27 @@
         );
       }
 
+      // Resolve áudio de round: se for um arquivo real (mp3/wav/ogg/m4a), reproduz via <audio>;
+      // caso contrário (frase de texto), usa o TTS do AudioEngine como já era feito antes.
+      function hiResolveAudio(raw, onEnd) {
+        var isRealFile = /\.(mp3|wav|ogg|m4a)(\?.*)?$/i.test(raw);
+        if (isRealFile) {
+          AudioEngine.stop();
+          var realEl = new Audio(raw);
+          realEl.onended = function () {
+            if (onEnd) onEnd();
+          };
+          realEl.play();
+        } else {
+          AudioEngine.speak(raw, onEnd);
+        }
+      }
+
       function hiBodyListen(reduction, round) {
         var hi = ciGameState.hi;
         var sl = hi._shuffListen;
         var answered = hi._answered.listen;
-        var safe = round.audio.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        var safe = (round.audio_file || round.audio).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
         var optBtns = sl.opts
           .map(function (opt, i) {
             var s;
@@ -22806,7 +22835,7 @@
           '<div style="padding:22px">' +
           hiSourceBadgeHtml(reduction) +
           '<div style="text-align:center;padding:24px;background:var(--bg2);border:2px dashed var(--border2);margin-bottom:18px">' +
-          '<button onclick="AudioEngine.speak(\'' +
+          '<button onclick="hiResolveAudio(\'' +
           safe +
           '\',function(){})" style="background:' +
           HI_COLOR +
@@ -22843,7 +22872,7 @@
         var hi = ciGameState.hi;
         var sr = hi._shuffRecog;
         var answered = hi._answered.recognize;
-        var safe = round.audio.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        var safe = (round.audio_file || round.audio).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
         var optBtns = sr.opts
           .map(function (opt, i) {
             var s;
@@ -22873,7 +22902,7 @@
           ';margin-bottom:10px">' +
           round.audio +
           '</div>' +
-          '<button onclick="AudioEngine.speak(\'' +
+          '<button onclick="hiResolveAudio(\'' +
           safe +
           '\',function(){})" style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:5px 12px;font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;margin-bottom:16px">&#9654; Ouvir</button>' +
           '<div style="font-family:\'Barlow Condensed\',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px">' +
@@ -22903,8 +22932,8 @@
       }
 
       function hiBodyCompare(reduction, round) {
-        var audioSafe = round.audio.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-        var formalSafe = round.formal.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        var audioSafe = (round.audio_file || round.audio).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        var formalSafe = (round.formal_file || round.formal).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
         return (
           '<div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">' +
           '<div style="background:' +
@@ -22922,7 +22951,7 @@
           HI_COLOR +
           '">' +
           round.audio +
-          ' <button onclick="AudioEngine.speak(\'' +
+          ' <button onclick="hiResolveAudio(\'' +
           audioSafe +
           '\',function(){})" style="background:transparent;border:none;color:' +
           HI_COLOR +
@@ -22930,7 +22959,7 @@
           '<div style="margin-bottom:16px"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:6px">Como seria escrito formalmente</div>' +
           '<div style="font-family:\'Playfair Display\',serif;font-size:18px;color:var(--ink);padding:12px 16px;background:var(--bg2);border-left:4px solid var(--border2)">' +
           round.formal +
-          ' <button onclick="AudioEngine.speak(\'' +
+          ' <button onclick="hiResolveAudio(\'' +
           formalSafe +
           '\',function(){})" style="background:transparent;border:none;color:var(--ink4);cursor:pointer;font-size:11px;margin-left:8px">&#9654;</button></div></div>' +
           '<div style="background:var(--bg2);border:1px solid var(--border);padding:10px 14px;font-size:13px;color:var(--ink2);line-height:1.8">Não é uma língua diferente. É a <strong>mesma língua</strong> soando de forma diferente na fala real.</div>' +
@@ -22946,7 +22975,7 @@
         var hi = ciGameState.hi;
         var sn = hi._shuffNew;
         var answered = hi._answered.newctx;
-        var safe = round.new_audio.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        var safe = (round.new_audio_file || round.new_audio).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
         var optBtns = sn.opts
           .map(function (opt, i) {
             var s;
@@ -22971,7 +23000,7 @@
           '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">Mesma redução. Nova situação. Comprove que é uma função, não uma frase.</div></div>' +
           '<div style="padding:22px">' +
           '<div style="text-align:center;padding:20px;background:var(--bg2);border:2px dashed var(--border2);margin-bottom:18px">' +
-          '<button onclick="AudioEngine.speak(\'' +
+          '<button onclick="hiResolveAudio(\'' +
           safe +
           '\',function(){})" style="background:' +
           HI_COLOR +
