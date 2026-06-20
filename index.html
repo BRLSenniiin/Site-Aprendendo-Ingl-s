@@ -12523,6 +12523,49 @@
                 .some((x) => x.s === sentence);
             }
 
+            function srsAddTerm() {
+              const input = document.getElementById('srs-input');
+              if (!input) return;
+              const raw = input.value;
+              const term = srsNormalise(raw);
+              if (!term) return;
+
+              // already tracked — just resume/start it
+              if (srsData[term]) {
+                input.value = '';
+                srsStartSession(term);
+                return;
+              }
+
+              const found = srsFindSentences(raw);
+
+              if (!found.length) {
+                // unknown term — send to fallback flow so the user can add their own sentences
+                input.value = '';
+                srsState.fallbackTerm = term;
+                srsState.view = 'fallback';
+                srsState.fallbackDraftSentences = [];
+                renderSRSFallback();
+                scrollToCIContent();
+                return;
+              }
+
+              srsData[term] = {
+                term,
+                allSentences: [...found],
+                active: found.slice(0, 5).map((s) => s.s),
+                known: [],
+                unknown: [],
+                cyclesDone: 0,
+                addedBatches: 1,
+                userSentences: [],
+              };
+              srsSaveData(srsData);
+
+              input.value = '';
+              srsStartSession(term);
+            }
+
             function srsStudyFallbackSentences() {
               const term = srsState.fallbackTerm;
               const draft = srsState.fallbackDraftSentences || [];
@@ -12679,7 +12722,8 @@
                       '</div>' +
                       '<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 32px;text-align:center">' +
                         mediaHtml +
-                        '<div style="font-family:\'Playfair Display\',serif;font-size:24px;color:var(--ink);line-height:1.7;margin-bottom:20px">' + cardText + '</div>' +
+                        '<div style="font-family:\'Playfair Display\',serif;font-size:24px;color:var(--ink);line-height:1.7;margin-bottom:16px;font-style:italic">' + (card.pt || cardText) + '</div>' +
+                        '<div style="font-size:13px;color:var(--ink3);line-height:1.6;margin-bottom:20px">' + buildMeaningText(card) + '</div>' +
                         '<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">' +
                           '<button style="background:transparent;border:1px solid var(--border);color:var(--ink3);padding:8px 20px;font-family:\'Barlow Condensed\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;cursor:pointer;transition:all 0.15s"' +
                             ' onmouseover="this.style.borderColor=\'var(--red)\';this.style.color=\'var(--red)\'"' +
@@ -25030,7 +25074,7 @@
                   var levelBadge = '<span style="display:inline-block;background:var(--bg2);border:1px solid var(--border);color:var(--ink4);font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 8px">Level ' + story.level + '</span>';
                   var doneBadge = prog.done ? '<div style="position:absolute;top:8px;right:8px;background:#2d6a4f;color:#fff;font-family:\'Barlow Condensed\',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 7px">✓ CONCLUÍDA</div>' : active && sb.sceneIdx > 0 ? '<div style="position:absolute;top:8px;right:8px;background:' + SB_COLOR + ";color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 7px\">EM CURSO</div>" : '';
                   return (
-                    '<div onclick="sbSelectStory(' +
+                    '<div onclick="sbOpenStory(' +
                     i +
                     ')" style="background:var(--surface);border:1px solid ' +
                     (active ? SB_COLOR : 'var(--border)') +
@@ -25110,6 +25154,15 @@
               ciGameState.sb.storyIdx = i;
               ciGameState.sb.sceneIdx = 0;
               renderStoryBuilder();
+            }
+
+            function sbOpenStory(i) {
+              var stories = sbGetStoriesForSeason(ciGameState.sb.season);
+              var story = stories[i];
+              var prog = (story && storyBuilderProgress[story.id]) || {};
+              ciGameState.sb.storyIdx = i;
+              ciGameState.sb.sceneIdx = prog.done ? 0 : prog.scenesCompleted || 0;
+              sbStartScene();
             }
 
             function sbStartScene() {
