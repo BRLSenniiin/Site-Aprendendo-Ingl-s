@@ -20443,6 +20443,12 @@
           coverImage: 'Images\\OBRAS\\CoverImage\\AmericanPsycho.webp',
           coverEmoji: '🪓',
         },
+        {
+          id: 'Gta-4',
+          title: 'Grand Theft Auto 4',
+          coverImage: 'Images\\OBRAS\\CoverImage\\Gta4.webp',
+          coverEmoji: '💰',
+        },
       ];
 
       const OBRAS_SCENES = [
@@ -20642,6 +20648,99 @@
               promptPT: 'Qual expressão ele repete duas vezes pra se corrigir e reformular o que estava tentando dizer?',
               answer: 'i mean',
               usage: '"I mean" reintroduz ou reformula uma ideia no meio da fala — sinal de hesitação genuína, muito comum quando alguém tropeça no próprio raciocínio ao falar.',
+            },
+          ],
+        },
+        {
+          id: 'niko-ileyna-passado-guerra',
+          workId: 'Gta-4',
+          title: 'Niko se Abre com Ileyna Faustin',
+          subtitle: 'Durante a missão "Rigged to Blow", Niko revela pra Ileyna Faustin o que fez durante e depois da guerra — um dos raros momentos em que ele deixa a máscara cair e mostra o peso real do próprio passado.',
+          characters: { EU: 'NIKO', OUTROS: 'ILEYNA' },
+          // TODO(Lucas): troque pelos caminhos reais do gif/áudio — usei
+          // nomes de exemplo seguindo o padrão das outras obras.
+          gifFile: 'Images/OBRAS/Gif/Gta4nikoeilyena.gif',
+          audioFile: 'Images/OBRAS/Sound/Gta4nikoeilyena.mp3',
+          // srt: legenda EXATA da cena, como enviada por você (já no
+          // formato .srt padrão). Inclui a fala de abertura "Life is
+          // complicated." que faltava na primeira versão. As falas
+          // fragmentadas (o parágrafo "After you walk into a village...")
+          // foram fundidas em unidades maiores em `lines` abaixo.
+          srt: 'Images/OBRAS/Sound/Gta4nikoeilyena.srt',
+          lines: [
+            { id: 0, speaker: 'NIKO', text: 'Life is complicated.', textPT: 'A vida é complicada.', substantive: true },
+            { id: 1, speaker: 'NIKO', text: "I... I never thought I'd live like this.", textPT: 'Eu... eu nunca pensei que fosse viver assim.', substantive: true },
+            { id: 2, speaker: 'ILEYNA', text: 'No?', textPT: 'Não?', substantive: false },
+            { id: 3, speaker: 'NIKO', text: 'When the war came, I did bad things, and after the war, I thought nothing of doing bad things.', textPT: 'Quando a guerra chegou, eu fiz coisas ruins, e depois da guerra, eu não pensava duas vezes antes de fazer coisas ruins.', substantive: true },
+            { id: 4, speaker: 'NIKO', text: 'I killed people, smuggled people, sold people.', textPT: 'Eu matei gente, contrabandeei gente, vendi gente.', substantive: true },
+            { id: 5, speaker: 'ILEYNA', text: "And you don't worry about your soul?", textPT: 'E você não se preocupa com a sua alma?', substantive: true },
+            { id: 6, speaker: 'NIKO', text: "After you walk into a village and you see 50 children, all sitting neatly in a row against the church wall, each with their throats cut and their hands chopped off, you realize that the creature that could do this doesn't have a soul.", textPT: 'Depois que você entra numa vila e vê 50 crianças, todas sentadas organizadamente em fileira contra a parede da igreja, cada uma com a garganta cortada e as mãos decepadas, você percebe que a criatura capaz de fazer isso não tem alma.', substantive: true },
+            { id: 7, speaker: 'ILEYNA', text: 'God is very complicated.', textPT: 'Deus é muito complicado.', substantive: true },
+            { id: 8, speaker: 'ILEYNA', text: "You mustn't give up hope.", textPT: 'Você não deve perder a esperança.', substantive: true },
+            { id: 9, speaker: 'NIKO', text: "Well, I don't know about that.", textPT: 'Bem, eu não sei quanto a isso.', substantive: true },
+          ],
+          difficultLines: [
+            {
+              lineId: 1,
+              stars: 4,
+              explanation: `<strong>"I..."</strong> — a fala começa e para antes de recomeçar, hesitação genuína escrita de propósito, sinal de que ele está prestes a admitir algo difícil.<br><br>
+              <strong>"never thought I'd"</strong> — forma contraída de "never thought I would": expressa uma expectativa sobre o próprio destino que nunca se realizou, ou melhor, se realizou do jeito errado.<br><br>
+              <strong>"live like this"</strong> — "like this" aponta pra uma condição já estabelecida pelo contexto (a vida de crime que ele leva), sem precisar descrevê-la de novo.`,
+            },
+            {
+              lineId: 3,
+              stars: 5,
+              explanation: `<strong>"when the war came"</strong> — oração temporal com "when" + passado simples, marcando um evento pontual que muda tudo depois dele.<br><br>
+              <strong>"thought nothing of doing bad things"</strong> — idiom: "think nothing of + gerúndio" significa fazer algo sem pensar duas vezes, sem que aquilo pese na consciência. Bem mais forte do que simplesmente "didn't care".<br><br>
+              Repare o contraste entre os dois verbos da frase: "did bad things" (agiu mal, ainda com noção do peso) vs. "thought nothing of doing bad things" (parou de se importar) — a mudança psicológica dele é contada só pela escolha verbal, sem nenhum adjetivo.`,
+            },
+            {
+              lineId: 6,
+              stars: 5,
+              explanation: `<strong>"you" genérico</strong> — não é o "você" pessoal, é o "you" impessoal do inglês, equivalente a "a pessoa"/"alguém" (comum em relatos de experiência universal).<br><br>
+              <strong>"sitting neatly in a row"</strong> — "neatly" descreve a posição dos corpos de um jeito organizado, detalhe visual que contrasta propositalmente com o horror da cena.<br><br>
+              <strong>"each with their throats cut and their hands chopped off"</strong> — "with" + substantivo + particípio passado: estrutura pra descrever características por partes do corpo sem repetir "who had...".<br><br>
+              <strong>"you realize that the creature that could do this doesn't have a soul"</strong> — duas orações relativas encaixadas ("that could do this" dentro de "the creature... doesn't have a soul") — típico de inglês falado sob emoção forte, onde a frase vai se expandindo conforme o pensamento avança.`,
+            },
+          ],
+          focusChallenge: [
+            {
+              answer: "never thought i'd",
+              promptPT: 'Ele começa a se abrir sobre a vida que leva hoje, algo que nunca imaginou que fosse acontecer com ele. Qual expressão indica essa expectativa não realizada sobre o próprio destino?',
+              usage: '"Never thought I\'d" (forma contraída de "never thought I would") expressa algo que a pessoa nunca imaginou que fosse acontecer consigo mesma — muito comum pra falar do rumo inesperado da própria vida.',
+            },
+            {
+              answer: 'sitting neatly in a row',
+              promptPT: 'Ele descreve os corpos das crianças organizados de um jeito perturbadoramente arrumado contra a parede da igreja. Qual expressão descreve esse arranjo enfileirado e organizado?',
+              usage: '"Neatly in a row" descreve algo posicionado em fileira, de forma arrumada — o contraste entre a organização da cena e o horror do conteúdo é o que torna a fala tão impactante.',
+            },
+            {
+              answer: 'chopped off',
+              promptPT: 'Na mesma descrição, ele menciona o que aconteceu com as mãos das crianças. Qual phrasal verb (no particípio) ele usa pra descrever a amputação?',
+              usage: '"Chop off" significa cortar fora, decepar. No particípio ("chopped off"), descreve o resultado de um corte violento.',
+            },
+            {
+              answer: "i don't know about that",
+              promptPT: 'Ileyna tenta consolar Niko dizendo que ele não deve perder a esperança, mas ele não parece totalmente convencido. Qual expressão ele usa pra discordar dela educadamente, sem confrontar direto?',
+              usage: '"I don\'t know about that" é uma forma educada e hesitante de discordar ou duvidar do que a outra pessoa acabou de dizer.',
+            },
+          ],
+          finalChallenge: [
+            {
+              dialogue: [
+                { speaker: 'NIKO', text: 'When the war came, I did bad things, and after the war, I thought nothing of doing bad things.' },
+              ],
+              promptPT: 'Qual expressão idiomática ele usa pra dizer que passou a fazer coisas erradas sem se incomodar ou hesitar?',
+              answer: 'thought nothing of',
+              usage: '"Think nothing of doing something" significa fazer algo sem pensar duas vezes, sem que aquilo pese na consciência — bem mais forte do que só dizer "I didn\'t care".',
+            },
+            {
+              dialogue: [
+                { speaker: 'NIKO', text: "After you walk into a village and you see 50 children, all sitting neatly in a row against the church wall, each with their throats cut and their hands chopped off, you realize that the creature that could do this doesn't have a soul." },
+              ],
+              promptPT: 'Qual expressão encerra a fala, descrevendo a conclusão dele sobre quem é capaz de fazer esse tipo de coisa?',
+              answer: "doesn't have a soul",
+              usage: '"Doesn\'t have a soul" é usado aqui de forma figurada, pra dizer que alguém perdeu completamente a humanidade/compaixão — não é sobre religião no sentido literal.',
             },
           ],
         },
