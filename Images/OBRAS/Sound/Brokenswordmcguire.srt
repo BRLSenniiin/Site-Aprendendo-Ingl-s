@@ -1,0 +1,57 @@
+﻿1
+00:00:00,553 --> 00:00:01,673
+Hi there!
+
+2
+00:00:02,160 --> 00:00:02,680
+What?
+
+3
+00:00:02,960 --> 00:00:03,960
+What's your name, kid?
+
+4
+00:00:04,420 --> 00:00:05,980
+Who are you calling, kid?
+
+5
+00:00:06,639 --> 00:00:07,640
+Who the hell are you?
+
+6
+00:00:12,339 --> 00:00:13,490
+Rosso's the name.
+
+7
+00:00:13,895 --> 00:00:15,090
+Murder's my game.
+
+8
+00:00:15,410 --> 00:00:16,410
+Are you a detective?
+
+9
+00:00:16,790 --> 00:00:19,030
+Let's just say I'm here to find the truth.
+
+10
+00:00:19,490 --> 00:00:19,750
+Cool.
+
+11
+00:00:20,420 --> 00:00:21,790
+Just like on the telly.
+
+12
+00:00:22,130 --> 00:00:23,710
+Cut the crap and tell me your name.
+
+13
+00:00:24,075 --> 00:00:25,270
+Liam McGuire.
+
+14
+00:00:25,770 --> 00:00:27,770
+What are you doing hanging around the bar,
+McGuire?
+
